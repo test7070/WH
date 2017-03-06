@@ -31,19 +31,28 @@
 						name : 'db',
 						value : q_db
 					}, {
-						type : '1', //[3][4]   2
+						type : '1', //[3][4]   1
 						name : 'xdate'
 					}, {
-						type : '1', //[5][6]   3
+						type : '1', //[5][6]   2
 						name : 'xtrandate'
 					}, {
-						type : '2', //[7][8]   5
+						type : '2', //[7][8]   3
 						name : 'xcust',
 						dbf : 'cust',
 						index : 'noa,comp',
 						src : 'cust_b.aspx'
 					}, {
-						type : '2', //[9][10    6
+						type : '2', //[9][10]    4
+						name : 'xdriver',
+						dbf : 'driver',
+						index : 'noa,namea',
+						src : 'driver_b.aspx'
+					},{
+						type : '6', //[11]       5
+						name : 'xcarno'
+					}, {
+						type : '2', //[12][13]    6
 						name : 'xproduct',
 						dbf : 'ucc',
 						index : 'noa,product',
