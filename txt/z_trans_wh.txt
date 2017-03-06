@@ -1,0 +1,318 @@
+z_trans_wh03:--z_trans_wh03 客戶承運明細表
+	SET QUOTED_IDENTIFIER OFF	
+	declare @t_path nvarchar(max) = '[1]'
+	declare @t_db nvarchar(max) = '[2]'
+	declare @t_bdate nvarchar(20) = case when '#non'=[3] then '' else [3] end
+	declare @t_edate nvarchar(20) = case when '#non'=[4] then char(255) else [4] end
+	declare @t_btrandate nvarchar(20) = case when '#non'=[5] then '' else [5] end
+	declare @t_etrandate nvarchar(20) = case when '#non'=[6] then char(255) else [6] end
+	declare @t_bcustno nvarchar(20) = case when '#non'=[7] then '' else [7] end
+	declare @t_ecustno nvarchar(20) = case when '#non'=[8] then char(255) else [8] end
+	declare @t_bdriverno nvarchar(20) = case when '#non'=[9] then '' else [9] end
+	declare @t_edriverno nvarchar(20) = case when '#non'=[10] then char(255) else [10] end
+	declare @t_carno nvarchar(20) = case when '#non'=[11] then '' else [11] end
+	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
+	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
+	------------------------------------------------------------------
+	------------------------------------------------------------------
+	declare @tmp table(
+		sel int identity(1,1)
+		,gno nvarchar(10)
+		,driverno nvarchar(20)
+		,driver nvarchar(50)
+		,accy nvarchar(10)
+		,noa nvarchar(20)
+		,noq nvarchar(10)
+		,trandate nvarchar(20)
+		,datea nvarchar(20)
+		,custno nvarchar(20)
+		,cust nvarchar(20)
+		,nick nvarchar(20)
+		,serial nvarchar(20)
+		,[address1] nvarchar(max) --公司地址
+		,[address2] nvarchar(max) --提貨地址
+		,mount float 
+		,volume float
+		,[weight] float
+		,straddrno nvarchar(20)
+		,straddr nvarchar(20)
+		,endaddrno nvarchar(20)
+		,endaddr nvarchar(20)
+		,total float
+		,total2 float
+		,tax float
+		,unit nvarchar(20)
+		,reserve float
+		,memo nvarchar(max)
+	)
+	insert into @tmp(gno,accy,noa,noq,custno,cust,nick,mount,volume,[weight]
+		,straddrno,straddr,endaddrno,endaddr,total,total2,unit,driverno,driver
+		,reserve,memo)
+	select '1',a.accy,a.noa,a.noq,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
+		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.unit
+		,a.driverno,a.driver,a.reserve,a.memo
+	from view_trans a
+	left join view_tran b on a.accy=b.accy and a.noa=b.noa
+	where b.noa is not null
+	and (a.datea between @t_bdate and @t_edate)
+	and (a.trandate between @t_btrandate and @t_etrandate)
+	and (ISNULL(a.custno,'') between @t_bcustno and @t_ecustno)
+	and (ISNULL(a.driverno,'') between @t_bdriverno and @t_edriverno)
+	and (len(@t_carno)=0 or CHARINDEX(@t_carno,a.carno)>0)
+	and (ISNULL(a.uccno,'') between @t_bproductno and @t_eproductno)
+	order by a.trandate,a.noa
+	
+	update @tmp set tax=round(ISNULL(total,0)*0.05,0)
+	
+	--合計
+	insert into @tmp(custno,gno,total,reserve)
+	select custno,'2',SUM(ISNULL(total,0)),SUM(ISNULL(reserve,0))
+	from @tmp where gno='1'
+	group by custno
+	--營業稅
+	insert into @tmp(custno,gno,total)
+	select custno,'3',SUM(ISNULL(tax,0))
+	from @tmp where gno='1'
+	group by custno
+	--含稅合計
+	insert into @tmp(custno,gno,total)
+	select custno,'4',SUM(ISNULL(total,0)+ISNULL(tax,0))
+	from @tmp where gno='1'
+	group by custno
+	
+	update @tmp set cust = ISNULL(b.comp,'')
+		,serial=ISNULL(b.serial,'')
+		,address1 = ISNULL(b.addr_comp,'')
+		,address2 = ISNULL(b.addr_fact,'')
+	from @tmp a
+	left join cust b on a.custno=b.noa
+	
+	
+	declare @xxdate nvarchar(max) = ''
+	if len(@t_btrandate)>0
+	begin
+		set @xxdate = '交運日期：'+@t_btrandate +'～'+@t_etrandate
+	end
+	else if len(@t_bdate)>0
+	begin
+		set @xxdate = '登錄日期：'+@t_bdate +'～'+@t_edate
+	end	
+	
+	select gno	
+		,'客戶全銜：'+cust b01
+		,'提貨地址：'+address2 b02
+		,@xxdate b03
+		,'統一編號：'+serial b04
+		,'公司地址：'+address1 b05
+		,noa a01
+		,cast(mount as nvarchar) + unit a02
+		,CAST(volume as nvarchar)+'/'+CAST([weight] as nvarchar) a03
+		,straddr a04 
+		,endaddr a05
+		,dbo.getComma(total,-1) a06
+		,reserve a07
+		,memo a08
+	from @tmp
+	order by custno,gno,accy,noa;
+
+z_trans_wh02:--z_trans_wh02 司機業績明細表
+	SET QUOTED_IDENTIFIER OFF	
+	declare @t_path nvarchar(max) = '[1]'
+	declare @t_db nvarchar(max) = '[2]'
+	declare @t_bdate nvarchar(20) = case when '#non'=[3] then '' else [3] end
+	declare @t_edate nvarchar(20) = case when '#non'=[4] then char(255) else [4] end
+	declare @t_btrandate nvarchar(20) = case when '#non'=[5] then '' else [5] end
+	declare @t_etrandate nvarchar(20) = case when '#non'=[6] then char(255) else [6] end
+	declare @t_bcustno nvarchar(20) = case when '#non'=[7] then '' else [7] end
+	declare @t_ecustno nvarchar(20) = case when '#non'=[8] then char(255) else [8] end
+	declare @t_bdriverno nvarchar(20) = case when '#non'=[9] then '' else [9] end
+	declare @t_edriverno nvarchar(20) = case when '#non'=[10] then char(255) else [10] end
+	declare @t_carno nvarchar(20) = case when '#non'=[11] then '' else [11] end
+	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
+	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
+	------------------------------------------------------------------
+	------------------------------------------------------------------
+	declare @tmp table(
+		sel int identity(1,1)
+		,gno nvarchar(10)
+		,driverno nvarchar(20)
+		,driver nvarchar(50)
+		,accy nvarchar(10)
+		,noa nvarchar(20)
+		,noq nvarchar(10)
+		,trandate nvarchar(20)
+		,datea nvarchar(20)
+		,custno nvarchar(20)
+		,cust nvarchar(20)
+		,nick nvarchar(20)
+		,mount float 
+		,volume float
+		,[weight] float
+		,straddrno nvarchar(20)
+		,straddr nvarchar(20)
+		,endaddrno nvarchar(20)
+		,endaddr nvarchar(20)
+		,total float
+		,total2 float
+		,tax float
+		,unit nvarchar(20)
+	)
+	insert into @tmp(gno,accy,noa,noq,custno,cust,nick,mount,volume,[weight]
+		,straddrno,straddr,endaddrno,endaddr,total,total2,unit,driverno,driver)
+	select '1',a.accy,a.noa,a.noq,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
+		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.unit
+		,a.driverno,a.driver
+	from view_trans a
+	left join view_tran b on a.accy=b.accy and a.noa=b.noa
+	where b.noa is not null
+	and (a.datea between @t_bdate and @t_edate)
+	and (a.trandate between @t_btrandate and @t_etrandate)
+	and (ISNULL(a.custno,'') between @t_bcustno and @t_ecustno)
+	and (ISNULL(a.driverno,'') between @t_bdriverno and @t_edriverno)
+	and (len(@t_carno)=0 or CHARINDEX(@t_carno,a.carno)>0)
+	and (ISNULL(a.uccno,'') between @t_bproductno and @t_eproductno)
+	order by a.trandate,a.noa
+	
+	update @tmp set tax=round(ISNULL(total,0)*0.05,0)
+	
+	--合計
+	insert into @tmp(driverno,gno,total)
+	select driverno,'2',SUM(ISNULL(total,0))
+	from @tmp where gno='1'
+	group by driverno
+	--發票
+	insert into @tmp(driverno,gno,total)
+	select driverno,'3',SUM(ISNULL(tax,0))
+	from @tmp where gno='1'
+	group by driverno
+	--利息
+	insert into @tmp(driverno,gno,total)
+	select driverno,'4',0
+	from @tmp where gno='1'
+	group by driverno
+	--總計
+	insert into @tmp(driverno,gno,total)
+	select driverno,'5',SUM(ISNULL(total,0)-ISNULL(tax,0))
+	from @tmp where gno='1'
+	group by driverno
+	
+	update @tmp set driver = ISNULL(b.namea,'')
+	from @tmp a
+	left join driver b on a.driverno=b.noa
+	
+	
+	declare @xxdate nvarchar(max) = ''
+	if len(@t_btrandate)>0
+	begin
+		set @xxdate = '交運日期：'+@t_btrandate +'～'+@t_etrandate
+	end
+	else if len(@t_bdate)>0
+	begin
+		set @xxdate = '登錄日期：'+@t_bdate +'～'+@t_edate
+	end	
+	
+	select gno	
+		,'司機姓名：'+isnull(driver,'') b01
+		,@xxdate b02
+		,noa a01
+		,nick a02
+		,cast(mount as nvarchar) + unit a03
+		,straddr a04 
+		,endaddr a05
+		,dbo.getComma(total,-1) a06
+		,'' a07
+		,'' a08
+	from @tmp
+	order by driverno,gno,accy,noa;
+
+
+
+z_trans_wh01:--z_trans_wh01 託運日報表
+	SET QUOTED_IDENTIFIER OFF	
+	declare @t_path nvarchar(max) = '[1]'
+	declare @t_db nvarchar(max) = '[2]'
+	declare @t_bdate nvarchar(20) = case when '#non'=[3] then '' else [3] end
+	declare @t_edate nvarchar(20) = case when '#non'=[4] then char(255) else [4] end
+	declare @t_btrandate nvarchar(20) = case when '#non'=[5] then '' else [5] end
+	declare @t_etrandate nvarchar(20) = case when '#non'=[6] then char(255) else [6] end
+	declare @t_bcustno nvarchar(20) = case when '#non'=[7] then '' else [7] end
+	declare @t_ecustno nvarchar(20) = case when '#non'=[8] then char(255) else [8] end
+	declare @t_bdriverno nvarchar(20) = case when '#non'=[9] then '' else [9] end
+	declare @t_edriverno nvarchar(20) = case when '#non'=[10] then char(255) else [10] end
+	declare @t_carno nvarchar(20) = case when '#non'=[11] then '' else [11] end
+	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
+	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
+	------------------------------------------------------------------------------------------
+	declare @tmp table(
+		sel int identity(1,1)
+		,gno nvarchar(10)
+		,accy nvarchar(10)
+		,noa nvarchar(20)
+		,noq nvarchar(10)
+		,trandate nvarchar(20)
+		,datea nvarchar(20)
+		,custno nvarchar(20)
+		,cust nvarchar(20)
+		,nick nvarchar(20)
+		,mount float 
+		,volume float
+		,[weight] float
+		,straddrno nvarchar(20)
+		,straddr nvarchar(20)
+		,endaddrno nvarchar(20)
+		,endaddr nvarchar(20)
+		,total float
+		,total2 float
+		,reserve float
+		,memo nvarchar(20)
+		,driverno nvarchar(20)
+		,driver nvarchar(20)
+		
+	)
+	insert into @tmp(gno,accy,noa,noq,custno,cust,nick,mount,volume,[weight]
+		,straddrno,straddr,endaddrno,endaddr,total,total2,reserve,memo)
+	select '1',a.accy,a.noa,a.noq,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
+		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.reserve,a.memo
+	from view_trans a
+	left join view_tran b on a.accy=b.accy and a.noa=b.noa
+	where b.noa is not null
+	and (a.datea between @t_bdate and @t_edate)
+	and (a.trandate between @t_btrandate and @t_etrandate)
+	and (ISNULL(a.custno,'') between @t_bcustno and @t_ecustno)
+	and (ISNULL(a.driverno,'') between @t_bdriverno and @t_edriverno)
+	and (len(@t_carno)=0 or CHARINDEX(@t_carno,a.carno)>0)
+	and (ISNULL(a.uccno,'') between @t_bproductno and @t_eproductno)
+	order by a.trandate,a.noa
+	
+	insert into @tmp(gno,total,total2,reserve)
+	select '2',SUM(ISNULL(total,0)),SUM(ISNULL(total2,0)),SUM(ISNULL(reserve,0))
+	from @tmp
+	
+	declare @xxdate nvarchar(max) = ''
+	if len(@t_btrandate)>0
+	begin
+		set @xxdate = '交運日期：'+@t_btrandate +'～'+@t_etrandate
+	end
+	else if len(@t_bdate)>0
+	begin
+		set @xxdate = '登錄日期：'+@t_bdate +'～'+@t_edate
+	end	
+	
+	select gno	
+		,@xxdate a00
+		,noa a01
+		,nick a02
+		,mount a03
+		,volume a04
+		,[weight] a05
+		,straddr a06 
+		,endaddr a07
+		,dbo.getComma(total,-1) a08
+		,dbo.getComma(reserve,-1) a09
+		,memo a10
+		,driver a11
+		,dbo.getComma(total2,-1) a12
+		,'' a13
+		
+	from @tmp
+	order by gno,trandate,noa;
