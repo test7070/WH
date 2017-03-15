@@ -135,7 +135,7 @@
 				}
 				_bbsAssign();
 				$('#tbbs').find('tr.data').children().hover(function(e){
-					$(this).parent().css('background','yellow');
+					$(this).parent().css('background','#F2F5A9');
 				},function(e){
 					$(this).parent().css('background','#cad3ff');
 				});
@@ -159,7 +159,7 @@
                 }
                 _bbtAssign();
 				$('#tbbt').find('tr.data').children().hover(function(e){
-					$(this).parent().css('background','yellow');
+					$(this).parent().css('background','#F2F5A9');
 				},function(e){
 					$(this).parent().css('background','pink');
 				});
