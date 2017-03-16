@@ -590,6 +590,7 @@
 					<td align="center" style="width:20px;"> </td>
 					<td align="center" style="width:70px;"><a>車牌</a></td>
 					<td align="center" style="width:150px"><a>客戶</a></td>
+					<td align="center" style="width:100px"><a>聯絡人</a></td>
 					<td align="center" style="width:150px"><a>品名</a></td>
 					<td align="center" style="width:70px"><a>長cm</a></td>
 					<td align="center" style="width:70px"><a>寬cm</a></td>
@@ -603,6 +604,8 @@
 					<td align="center" style="width:200px"><a>訂單</a></td>
 					<td align="center" style="width:30px"><a id="lblChk1">市<BR>區</a></td>
 					<td align="center" style="width:30px"><a id="lblChk2">北<BR>上</a></td>
+					<td align="center" style="width:30px"><a id="lblChk3">提貨<BR>完工</a></td>
+					<td align="center" style="width:30px"><a id="lblChk4">卸貨<BR>完工</a></td>
 				</tr>
 				<tr class="data" style='background:#cad3ff;'>
 					<td align="center">
@@ -619,6 +622,7 @@
 						<input type="text" id="txtCust.*" style="float:left;width:45%;"/>
 						<input type="button" id="btnCust.*" style="display:none;"/>
 					</td>
+					<td><input type="text" id="txtConn.*"  style="width:95%;"/></td>
 					<td>
 						<input type="text" id="txtProductno.*" style="float:left;width:45%;"/>
 						<input type="text" id="txtProduct.*" style="float:left;width:45%;"/>
@@ -648,6 +652,8 @@
 					</td>
 					<td align="center"><input type="checkbox" id="chkChk1.*"/></td>
 					<td align="center"><input type="checkbox" id="chkChk2.*"/></td>
+					<td align="center"><input type="checkbox" id="chkChk3.*"/></td>
+					<td align="center"><input type="checkbox" id="chkChk4.*"/></td>
 				</tr>
 
 			</table>
