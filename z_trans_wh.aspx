@@ -15,10 +15,26 @@
 		<script src="css/jquery/ui/jquery.ui.widget.js"> </script>
 		<script src="css/jquery/ui/jquery.ui.datepicker_tw.js"> </script>
 		<script type="text/javascript">
+            var t_custtype;
+            
             $(document).ready(function() {
             	q_getId();
-                q_gf('', 'z_trans_wh');       
+             	 q_gt('custtype', '', 0, 0, 0, "");    
             });
+            function q_gtPost(s2) {
+            	switch(s2){
+            		case 'custtype':
+                        t_custtype='';
+                        var as = _q_appendData("custtype", "", true);
+                        for ( i = 0; i < as.length; i++) {
+                            t_custtype += (t_custtype.length>0?',':'') + as[i].namea;
+                        }
+            			q_gf('', 'z_trans_wh');  
+            		default:
+            			break;
+            	}
+            	
+            }
             function q_gfPost() {
 				$('#q_report').q_report({
 					fileName : 'z_trans_wh',
@@ -57,9 +73,13 @@
 						dbf : 'ucc',
 						index : 'noa,product',
 						src : 'ucc_b.aspx'
+					},{
+						type : '6', //[14]       7
+						name : 'xcusttype'
 					}]
 				});
 				q_popAssign();
+				q_langShow();
 
 	            var t_para = new Array();
 	            try{
@@ -80,6 +100,8 @@
 				$('#txtXtrandate1').datepicker();
 				$('#txtXtrandate2').mask('999/99/99');
 				$('#txtXtrandate2').datepicker();
+				
+				AddDataList('txtXcusttype',t_custtype);
             }
 
 			function q_funcPost(t_func, result) {
@@ -88,8 +110,25 @@
                         break;
                 }
             }
+            
+            function AddDataList(elementid,string){
+				var obj = $('#'+elementid);
+				var dl_id = guid();
+				var options = '<datalist id="'+dl_id+'">';
+				var data = string.split(',');
+				for(var i=0;i<data.length;i++){
+					options += '<option value="'+data[i]+'"></option>';
+                }
+                options+='</datalist>';
+				obj.attr('list',dl_id);
+				$(options).insertAfter(obj);
+			}
+			var guid = (function() {
+				function s4() {return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);}
+				return function() {return s4() + s4() + '-' + s4() + '-' + s4() + '-' +s4() + '-' + s4() + s4() + s4();};
+			})();
 			//function q_boxClose(s2) {}
-			function q_gtPost(s2) {}
+			
 		</script>
 	</head>
 	<body ondragstart="return false" draggable="false"

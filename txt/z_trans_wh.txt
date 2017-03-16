@@ -13,7 +13,7 @@ z_trans_wh03:--z_trans_wh03 客戶承運明細表
 	declare @t_carno nvarchar(20) = case when '#non'=[11] then '' else [11] end
 	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
 	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
-	------------------------------------------------------------------
+	declare @t_custtype nvarchar(max) = case when '#non'=[14] then '' else [14] end 
 	------------------------------------------------------------------
 	declare @tmp table(
 		sel int identity(1,1)
@@ -25,6 +25,7 @@ z_trans_wh03:--z_trans_wh03 客戶承運明細表
 		,noq nvarchar(10)
 		,trandate nvarchar(20)
 		,datea nvarchar(20)
+		,custtype nvarchar(20)
 		,custno nvarchar(20)
 		,cust nvarchar(20)
 		,nick nvarchar(20)
@@ -45,15 +46,17 @@ z_trans_wh03:--z_trans_wh03 客戶承運明細表
 		,reserve float
 		,memo nvarchar(max)
 	)
-	insert into @tmp(gno,accy,noa,noq,custno,cust,nick,mount,volume,[weight]
+	insert into @tmp(gno,accy,noa,noq,custtype,custno,cust,nick,mount,volume,[weight]
 		,straddrno,straddr,endaddrno,endaddr,total,total2,unit,driverno,driver
 		,reserve,memo)
-	select '1',a.accy,a.noa,a.noq,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
+	select '1',a.accy,a.noa,a.noq,c.typea,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
 		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.unit
 		,a.driverno,a.driver,a.reserve,a.memo
 	from view_trans a
 	left join view_tran b on a.accy=b.accy and a.noa=b.noa
+	left join cust c on a.custno=c.noa
 	where b.noa is not null
+	and (len(@t_custtype)=0 or charindex(c.typea,@t_custtype)>0)
 	and (a.datea between @t_bdate and @t_edate)
 	and (a.trandate between @t_btrandate and @t_etrandate)
 	and (ISNULL(a.custno,'') between @t_bcustno and @t_ecustno)
@@ -130,6 +133,7 @@ z_trans_wh02:--z_trans_wh02 司機業績明細表
 	declare @t_carno nvarchar(20) = case when '#non'=[11] then '' else [11] end
 	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
 	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
+	declare @t_custtype nvarchar(max) = case when '#non'=[14] then '' else [14] end 
 	------------------------------------------------------------------
 	------------------------------------------------------------------
 	declare @tmp table(
@@ -142,6 +146,7 @@ z_trans_wh02:--z_trans_wh02 司機業績明細表
 		,noq nvarchar(10)
 		,trandate nvarchar(20)
 		,datea nvarchar(20)
+		,custtype nvarchar(20)
 		,custno nvarchar(20)
 		,cust nvarchar(20)
 		,nick nvarchar(20)
@@ -157,14 +162,16 @@ z_trans_wh02:--z_trans_wh02 司機業績明細表
 		,tax float
 		,unit nvarchar(20)
 	)
-	insert into @tmp(gno,accy,noa,noq,custno,cust,nick,mount,volume,[weight]
+	insert into @tmp(gno,accy,noa,noq,custtype,custno,cust,nick,mount,volume,[weight]
 		,straddrno,straddr,endaddrno,endaddr,total,total2,unit,driverno,driver)
-	select '1',a.accy,a.noa,a.noq,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
+	select '1',a.accy,a.noa,a.noq,c.typea,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
 		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.unit
 		,a.driverno,a.driver
 	from view_trans a
 	left join view_tran b on a.accy=b.accy and a.noa=b.noa
+	left join cust c on a.custno=c.noa
 	where b.noa is not null
+	and (len(@t_custtype)=0 or charindex(c.typea,@t_custtype)>0)
 	and (a.datea between @t_bdate and @t_edate)
 	and (a.trandate between @t_btrandate and @t_etrandate)
 	and (ISNULL(a.custno,'') between @t_bcustno and @t_ecustno)
@@ -242,6 +249,7 @@ z_trans_wh01:--z_trans_wh01 託運日報表
 	declare @t_carno nvarchar(20) = case when '#non'=[11] then '' else [11] end
 	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
 	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
+	declare @t_custtype nvarchar(max) = case when '#non'=[14] then '' else [14] end 
 	------------------------------------------------------------------------------------------
 	declare @tmp table(
 		sel int identity(1,1)
@@ -251,6 +259,7 @@ z_trans_wh01:--z_trans_wh01 託運日報表
 		,noq nvarchar(10)
 		,trandate nvarchar(20)
 		,datea nvarchar(20)
+		,custtype nvarchar(20)
 		,custno nvarchar(20)
 		,cust nvarchar(20)
 		,nick nvarchar(20)
@@ -269,13 +278,15 @@ z_trans_wh01:--z_trans_wh01 託運日報表
 		,driver nvarchar(20)
 		
 	)
-	insert into @tmp(gno,accy,noa,noq,custno,cust,nick,mount,volume,[weight]
+	insert into @tmp(gno,accy,noa,noq,custtype,custno,cust,nick,mount,volume,[weight]
 		,straddrno,straddr,endaddrno,endaddr,total,total2,reserve,memo)
-	select '1',a.accy,a.noa,a.noq,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
+	select '1',a.accy,a.noa,a.noq,c.typea,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
 		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.reserve,a.memo
 	from view_trans a
 	left join view_tran b on a.accy=b.accy and a.noa=b.noa
+	left join cust c on a.custno=c.noa
 	where b.noa is not null
+	and (len(@t_custtype)=0 or charindex(c.typea,@t_custtype)>0)
 	and (a.datea between @t_bdate and @t_edate)
 	and (a.trandate between @t_btrandate and @t_etrandate)
 	and (ISNULL(a.custno,'') between @t_bcustno and @t_ecustno)
