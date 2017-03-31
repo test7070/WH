@@ -25,7 +25,7 @@
                     options : [{
 						type : '0', //[1]
 						name : 'path',
-						value : location.protocol + '//' +location.hostname + location.pathname.toLowerCase().replace('z_vccap_es.aspx','')
+						value : location.protocol + '//' +location.hostname + location.pathname.toLowerCase().replace('z_vccap_wh.aspx','')
 					},{
 						type : '0', //[2]
 						name : 'db',
