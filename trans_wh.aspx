@@ -184,6 +184,10 @@
 					return;
 				}
 				q_nowf();
+				as['trandate'] = abbm2['trandate'];
+				as['datea'] = abbm2['datea'];
+				as['driverno'] = abbm2['driverno'];
+				as['driver'] = abbm2['driver'];
 				return true;
 			}
 			function q_boxClose(s2) {
