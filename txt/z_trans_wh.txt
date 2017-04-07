@@ -279,9 +279,10 @@ z_trans_wh01:--z_trans_wh01 託運日報表
 		
 	)
 	insert into @tmp(gno,accy,noa,noq,custtype,custno,cust,nick,mount,volume,[weight]
-		,straddrno,straddr,endaddrno,endaddr,total,total2,reserve,memo)
+		,straddrno,straddr,endaddrno,endaddr,total,total2,reserve,memo,driverno,driver)
 	select '1',a.accy,a.noa,a.noq,c.typea,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
 		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.reserve,a.memo
+		,a.driverno,a.driver
 	from view_trans a
 	left join view_tran b on a.accy=b.accy and a.noa=b.noa
 	left join cust c on a.custno=c.noa

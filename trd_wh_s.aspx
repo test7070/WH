@@ -20,7 +20,6 @@
             $(document).ready(function() {
                 main();
             });
-            /// end ready
 
             function main() {
                 mainSeek();

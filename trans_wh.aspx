@@ -646,6 +646,10 @@
 					<td>
 						<input type="text" id="txtCarno.*" style="width:95%;"/>
 						<input type="button" id="btnCarno.*" style="display:none;"/>
+						<input type="text" id="txtDriverno.*" style="display:none;"/>
+						<input type="text" id="txtDriver.*" style="display:none;"/>
+						<input type="text" id="txtTrandate.*" style="display:none;"/>
+						<input type="text" id="txtDatea.*" style="display:none;"/>
 					</td>
 					<td>
 						<input type="text" id="txtCustno.*" style="float:left;width:40%;"/>
