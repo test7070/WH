@@ -17,9 +17,9 @@
             q_tables = 's';
             var q_name = "tre";
             var q_readonly = ['txtCarchgno','txtAccno', 'txtNoa', 'txtMoney', 'txtTotal', 'txtWorker2', 'txtWorker', 'txtRc2ano', 'txtPlusmoney', 'txtMinusmoney', 'txtAccno', 'txtAccno2', 'txtYear2', 'txtYear1'];
-            var q_readonlys = ['txtOrdeno', 'txtTranno', 'txtTrannoq'];
-            var bbmNum = [['txtMoney', 10, 0], ['txtTolls', 10, 0], ['txtTotal', 10, 0], ['txtPlusmoney', 10, 0], ['txtMinusmoney', 10, 0]];
-            var bbsNum = [['txtMount', 10, 3], ['txtPrice', 10, 3], ['txtDiscount', 10, 3], ['txtMoney', 10, 0], ['txtTolls', 10, 0]];
+            var q_readonlys = ['txtTranaccy', 'txtTranno', 'txtTrannoq','txtTrandate','txtCarno','txtComp','txtStraddr','txtEndaddr','txtMount','txtVolume','txtWeight','txtMoney','txtMemo'];
+            var bbmNum = [['txtMoney', 10, 0], ['txtTotal', 10, 0], ['txtPlusmoney', 10, 0], ['txtMinusmoney', 10, 0]];
+            var bbsNum = [['txtMount', 10, 3], ['txtPrice', 10, 3], ['txtDiscount', 10, 3], ['txtMoney', 10, 0]];
             var bbmMask = [];
             var bbsMask = [];
             q_sqlCount = 6;
@@ -77,34 +77,16 @@
                     q_pop('txtAccno2', "accc.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";accc3='" + $('#txtAccno2').val() + "';" + $('#txtYear2').val() + '_' + r_cno, 'accc', 'accc3', 'accc2', "92%", "1054px", q_getMsg('popAccc'), true);
                 });
 
-                $('#txtTolls').change(function(e) {
-                    sum();
-                });
                 $('#txtPlusmoney').change(function(e) {
                     sum();
                 });
                 $('#txtMinusmoney').change(function(e) {
                     sum();
                 });
-                /*$('#btnTrans').click(function(e) {
-                    if (q_cur != 1 && q_cur != 2) {
-                        if (r_accy.substring(0, 3) != $('#txtDate2').val().substring(0, 3)) {
-                            alert('年度異常!');
-                            return;
-                        }
-                        Lock(1, {
-                            opacity : 0
-                        });
-                        q_func('tre.import_ds', r_accy + ',' + $('#cmbCarteamno').val() + ',' + $('#txtBdate').val() + ',' + $('#txtEdate').val() + ',' + $('#txtDate2').val() + ',' + r_name);
-                    }
-                });*/
+
                 $("#btnCarchg").click(function(e) {
                 	Lock(1,{opacity:0});
-                	/*if ($('#txtCarno').val().length == 0) {
-                        alert('請輸入車牌!');
-                        Unlock(1);
-                        return;
-                    }*/
+                	
                     if ($('#txtDriverno').val().length == 0) {
                         alert('請輸入司機!');
                         Unlock(1);
@@ -194,10 +176,11 @@
                     if (e.which == 13)
                         $('#cmbCarteamno_import').focus();
                 });
-                $('#txtDatea_import').datepicker();
-                $('#txtBdate_import').datepicker();
-                $('#txtEdate_import').datepicker();
-                
+                $('#textDate').datepicker();
+                $('#textBdate').datepicker();
+                $('#textEdate').datepicker();
+                $('#textBtrandate').datepicker();
+                $('#textEtrandate').datepicker();
             }
 
             function q_funcPost(t_func, result) {
@@ -372,7 +355,7 @@
                 if (q_cur > 0 && q_cur < 4)
                     return;
 
-                q_box('tre_ds_s.aspx', q_name + '_s', "530px", "530px", q_getMsg("popSeek"));
+                q_box('tre_wh_s.aspx', q_name + '_s', "95%", "95%", q_getMsg("popSeek"));
             }
 
             function bbsAssign() {
@@ -405,19 +388,9 @@
             }
 
             function btnPrint() {
-            	switch(q_getPara('sys.project').toUpperCase()){
-            		case 'VA':
-            			q_box('z_tre_va.aspx' + "?;;;;" + r_accy + ";noa=" + trim($('#txtNoa').val()), '', "95%", "95%", q_getMsg("popPrint"));
-            			break;
-            		case 'DH':
-            			q_box('z_trans_dh.aspx?' + r_userno + ";" + r_name + ";" + q_time + ";" + JSON.stringify({
+            	q_box('z_trans_wh.aspx?' + r_userno + ";" + r_name + ";" + q_time + ";" + JSON.stringify({
 		                    noa : trim($('#txtNoa').val())
 		                }) + ";" + r_accy + "_" + r_cno, 'trans', "95%", "95%", m_print);
-            			break;
-            		default:
-            			q_box('z_tre_ds.aspx' + "?;;;;" + r_accy + ";noa=" + trim($('#txtNoa').val()), '', "95%", "95%", q_getMsg("popPrint"));
-            			break;	
-            	}
             }
 
             function wrServer(key_value) {
@@ -470,13 +443,10 @@
                 _readonly(t_para, empty);
                 if (q_cur == 1 || q_cur == 2) {
                     $('#btnCarchg').removeAttr('disabled');
-                    $('#btnImport').attr('disabled','disabled');
-                	$('#divImport').hide();
-                	$('#txtDatea').datepcicker();
+                	$('#txtDatea').datepicker();
                 } else {
                     $('#btnCarchg').attr('disabled', 'disabled');
-                    $('#btnImport').removeAttr('disabled');
-                	$('#txtDatea').datepcicker('destroy');
+                	$('#txtDatea').datepicker('destroy');
                 }
             }
 
@@ -694,19 +664,19 @@
 					<td style="width:80px;"></td>
 				</tr>
 				<tr style="height:35px;">
-					<td><span> </span><a id="lblDatea_import" style="float:right; color: blue; font-size: medium;"> </a></td>
+					<td><span> </span><a style="float:right; color: blue; font-size: medium;">立帳登錄日期</a></td>
 					<td colspan="4">
-					<input id="textDatea"  type="text" style="float:left; width:100px; font-size: medium;"/>
+					<input id="textDate"  type="text" style="float:left; width:100px; font-size: medium;"/>
 					</td>
 				</tr>
 				<tr style="height:35px;">
-					<td><span> </span><a id="lblDriverno_import" style="float:right; color: blue; font-size: medium;"> </a></td>
+					<td><span> </span><a style="float:right; color: blue; font-size: medium;">司機編號</a></td>
 					<td colspan="4">
 						<input id="textDriverno"  type="text" style="float:left; width:100px; font-size: medium;"/>
 					</td>
 				</tr>
 				<tr style="height:35px;">
-					<td><span> </span><a id="lblDate_import" style="float:right; color: blue; font-size: medium;"> </a></td>
+					<td><span> </span><a style="float:right; color: blue; font-size: medium;">出車登錄日期</a></td>
 					<td colspan="4">
 					<input id="textBdate"  type="text" style="float:left; width:100px; font-size: medium;"/>
 					<span style="float:left; display:block; width:25px;"><a>～</a></span>
@@ -714,7 +684,7 @@
 					</td>
 				</tr>
 				<tr style="height:35px;">
-					<td><span> </span><a id="lblTrandate_import" style="float:right; color: blue; font-size: medium;"> </a></td>
+					<td><span> </span><a style="float:right; color: blue; font-size: medium;">出車交運日期</a></td>
 					<td colspan="4">
 					<input id="textBtrandate"  type="text" style="float:left; width:100px; font-size: medium;"/>
 					<span style="float:left; display:block; width:25px;"><a>～</a></span>
@@ -777,10 +747,12 @@
 					<tr>
 						<td><span> </span><a id="lblNoa" class="lbl"> </a></td>
 						<td colspan="2"><input id="txtNoa" type="text" class="txt c1"/></td>
-						<td><span> </span><a id="lblDriver" class="lbl"> </a></td>
+						<td><span> </span><a id="lblDriver" class="lbl btn"> </a></td>
 						<td colspan="2">
 							<input id="txtDriverno" type="text" style="float:left;width:45%;"/>
 							<input id="txtDriver" type="text" style="float:left;width:55%;"/>
+							<input id="txtTggno" type="text" style="display:none;"/>
+							<input id="txtTgg" type="text" style="display:none;"/>
 						</td>
 						<td> </td>
 						<td><input id="btnImport" type="button" class="txt c1" value="匯入"/></td>
@@ -794,6 +766,7 @@
 					<tr class="tr_carchg">
 						<td><span> </span><a id="lblCarchgno" class="lbl btn"> </a></td>
 						<td colspan="5"><input id="txtCarchgno" type="text" class="txt c1"/></td>
+						<td> </td>
 						<td><input type="button" id="btnCarchg" class="txt c1"/></td>
 						<td class="tdZ"> </td>
 					</tr>			

@@ -437,7 +437,7 @@
             function _btnSeek() {
                 if (q_cur > 0 && q_cur < 4)
                     return;
-                q_box('trd_ds_s.aspx', q_name + '_s', "600px", "450px", q_getMsg("popSeek"));
+                q_box('trd_wh_s.aspx', q_name + '_s', "95%", "95%", q_getMsg("popSeek"));
             }
 
             function bbsAssign() {
@@ -480,22 +480,9 @@
             }
 
             function btnPrint() {
-            	switch(q_getPara('sys.project').toUpperCase()){
-            		case 'AT':
-            			q_box("z_trd_at.aspx?" + r_userno + ";" + r_name + ";" + q_time + "; noa='" + t_noa + "';" + r_accy, 'trans', "95%", "95%", q_getMsg("popTrans"));
-            			break;
-            		case 'VA':
-            			q_box('z_trd_va.aspx' + "?;;;;" + r_accy + ";noa=" + trim($('#txtNoa').val()), '', "95%", "95%", q_getMsg("popPrint"));
-            			break;
-            		case 'DH':
-            			q_box('z_trans_dh.aspx?' + r_userno + ";" + r_name + ";" + q_time + ";" + JSON.stringify({
+            	q_box('z_trans_wh.aspx?' + r_userno + ";" + r_name + ";" + q_time + ";" + JSON.stringify({
 		                    noa : trim($('#txtNoa').val())
 		                }) + ";" + r_accy + "_" + r_cno, 'trans', "95%", "95%", m_print);
-            			break;
-        			default:
-        				q_box("z_trd_ds.aspx?" + r_userno + ";" + r_name + ";" + q_time + "; noa='" + t_noa + "';" + r_accy, 'trans', "95%", "95%", q_getMsg("popTrans"));
-        				break;
-            	}
             }
 
             function wrServer(key_value) {
@@ -852,13 +839,13 @@
 							<span style="float:left;display: block;width:3%;height:inherit;color:blue;font-size: 14px;text-align: center;">~</span>
 							<input id="txtEdate" type="text" style="float:left; width:45%;"/>
 						</td>
-						<td><span> </span><a id="lblStraddr" class="lbl btn"> </a></td>
 						<td><span> </span><a id="lblTrandate" class="lbl"> </a></td>
 						<td colspan="3">
 							<input id="txtBtrandate" type="text" style="float:left; width:45%;"/>
 							<span style="float:left;display: block;width:3%;height:inherit;color:blue;font-size: 14px;text-align: center;">~</span>
 							<input id="txtEtrandate" type="text" style="float:left; width:45%;"/>
 						</td>
+						<td class="tdZ"> </td>
 					</tr>
 					<tr class="trX">
 						<td> </td>
