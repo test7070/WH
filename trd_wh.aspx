@@ -16,10 +16,10 @@
 		<script type="text/javascript">
             q_tables = 's';
             var q_name = "trd";
-            var q_readonly = ['txtTax', 'txtNoa', 'txtMoney', 'txtTotal','txtWorker2','txtWorker', 'txtMount','txtStraddr', 'txtEndaddr', 'txtPlusmoney', 'txtMinusmoney', 'txtVccano', 'txtCustchgno','txtAccno','txtAccno2','txtYear2','txtYear1'];
-            var q_readonlys = ['txtTranno', 'txtTrannoq','txtTrandate','txtStraddr','txtEndaddr','txtProduct','txtCarno','txtCustorde','txtCaseno','txtMount','txtPrice','txtCustdiscount','txtTotal','txtTranmoney'];
+            var q_readonly = ['txtNoa', 'txtMoney', 'txtTax', 'txtPlusmoney', 'txtMinusmoney', 'txtTotal','txtWorker2','txtWorker', 'txtMount', 'txtVolume', 'txtWeight', 'txtVccano', 'txtCustchgno','txtAccno','txtAccno2','txtYear2','txtYear1'];
+            var q_readonlys = ['txtTranno', 'txtTrannoq','txtTrandate','txtStraddr','txtEndaddr','txtCarno','txtMount','txtVolume','txtWeight','txtTotal','txtTranmoney'];
             var bbmNum = [['txtMoney', 10, 0,1], ['txtTax', 10, 0,1], ['txtTotal', 10, 0,1], ['txtMount', 10, 3,1], ['txtPlusmoney', 10, 0,1], ['txtMinusmoney', 10, 0,1]];
-            var bbsNum = [['txtTranmoney', 10, 0,1], ['txtOverweightcost', 10, 0,1], ['txtOthercost', 10, 0,1], ['txtMount', 10, 3,1], ['txtPrice', 10, 3,1], ['txtTotal', 10, 0,1]];
+            var bbsNum = [['txtTranmoney', 10, 0,1], ['txtMount', 10, 3,1], ['txtTotal', 10, 0,1]];
             var bbmMask = [];
             var bbsMask = [];
             q_sqlCount = 6;
@@ -99,30 +99,12 @@
                 	var t_edate = $.trim($('#txtEdate').val());
                 	var t_btrandate = $.trim($('#txtBtrandate').val());
                 	var t_etrandate = $.trim($('#txtEtrandate').val());
-                	var t_baddrno = $.trim($('#txtStraddrno').val());
-                	var t_eaddrno = $.trim($('#txtEndaddrno').val());
                 	var t_where = "(b.noa is null or b.noa='"+t_noa+"')";
                 	t_where += " and a.custno='"+t_custno+"'";
                 	t_where += t_bdate.length>0?" and a.datea>='"+t_bdate+"'":"";
                 	t_where += t_edate.length>0?" and a.datea<='"+t_edate+"'":"";
                 	t_where += t_btrandate.length>0?" and a.trandate>='"+t_btrandate+"'":"";
                 	t_where += t_etrandate.length>0?" and a.trandate<='"+t_etrandate+"'":"";
-                	if(q_getPara('sys.project').toUpperCase()=='DH'){
-                		t_where += t_baddrno.length>0?" and a.straddrno='"+t_baddrno+"'":"";
-                		t_where += t_eaddrno.length>0?" and a.endaddrno='"+t_eaddrno+"'":"";
-                	}else{
-                		t_where += t_baddrno.length>0?" and a.straddrno>='"+t_baddrno+"'":"";
-                		t_where += t_eaddrno.length>0?" and a.straddrno<='"+t_eaddrno+"'":"";
-                	}
-                	var t_po = "";
-                	if ($.trim($('#txtPo').val()).length > 0) {
-                        var tmp = $.trim($('#txtPo').val()).split(',');
-                        t_po = ' and (';
-                        for (var i in tmp)
-                        t_po += (i == 0 ? '' : ' or ') + "a.po='" + tmp[i] + "'";
-                        t_po += ')';
-                        t_where += t_po;
-                    }
                 	t_where = "where=^^"+t_where+"^^";
                 	q_gt('trd_tran', t_where, 0, 0, 0, "", r_accy);
                 	
@@ -327,8 +309,8 @@
                         break;
                     case 'trd_tran':
                         var as = _q_appendData("view_trans", "", true);
-                        q_gridAddRow(bbsHtm, 'tbbs', 'txtPrice,txtTranaccy,txtTrandate,txtTranno,txtTrannoq,txtCarno,txtStraddr,txtEndaddr,txtTranmoney,txtCaseno,txtMount,txtCustdiscount,txtTotal,txtCustorde,txtProduct,txtMemo'
-                        , as.length, as, 'price,accy,trandate,noa,noq,carno,straddr,endaddr,total,caseno,mount,custdiscount,total,custorde,product,memo', '','');
+                        q_gridAddRow(bbsHtm, 'tbbs', 'txtTranaccy,txtTranno,txtTrannoq,txtTrandate,txtCarno,txtStraddr,txtEndaddr,txtTranmoney,txtMount,txtVolume,txtWeight,txtTotal,txtMemo'
+                        , as.length, as, 'accy,noa,noq,trandate,carno,straddr,endaddr,total,mount,volume,weight,total,memo', '','');
                         for ( i = 0; i < q_bbsCount; i++) {
                             if (i < as.length) {
                             }else{
@@ -469,22 +451,17 @@
                         var n = $(this).attr('id').replace('txtTranno_','');
                         var t_accy = $('#txtTranaccy_'+n).val();
                         var t_noa = $(this).val();
-                        var t_aspx = r_comp.indexOf('金勇')>=0?'trans_at.aspx':'trans_ds.aspx';
-                        t_aspx = q_getPara('sys.project').toUpperCase()=='ES'?'trans_es.aspx':t_aspx;
                         if(t_noa.length>0 ){
-                            q_box(t_aspx+"?" + r_userno + ";" + r_name + ";" + q_time + "; noa='" + t_noa + "';" + t_accy, 'trans', "95%", "95%", q_getMsg("popTrans"));
+                            q_box("trans_wh.aspx?" + r_userno + ";" + r_name + ";" + q_time + "; noa='" + t_noa + "';" + t_accy, 'trans', "95%", "95%", q_getMsg("popTrans"));
                         }
                     });
                 }
                 _bbsAssign();
-                if(q_getPara('sys.project').toUpperCase()=='DH'){
-					$('.DH_hide').hide();
-					$('.DH_show').show();
-					$('#lblCustdiscount_s').text('折讓');
-				}
-				if(q_getPara('sys.project').toUpperCase()=='ES'){
-					$('.ES_hide').hide();
-				}	
+                $('#tbbs').find('tr.data').children().hover(function(e){
+					$(this).parent().css('background','#F2F5A9');
+				},function(e){
+					$(this).parent().css('background','#cad3ff');
+				});
             }
 
             function btnIns() {
@@ -540,22 +517,25 @@
                 if (!(q_cur == 1 || q_cur == 2))
                     return;
                	//小數 可能會有問題需注意
-                var t_money = 0,t_mount = 0;
+                var t_money = 0,t_mount = 0,t_volume=0,t_weight=0;
                 for ( i = 0; i < q_bbsCount; i++) {
-                    t_money = t_money.add(q_float('txtTranmoney_' + i));
-                    
-                    t_mount = t_mount.add(q_float('txtMount_' + i));
+                	t_money = q_add(t_money,q_float('txtTranmoney_' + i));
+                	t_mount = q_add(t_mount,q_float('txtMount_' + i));
+                	t_volume = q_add(t_volume,q_float('txtVolume_' + i));
+                	t_weight = q_add(t_weight,q_float('txtWeight_' + i));
                 }
-                t_mount = t_mount.round(3);
+                t_mount = round(t_mount,3);
 				var t_plusmoney = q_float('txtPlusmoney');
 				var t_minusmoney = q_float('txtMinusmoney');
 				var t_tax = q_float('txtTax'); 
 				
-				var t_total = t_money.add(t_plusmoney).sub(t_minusmoney).add(t_tax);
-               
+				var t_total = q_add(q_sub(q_add(t_money,t_plusmoney),t_minusmoney),t_tax);
+               	
+               	$('#txtMount').val(FormatNumber(t_mount));
+               	$('#txtVolume').val(FormatNumber(t_volume));
+               	$('#txtWeight').val(FormatNumber(t_weight));
                 $('#txtMoney').val(FormatNumber(t_money));
                 $('#txtTotal').val(FormatNumber(t_total));
-                $('#txtMount').val(FormatNumber(t_mount));
             }
             function refresh(recno) {
                 _refresh(recno);
@@ -639,52 +619,7 @@
                 var re = /(\d{1,3})(?=(\d{3})+$)/g;
                 return xx+arr[0].replace(re, "$1,") + (arr.length == 2 ? "." + arr[1] : "");
             }
-			Number.prototype.round = function(arg) {
-			    return Math.round(this.mul( Math.pow(10,arg))).div( Math.pow(10,arg));
-			}
-			Number.prototype.div = function(arg) {
-			    return accDiv(this, arg);
-			}
-            function accDiv(arg1, arg2) {
-			    var t1 = 0, t2 = 0, r1, r2;
-			    try { t1 = arg1.toString().split(".")[1].length } catch (e) { }
-			    try { t2 = arg2.toString().split(".")[1].length } catch (e) { }
-			    with (Math) {
-			        r1 = Number(arg1.toString().replace(".", ""))
-			        r2 = Number(arg2.toString().replace(".", ""))
-			        return (r1 / r2) * pow(10, t2 - t1);
-			    }
-			}
-			Number.prototype.mul = function(arg) {
-			    return accMul(arg, this);
-			}
-			function accMul(arg1, arg2) {
-			    var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
-			    try { m += s1.split(".")[1].length } catch (e) { }
-			    try { m += s2.split(".")[1].length } catch (e) { }
-			    return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
-			}
-			Number.prototype.add = function(arg) {
-		   		return accAdd(arg, this);
-			}
-			function accAdd(arg1, arg2) {
-			    var r1, r2, m;
-			    try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
-			    try { r2 = arg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
-			    m = Math.pow(10, Math.max(r1, r2))
-			    return (Math.round(arg1 * m) + Math.round(arg2 * m)) / m
-			}
-			Number.prototype.sub = function(arg) {
-			    return accSub(this,arg);
-			}
-			function accSub(arg1, arg2) {
-			    var r1, r2, m, n;
-			    try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
-			    try { r2 = arg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
-			    m = Math.pow(10, Math.max(r1, r2));
-			    n = (r1 >= r2) ? r1 : r2;
-			    return parseFloat(((Math.round(arg1 * m) - Math.round(arg2 * m)) / m).toFixed(n));
-			}
+			
 		</script>
 		<style type="text/css">
             #dmain {
@@ -783,7 +718,7 @@
                 margin: -1px;
             }
             .dbbs {
-                width: 1400px;
+                width: 1200px;
             }
             .tbbs a {
                 font-size: medium;
@@ -806,6 +741,51 @@
 	ondrop="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
 	>
 		<!--#include file="../inc/toolbar.inc"-->
+		<div id="divImport" style="position:absolute; top:250px; left:600px; display:none; width:400px; height:200px; background-color: #cad3ff; border: 5px solid gray;">
+			<table style="width:100%;">
+				<tr style="height:1px;">
+					<td style="width:150px;"></td>
+					<td style="width:80px;"></td>
+					<td style="width:80px;"></td>
+					<td style="width:80px;"></td>
+					<td style="width:80px;"></td>
+				</tr>
+				<tr style="height:35px;">
+					<td><span> </span><a style="float:right; color: blue; font-size: medium;">帳款月份</a></td>
+					<td colspan="4">
+					<input id="textMon"  type="text" style="float:left; width:100px; font-size: medium;"/>
+					</td>
+				</tr>
+				<tr style="height:35px;">
+					<td><span> </span><a style="float:right; color: blue; font-size: medium;">結帳方式</a></td>
+					<td colspan="4">
+					<select id="combType"  style="float:left; width:100px; font-size: medium;"> </select>
+					</td>
+				</tr>
+				<tr style="height:35px;">
+					<td><span> </span><a style="float:right; color: blue; font-size: medium;">收款日</a></td>
+					<td colspan="4">
+					<input id="textGetdate" list="listGetdate" type="text" style="float:left; width:100px; font-size: medium;"/>
+					<datalist id="listGetdate">
+						<option value=''> </option>
+						<option value='10'> </option>
+						<option value='15'> </option>
+						<option value='20'> </option>
+						<option value='25'> </option>
+					</datalist>
+					
+					</td>
+				</tr>
+				<tr style="height:35px;">
+					<td> </td>
+					<td><input id="btnImport_trans" type="button" value="匯入"/></td>
+					<td></td>
+					<td></td>
+					<td><input id="btnCancel_import" type="button" value="關閉"/></td>
+				</tr>
+			</table>
+		</div>
+		
 		<div id="dmain">
 			<div class="dview" id="dview">
 				<table class="tview" id="tview">
@@ -873,25 +853,12 @@
 							<input id="txtEdate" type="text" style="float:left; width:45%;"/>
 						</td>
 						<td><span> </span><a id="lblStraddr" class="lbl btn"> </a></td>
-						<td colspan="3">
-							<input id="txtStraddrno" type="text"  class="txt" style="float:left;width:25%;"/>
-							<input id="txtStraddr" type="text"  class="txt" style="float:left;width:20%;"/>
-							<span style="float:left; display:block; width:3%;">~</span>
-							<input id="txtEndaddrno" type="text"  class="txt" style="float:left;width:25%;"/>
-							<input id="txtEndaddr" type="text"  class="txt" style="float:left;width:20%;"/>
-						</td>
-						<td class="tdZ"> </td>
-					</tr>
-					<tr class="trX">
 						<td><span> </span><a id="lblTrandate" class="lbl"> </a></td>
 						<td colspan="3">
 							<input id="txtBtrandate" type="text" style="float:left; width:45%;"/>
 							<span style="float:left;display: block;width:3%;height:inherit;color:blue;font-size: 14px;text-align: center;">~</span>
 							<input id="txtEtrandate" type="text" style="float:left; width:45%;"/>
 						</td>
-						<td><span> </span><a id="lblPo" class="lbl"> </a></td>
-						<td colspan="3"><input id="txtPo" type="text"  class="txt c1"/></td>
-						<td class="tdZ"> </td>
 					</tr>
 					<tr class="trX">
 						<td> </td>
@@ -927,7 +894,7 @@
 						<td><span> </span><a id="lblMon" class="lbl"> </a></td>
 						<td><input id="txtMon" type="text"  class="txt c1"/></td>
 					</tr>
-					<tr>
+					<tr style="display:none;">
 						<td><span> </span><a id="lblBoat" class="lbl btn"> </a></td>
 						<td colspan="3">
 							<input id="txtBoatno" type="text" style="float:left; width:30%;"/>
@@ -952,11 +919,11 @@
 					<tr>
 						<td><span> </span><a id="lblMount" class="lbl"> </a></td>
 						<td><input id="txtMount" type="text"  class="txt c1 num"/></td>
-						<td><span> </span><a id="lblTrtype" class="lbl"> </a></td>
-						<td><input id="txtTrtype" type="text"  class="txt c1 num"/></td>
-						<td> </td>
-						<td> </td>
-						<td><span> </span><a id="lblTotal" class="lbl"> </a></td>
+						<td><span> </span><a id="lblVolume" class="lbl">材積</a></td>
+						<td><input id="txtVolume" type="text"  class="txt c1 num"/></td>
+						<td><span> </span><a id="lblWeight" class="lbl">重量</a></td>
+						<td><input id="txtWeight" type="text"  class="txt c1 num"/></td>
+						<td><span> </span><a id="lblTotal" class="lbl">應收總計</a></td>
 						<td><input id="txtTotal" type="text"  class="txt c1 num"/></td>
 					</tr>
 					<tr>
@@ -987,16 +954,16 @@
 					<input class="btn"  id="btnPlus" type="button" value='+' style="font-weight: bold;"  />
 					</td>
 					<td align="center" style="width:20px;"> </td>
-					<td align="center" style="width:120px;">交運日期</td>
-					<td align="center" style="width:200px;">司機</td>
+					<td align="center" style="width:100px;">交運日期</td>
 					<td align="center" style="width:80px;">車牌</td>
-					<td align="center" style="width:80px;">起點</td>
-					<td align="center" style="width:80px;">迄點</td>
+					<td align="center" style="width:120px;">起點</td>
+					<td align="center" style="width:120px;">迄點</td>
 					<td align="center" style="width:80px;">數量</td>
 					<td align="center" style="width:80px;">材積</td>
-					<td align="center" style="width:150px;">重量</td>
-					<td align="center" style="width:150px;">應收運費</td>
-					<td align="center" style="width:80px;">備註</td>
+					<td align="center" style="width:80px;">重量</td>
+					<td align="center" style="width:80px;">應收運費</td>
+					<td align="center" style="width:150px;">備註</td>
+					<td align="center" style="width:150px;">出車單號</td>
 				</tr>
 				<tr class="data" style='background:#cad3ff;'>
 					<td align="center">
@@ -1005,24 +972,22 @@
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
 					<td><input type="text" id="txtTrandate.*" style="width:95%;" /></td>
-					<td>
-						<input type="text" id="txtDriverno.*" style="float:left;width:45%;" />
-						<input type="text" id="txtDriver.*" style="float:left;width:45%;" />
-					</td>
 					<td><input type="text" id="txtCarno.*" style="width:95%;" /></td>
-					<td>
-						<input type="text" id="txtStraddrno.*" style="float:left;width:45%;" />
-						<input type="text" id="txtStraddr.*" style="float:left;width:45%;" />
-					</td>
-					<td>
-						<input type="text" id="txtEndaddrno.*" style="float:left;width:45%;" />
-						<input type="text" id="txtEndaddr.*" style="float:left;width:45%;" />
-					</td>
+					<td><input type="text" id="txtStraddr.*" style="float:left;width:95%;" /></td>
+					<td><input type="text" id="txtEndaddr.*" style="float:left;width:95%;" /></td>
 					<td><input type="text" id="txtMount.*" style="width:95%;text-align: right;" /></td>
 					<td><input type="text" id="txtVolume.*" style="width:95%;text-align: right;" /></td>
 					<td><input type="text" id="txtWeight.*" style="width:95%;text-align: right;" /></td>
-					<td><input type="text" id="txtTotal.*" style="width:95%;text-align: right;" /></td>
+					<td>
+						<input type="text" id="txtTotal.*" style="width:95%;text-align: right;" />
+						<input type="text" id="txtTranmoney.*" style="display:none;" />
+					</td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;" /></td>
+					<td>
+						<input type="text" id="txtTranaccy.*" style="display:none;" />
+						<input type="text" id="txtTranno.*" style="float:left;width:70%;" />
+						<input type="text" id="txtTrannoq.*" style="float:left;width:20%;" />
+					</td>
 				</tr>
 			</table>
 		</div>
