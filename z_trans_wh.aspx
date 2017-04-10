@@ -76,6 +76,9 @@
 					},{
 						type : '6', //[14]       7
 						name : 'xcusttype'
+					},{
+						type : '6', //[15]       8
+						name : 'xnoa'
 					}]
 				});
 				q_popAssign();
