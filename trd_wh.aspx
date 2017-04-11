@@ -150,7 +150,6 @@
 					$('.ES_hide').hide();
 				}	
 				//----------------------------------------------------------
-				q_cmbParse("combType", "月結,現金");
 
 				$('#btnImport').click(function() {
                     $('#divImport').toggle();
@@ -163,16 +162,11 @@
                    if(q_cur != 1 && q_cur != 2){
                 		var t_key = q_getPara('sys.key_trd');
                    		var t_mon = $('#textMon').val();//帳款月份
-                   		var t_type = $('#combType').val();
                    		var t_getdate = $('#textGetdate').val();//收款日
                    		t_key = (t_key.length==0?'BF':t_key);//一定要有值
-                   		q_func('qtxt.query.trd_import_wh', 'trd.txt,import_wh,' + encodeURI(t_key) + ';'+ encodeURI(t_mon) + ';'+ encodeURI(t_type) + ';'+ encodeURI(t_getdate));
+                   		q_func('qtxt.query.trd_import_wh', 'trd.txt,import_wh,' + encodeURI(t_key) + ';'+ encodeURI(t_mon) + ';'+ encodeURI(t_getdate));
                 	}
                 });
-                
-                //$('#textDate').datepicker();
-                //$('#textBdate').datepicker();
-                //$('#textEdate').datepicker();
             }
 			function q_funcPost(t_func, result) {
                 switch(t_func) {
@@ -187,29 +181,13 @@
                         	alert(as[0].msg);
                         }
             			break;
-            		case 'qtxt.query.trd_import_es':
+            		case 'qtxt.query.trd_import_wh':
             			var as = _q_appendData("tmp0", "", true, true);
                         if (as[0] != undefined) {
                         	alert(as[0].msg);
                         }
                         location.reload();
             			break;
-                	/*
-                	 case 'trd_post.ca_trd':
-                		location.reload();
-                		break;
-                	 case 'qtxt.query.trd_import':
-                		var as = _q_appendData("tmp0", "", true, true);
-                        if (as[0] != undefined) {
-                        	if(as[0].status == 1){
-                        		var t_date = $('#textDate').val();
-                        		q_func('trd_post.ca_trd', t_date + ',' + t_date);
-                        	}else{
-                        		alert(as[0].msg);
-                        	}
-                        } else {
-                        }
-                		break;*/
                     default:
                         break;
                 }
@@ -737,12 +715,6 @@
 					</td>
 				</tr>
 				<tr style="height:35px;">
-					<td><span> </span><a style="float:right; color: blue; font-size: medium;">結帳方式</a></td>
-					<td colspan="4">
-					<select id="combType"  style="float:left; width:100px; font-size: medium;"> </select>
-					</td>
-				</tr>
-				<tr style="height:35px;">
 					<td><span> </span><a style="float:right; color: blue; font-size: medium;">收款日</a></td>
 					<td colspan="4">
 					<input id="textGetdate" list="listGetdate" type="text" style="float:left; width:100px; font-size: medium;"/>
@@ -919,7 +891,7 @@
 						<td><span> </span><a id="lblAccno2" class="lbl btn"> </a></td>
 						<td><input id="txtAccno2" type="text"  class="txt c1"/> </td>
 						<td><input id="txtYear2" type="text"  class="txt c1"/> </td>
-						<td><input type="button" id="btnImport" value="整批匯入"/></td>
+						<td><input type="button" id="btnImport" value="月結整批匯入"/></td>
 					</tr>
 					
 				</table>
