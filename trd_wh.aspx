@@ -150,7 +150,7 @@
 					$('.ES_hide').hide();
 				}	
 				//----------------------------------------------------------
-				q_cmbParse("combType", "月結,現金,回收");
+				q_cmbParse("combType", "月結,現金");
 
 				$('#btnImport').click(function() {
                     $('#divImport').toggle();
@@ -161,19 +161,12 @@
                 });
                 $('#btnImport_trans').click(function() {
                    if(q_cur != 1 && q_cur != 2){
-                   		/*var t_key = q_getPara('sys.key_trd');
-                   		var t_date = $('#textDate').val();//登錄日期
-                   		var t_bdate = $('#textBdate').val();
-                   		var t_edate = $('#textEdate').val();
-                   		t_key = (t_key.length==0?'BJ':t_key);//一定要有值
-                   		q_func('qtxt.query.trd_import', 'trd.txt,import,' + encodeURI(t_key) + ';'+ encodeURI(t_date) + ';'+ encodeURI(t_bdate) + ';' + encodeURI(t_edate));
-                		*/
                 		var t_key = q_getPara('sys.key_trd');
                    		var t_mon = $('#textMon').val();//帳款月份
                    		var t_type = $('#combType').val();
                    		var t_getdate = $('#textGetdate').val();//收款日
                    		t_key = (t_key.length==0?'BF':t_key);//一定要有值
-                   		q_func('qtxt.query.trd_import_es', 'trd.txt,import_es,' + encodeURI(t_key) + ';'+ encodeURI(t_mon) + ';'+ encodeURI(t_type) + ';'+ encodeURI(t_getdate));
+                   		q_func('qtxt.query.trd_import_wh', 'trd.txt,import_wh,' + encodeURI(t_key) + ';'+ encodeURI(t_mon) + ';'+ encodeURI(t_type) + ';'+ encodeURI(t_getdate));
                 	}
                 });
                 
@@ -755,8 +748,6 @@
 					<input id="textGetdate" list="listGetdate" type="text" style="float:left; width:100px; font-size: medium;"/>
 					<datalist id="listGetdate">
 						<option value=''> </option>
-						<option value='10'> </option>
-						<option value='15'> </option>
 						<option value='20'> </option>
 						<option value='25'> </option>
 					</datalist>
@@ -928,7 +919,7 @@
 						<td><span> </span><a id="lblAccno2" class="lbl btn"> </a></td>
 						<td><input id="txtAccno2" type="text"  class="txt c1"/> </td>
 						<td><input id="txtYear2" type="text"  class="txt c1"/> </td>
-						<td><input type="button" id="btnImport" value="整批匯入" style="display:none;" class="ES_show"/></td>
+						<td><input type="button" id="btnImport" value="整批匯入"/></td>
 					</tr>
 					
 				</table>
