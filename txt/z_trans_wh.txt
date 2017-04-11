@@ -22,6 +22,7 @@ z_trans_wh04:--z_trans_wh04 託運單
 		,datea nvarchar(20)
 		,cust nvarchar(50)
 		,mount float
+		,unit nvarchar(20)
 		,volume float
 		,[weight] float
 		,straddr nvarchar(50)
@@ -30,15 +31,15 @@ z_trans_wh04:--z_trans_wh04 託運單
 		,memo nvarchar(max)
 	)
 	
-	insert into @tmp(gno,datea,cust,mount,volume,[weight],straddr,endaddr,[money],memo)
-	select '1',a.trandate,a.nick,a.mount,a.volume,a.[weight],a.straddr,a.endaddr,a.[total],a.memo
+	insert into @tmp(gno,datea,cust,mount,unit,volume,[weight],straddr,endaddr,[money],memo)
+	select '1',a.trandate,a.nick,a.mount,a.unit,a.volume,a.[weight],a.straddr,a.endaddr,a.[total],a.memo
 	from view_trans a
 	where a.noa = @t_noa
 	
 	select gno
 		,datea a01
 		,cust a02
-		,case when ISNULL(mount,0)>0 then CAST(mount as nvarchar)+'件' else '' end a03
+		,case when ISNULL(mount,0)>0 then CAST(mount as nvarchar)+isnull(unit,'') else '' end a03
 		,CAST(volume as nvarchar)+'/'+CAST([weight] as nvarchar) a04
 		,ISNULL(straddr,'')+' - '+ISNULL(endaddr,'') a05
 		,dbo.getComma([money],-1) a06
