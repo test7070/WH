@@ -626,6 +626,7 @@
 					<td align="center" style="width:120px;"><a>起點</a></td>
 					<td align="center" style="width:120px;"><a>迄點</a></td>
 					<td align="center" style="width:60px;"><a>數量</a></td>
+					<td align="center" style="width:60px;"><a>單位</a></td>
 					<td align="center" style="width:60px;"><a>材積</a></td>
 					<td align="center" style="width:60px;"><a>重量</a></td>
 					<td align="center" style="width:60px;"><a>應收運費</a></td>
@@ -669,6 +670,7 @@
 					</td>
 					
 					<td><input type="text" id="txtMount.*" class="num" style="width:95%;"/></td>
+					<td><input type="text" id="txtUnit.*" list="listUnit" style="width:95%;"/></td>
 					<td><input type="text" id="txtVolume.*" class="num " style="width:95%;"/></td>
 					<td><input type="text" id="txtWeight.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtTotal.*" class="num" style="width:95%;"/></td>
@@ -678,6 +680,10 @@
 
 			</table>
 		</div>
+		<datalist id="listUnit">
+			<option value="件"> </option>
+			<option value="箱"> </option>
+		</datalist>
 		<input id="q_sys" type="hidden" />
 	</body>
 </html>

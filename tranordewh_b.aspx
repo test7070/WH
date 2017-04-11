@@ -124,6 +124,7 @@
 					<td align="center" style="width:60px;"><a>寬cm</a></td>
 					<td align="center" style="width:60px;"><a>高cm</a></td>
 					<td align="center" style="width:60px;"><a>數量</a></td>
+					<td align="center" style="width:60px;"><a>單位</a></td>
 					<td align="center" style="width:60px;"><a>材積</a></td>
 					<td align="center" style="width:60px;"><a>重量</a></td>
 					<td align="center" style="width:30px;"><a>市<br>區</a></td>
@@ -141,6 +142,7 @@
 					<td align="center" style="width:100px;"> </td>
 					<td align="center" style="width:100px;"> </td>
 					<td align="center" style="width:100px;"> </td>
+					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
@@ -177,6 +179,7 @@
 					<td style="width:60px;"><input id="txtWidth.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtHeight.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtEmount.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
+					<td style="width:60px;"><input id="txtUnit.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtEvolume.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtEweight.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:30px;"><input id="chkChk1.*" type="checkbox" style="text-align:right;width:95%;" readonly="readonly"/></td>

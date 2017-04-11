@@ -192,8 +192,8 @@
                         	as = b_ret;
                         	while(q_bbsCount<as.length)
                         		$('#btnPlus').click();
-                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtOrdeno,txtNo2,txtCustno,txtCust,txtProductno,txtProduct,txtUweight,txtMount,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtLengthb,txtWidth,txtHeight,chkChk1,chkChk2'
-                        	, as.length, as, 'noa,noq,custno,cust,productno,product,uweight,emount,evolume,eweight,addrno,addr,addrno2,addr2,memo2,lengthb,width,height,chk1,chk2', '','');
+                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtOrdeno,txtNo2,txtCustno,txtCust,txtProductno,txtProduct,txtUweight,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtLengthb,txtWidth,txtHeight,chkChk1,chkChk2'
+                        	, as.length, as, 'noa,noq,custno,cust,productno,product,uweight,emount,unit,evolume,eweight,addrno,addr,addrno2,addr2,memo2,lengthb,width,height,chk1,chk2', '','');
                         }else{
                         	Unlock(1);
                         }
@@ -592,12 +592,13 @@
 					<td align="center" style="width:150px"><a>客戶</a></td>
 					<td align="center" style="width:100px"><a>聯絡人</a></td>
 					<td align="center" style="width:150px"><a>品名</a></td>
-					<td align="center" style="width:70px"><a>長cm</a></td>
-					<td align="center" style="width:70px"><a>寬cm</a></td>
-					<td align="center" style="width:70px"><a>高cm</a></td>
-					<td align="center" style="width:70px"><a>數量</a></td>
-					<td align="center" style="width:70px"><a>材積</a></td>
-					<td align="center" style="width:70px"><a>重量</a></td>
+					<td align="center" style="width:60px"><a>長cm</a></td>
+					<td align="center" style="width:60px"><a>寬cm</a></td>
+					<td align="center" style="width:60px"><a>高cm</a></td>
+					<td align="center" style="width:60px"><a>數量</a></td>
+					<td align="center" style="width:60px"><a>單位</a></td>
+					<td align="center" style="width:60px"><a>材積</a></td>
+					<td align="center" style="width:60px"><a>重量</a></td>
 					<td align="center" style="width:170px"><a>起點</a></td>
 					<td align="center" style="width:170px"><a>迄點</a></td>
 					<td align="center" style="width:100px"><a>注意事項</a></td>
@@ -633,6 +634,7 @@
 					<td><input type="text" id="txtWidth.*" class="num bbsWeight" style="width:95%;"/></td>
 					<td><input type="text" id="txtHeight.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtMount.*" class="num" style="width:95%;"/></td>
+					<td><input type="text" id="txtUnit.*" list="listUnit" style="width:95%;"/></td>
 					<td><input type="text" id="txtVolume.*" class="num " style="width:95%;"/></td>
 					<td><input type="text" id="txtWeight.*" class="num" style="width:95%;"/></td>
 					<td>
@@ -658,6 +660,10 @@
 
 			</table>
 		</div>
+		<datalist id="listUnit">
+			<option value="件"> </option>
+			<option value="箱"> </option>
+		</datalist>
 		<div class='dbbt' style="display:none;">
 			<table id="tbbt" class='tbbt'>
 				<tr style="color:white; background:#003366;">
