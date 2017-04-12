@@ -92,30 +92,12 @@
 				for(let i=0;i<t_unit.length;i++){
 					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
 				}
-				/*
-				$('#btnOrde').click(function(e){
-                	var t_where ='';
-                	q_box("tranordewh_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({project:'WH',noa:$('#txtNoa').val(),chk1:$('#chkChk1').prop('checked')?1:0,chk2:$('#chkChk2').prop('checked')?1:0}), "tranorde_tranvcce", "95%", "95%", '');
-                });
-                
 				
-				*/
-				/*jQuery.loadScript = function (url, callback) {
-				    jQuery.ajax({
-				        url: "https://maps.googleapis.com/maps/api/js?key=AIzaSyC4lkDc9H0JanDkP8MUpO-mzXRtmugbiI8&signed_in=true&callback=initMap",
-				        dataType: 'script',
-				        success: initMap(),
-				        async: true,
-				        defer: true
-				    });
-				};*/
-			/*	$.ajax({
-				  url: "https://maps.googleapis.com/maps/api/js?key=AIzaSyC4lkDc9H0JanDkP8MUpO-mzXRtmugbiI8&signed_in=true&callback=initMap",
-				  dataType: 'script',
-				  //success: initMap(),
-				  async: true
+				$('#btnIns').before($('#btnIns').clone().attr('id', 'btnTranvcce').show());
+				$('#btnTranvcce').attr('value','派車匯入').css('white-space','normal').css('width','50px')
+				.click(function() {
+					$('#divImport').toggle();
 				});
-				*/
 			}
 			
 			var map;
