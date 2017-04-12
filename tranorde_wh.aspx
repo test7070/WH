@@ -176,8 +176,10 @@
 			}
 
 			function btnPrint() {
-				//q_box('z_tranorde_js.aspx?' + r_userno + ";" + r_name + ";" + q_time + ";" + $('#txtNoa').val() + ";" + r_accy, '', "95%", "95%", q_getMsg("popPrint"));
-				q_box("z_tranorde_wh.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + JSON.stringify({noa:trim($('#txtNoa').val())}) + ";" + r_accy + "_" + r_cno, 'tranorde_wh', "95%", "95%", q_getMsg("popPrint"));
+				q_box('z_trans_wh.aspx?' + r_userno + ";" + r_name + ";" + q_time + ";" + JSON.stringify({
+		                    form : 'tranorde_wh'
+		                    ,noa : trim($('#txtNoa').val())
+                }) + ";" + r_accy + "_" + r_cno, 'trans', "95%", "95%", m_print);
 			}
 
 			function btnOk() {

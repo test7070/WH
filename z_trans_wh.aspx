@@ -90,12 +90,14 @@
 	            var t_para = new Array();
 	            try{
 	            	t_para = JSON.parse(q_getId()[3]);
+	            	if(t_para.length==0 || t_para.noa==undefined){
+		            }else{
+		            	if(t_para.form=="trans_wh")
+		            		$('#txtXnoa').val(t_para.noa);
+		            }
 	            }catch(e){
 	            }    
-	            if(t_para.length==0 || t_para.noa==undefined){
-	            }else{
-	            	$('#txtXnoa').val(t_para.noa);
-	            }
+	            
 	            
 	            $('#txtXdate1').mask('999/99/99');
 				$('#txtXdate1').datepicker();

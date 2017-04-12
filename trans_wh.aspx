@@ -266,7 +266,8 @@
 
 			function btnPrint() {
 				q_box('z_trans_wh.aspx?' + r_userno + ";" + r_name + ";" + q_time + ";" + JSON.stringify({
-		                    noa : trim($('#txtNoa').val())
+		                    form : 'trans_wh'
+		                    ,noa : trim($('#txtNoa').val())
 		                }) + ";" + r_accy + "_" + r_cno, 'trans', "95%", "95%", m_print);
 			}
 
