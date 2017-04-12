@@ -355,18 +355,12 @@
                		//$('#txtYear2').val(string[3]);
                 }
                 //存檔產生發票
-                switch(q_getPara('sys.project').toUpperCase()){
-                	case 'WH':
-                		var t_vccano = $.trim($('#txtVccano').val());
-                		var t_money = q_float('txtMoney');
-                		var t_noa = $.trim($('#txtNoa').val());
-                		if(t_vccano.length==0 && t_money>0)
-                			q_func('qtxt.query.trd2vcca', 'trd.txt,trd2vcca,' + encodeURI(t_noa)); 
-                		break;
-                	default:
-                		break;
-                }
                 Unlock(1);
+                var t_vccano = $.trim($('#txtVccano').val());
+        		var t_money = q_float('txtMoney');
+        		var t_noa = $.trim($('#txtNoa').val());
+        		if(t_vccano.length==0 && t_money>0)
+        			q_func('qtxt.query.trd2vcca', 'trd.txt,trd2vcca,' + encodeURI(t_noa));
             }
             function btnOk() {
             	Lock(1,{opacity:0});
@@ -477,7 +471,7 @@
                	//小數 可能會有問題需注意
                 var t_money = 0,t_mount = 0,t_volume=0,t_weight=0;
                 for ( i = 0; i < q_bbsCount; i++) {
-                	t_money = q_add(t_money,q_float('txtTranmoney_' + i));
+                	t_money = q_add(t_money,q_float('txtTotal_' + i));
                 	t_mount = q_add(t_mount,q_float('txtMount_' + i));
                 	t_volume = q_add(t_volume,q_float('txtVolume_' + i));
                 	t_weight = q_add(t_weight,q_float('txtWeight_' + i));

@@ -93,11 +93,16 @@
 					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
 				}
 				
-				$('#btnIns').before($('#btnIns').clone().attr('id', 'btnTranvcce').show());
-				$('#btnTranvcce').attr('value','派車匯入').css('white-space','normal').css('width','50px')
-				.click(function() {
-					$('#divImport').toggle();
-				});
+				$('#btnTranvcce').click(function(e) {
+                	var t_where ='';
+                	let t_noa = $.trim($('#txtNoa').val());
+                	let t_driverno = $.trim($('#txtDriverno').val());
+                	if(t_driverno.length==0){
+                		alert('請輸入司機編號!');
+                		return;
+                	}
+                	q_box("tranvccewh_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({project:q_getPara('sys.project').toUpperCase(),tranno:t_noa,driverno:t_driverno}), "tranvcce_tran", "95%", "95%", '');
+                });
 			}
 			
 			var map;
@@ -190,15 +195,16 @@
 			function q_boxClose(s2) {
                 var ret;
                 switch (b_pop) {
-                	case 'tranorde_tranvcce':
+                	case 'tranvcce_tran':
                         if (b_ret != null) {
                         	for(var i=0;i<q_bbsCount;i++)
                         		$('#btnMinus_'+i).click();
                         	as = b_ret;
                         	while(q_bbsCount<as.length)
                         		$('#btnPlus').click();
-                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtOrdeno,txtNo2,txtCustno,txtCust,txtProductno,txtProduct,txtUweight,txtMount,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtLengthb,txtWidth,txtHeight,chkChk1,chkChk2'
-                        	, as.length, as, 'noa,noq,custno,cust,productno,product,uweight,emount,evolume,eweight,addrno,addr,addrno2,addr2,memo2,lengthb,width,height,chk1,chk2', '','');
+                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtOrdeno,txtCstype,txtCarno,txtCustno,txtComp,txtNick,txtProductno,txtProduct,txtMount,txtUnit,txtVolume,txtWeight,txtStraddrno,txtStraddr,txtEndaddrno,txtEndaddr,txtMemo,txtTotal,txtTotal2,txtReserve'
+                        	, as.length, as, 'ordeno,typea,carno,custno,cust,cust,productno,product,mount,unit,volume,weight,straddrno,straddr,endaddrno,endaddr,memo,total,total2,total3', '','');
+                        	sum();
                         }else{
                         	Unlock(1);
                         }
@@ -316,9 +322,11 @@
 				if(t_para){
 					$('#txtDatea').datepicker('destroy');
 					$('#txtTrandate').datepicker('destroy');
+					$('#btnTranvcce').attr('disabled','disabled');
 				}else{
 					$('#txtDatea').datepicker();
 					$('#txtTrandate').datepicker();
+					$('#btnTranvcce').removeAttr('disabled');
 				}
 			}
 
@@ -489,7 +497,7 @@
 				margin: -1px;
 			}
 			.dbbs {
-				width: 1200px;
+				width: 1300px;
 			}
 			.dbbt {
 				width: 2000px;
@@ -612,6 +620,10 @@
 						<td><span> </span><a id="lblNoa" class="lbl"> </a></td>
 						<td colspan="2"><input type="text" id="txtNoa" class="txt c1"/></td>
 					</tr>
+					<tr>
+						<td> </td>
+						<td><input type="button" id="btnTranvcce" value="派車匯入"/></td>
+					</tr>
 				</table>
 			</div>
 			<img id="img" crossorigin="anonymous" style="float:left;display:none;"/> 
@@ -630,10 +642,11 @@
 					<td align="center" style="width:60px;"><a>單位</a></td>
 					<td align="center" style="width:60px;"><a>材積</a></td>
 					<td align="center" style="width:60px;"><a>重量</a></td>
-					<td align="center" style="width:60px;"><a>應收運費</a></td>
+					<td align="center" style="width:60px;"><a>應收<br>運費</a></td>
 					<td align="center" style="width:60px;"><a>盤車</a></td>
-					<td align="center" style="width:60px;"><a>應付運費</a></td>
+					<td align="center" style="width:60px;"><a>應付<br>運費</a></td>
 					<td align="center" style="width:120px;"><a>備註</a></td>
+					<td align="center" style="width:100px;"><a>派車<br>單號</a></td>
 					</a></td>
 				</tr>
 				<tr class="data" style='background:#cad3ff;'>
@@ -676,6 +689,7 @@
 					<td><input type="text" id="txtReserve.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtTotal2.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;"/></td>
+					<td><input type="text" id="txtOrdeno.*" style="width:95%;"/></td>
 				</tr>
 
 			</table>

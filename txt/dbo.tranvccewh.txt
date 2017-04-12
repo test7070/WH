@@ -1,0 +1,55 @@
+
+
+alter  function [dbo].[tranvccewh](@project nvarchar(20),@tranno nvarchar(20),@driverno nvarchar(20))
+returns @tmpa table(
+	tranvcceaccy nvarchar(10)
+	,tranvcceno nvarchar(20)
+	,tranvccenoq nvarchar(10)
+	
+	,tranordeno nvarchar(20)
+	,tranordeno2 nvarchar(10)
+	
+	,custno nvarchar(20)
+	,cust nvarchar(50)
+	,carno nvarchar(20)
+	,driverno nvarchar(20)
+	,driver nvarchar(50)
+	,straddrno nvarchar(20)
+	,straddr nvarchar(50)
+	,endaddrno nvarchar(20)
+	,endaddr nvarchar(50)
+	
+	,typea nvarchar(20)
+	,productno nvarchar(20)
+	,product nvarchar(50)
+	,unit nvarchar(20)
+	,mount float
+	,volume float
+	,[weight] float
+	,total float
+	,total2 float
+	,total3 float
+	
+	,memo nvarchar(max)
+	,ordeno nvarchar(20)
+) as
+begin
+	insert into @tmpa(ordeno,tranvcceaccy,tranvcceno,tranvccenoq,tranordeno,tranordeno2
+		,custno,cust,carno,driverno,driver,typea,productno,product,unit
+		,mount,volume,[weight],straddrno,straddr,endaddrno,endaddr
+		,total,total2,total3,memo)
+	select a.noa+'-'+a.noq 
+		,a.accy,a.noa,a.noq,a.ordeno,a.no2
+		,a.custno,a.cust,a.carno,isnull(a.driverno,''),a.driver,a.typea,a.productno,a.product,a.unit
+		,a.mount,a.volume,a.[weight],a.addrno,a.addr,a.addrno2,a.addr2
+		,ISNULL(d.total,0),ISNULL(d.total2,0),ISNULL(d.total3,0),a.memo		
+	from view_tranvcces a 
+	left join view_tranvcce b on a.accy=b.accy and a.noa=b.noa
+	left join view_trans c on a.noa+'-'+a.noq=c.ordeno
+	left join view_tranordes d on a.ordeno=d.noa and a.no2=d.noq
+	where isnull(a.driverno,'')=@driverno
+	and (c.noa is null or c.noa=@tranno)
+	
+	return 
+end
+GO
