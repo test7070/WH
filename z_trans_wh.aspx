@@ -79,6 +79,9 @@
 					},{
 						type : '6', //[15]       8
 						name : 'xnoa'
+					},{
+						type : '6', //[16]       9
+						name : 'xtypea'
 					}]
 				});
 				q_popAssign();
@@ -105,6 +108,7 @@
 				$('#txtXtrandate2').datepicker();
 				
 				AddDataList('txtXcusttype',t_custtype);
+				AddDataList('txtXtypea',q_getPara('trans.typea'));
             }
 
 			function q_funcPost(t_func, result) {

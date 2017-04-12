@@ -18,7 +18,7 @@
 		<script type="text/javascript">
 			q_tables = 's';
 			var q_name = "tran";
-			var q_readonly = ['txtNoa','txtWorker', 'txtWorker2'];
+			var q_readonly = ['txtNoa','txtWorker', 'txtWorker2','txtTotal','txtTotal2','txtTotal3','txtMount','txtVolume','txtWeight'];
 			var q_readonlys = ['txtOrdeno','txtNo2'];
 			var q_readonlyt = [];
 			var bbmNum = new Array();
@@ -40,12 +40,13 @@
 				,['txtStraddrno_', 'btnStraddr_', 'addr2', 'noa,addr', 'txtStraddrno_,txtStraddr_', 'addr2_b.aspx']
 				,['txtEndaddrno_', 'btnEndaddr_', 'addr2', 'noa,addr', 'txtEndaddrno_,txtEndaddr_', 'addr2_b.aspx']
 				,['txtCarno_', 'btnCarno_', 'car2', 'a.noa,driverno,driver', 'txtCarno_', 'car2_b.aspx']
-				,['txtCustno_', 'btnCust_', 'cust', 'noa,comp,nick', 'txtCustno_,txtComp_,txtNick_', 'cust_b.aspx']);
+				,['txtCustno_', 'btnCust_', 'cust', 'noa,comp,nick', 'txtCustno_,txtComp_,txtNick_', 'cust_b.aspx']
+				,['txtDriverno', 'lblDriver', 'driver', 'noa,namea', 'txtDriverno,txtDriver', 'driver_b.aspx']);
 
 			function sum() {
 				if (!(q_cur == 1 || q_cur == 2))
 					return;
-				var cuft=0,t_mount=0,t_volume=0, t_weight=0,t_total=0,t_total2=0;
+				let t_mount=0,t_volume=0, t_weight=0,t_total=0,t_total2=0,t_total3=0;
 				for(var i=0;i<q_bbsCount;i++){
 					//cuft = round(0.0000353 * q_float('txtLengthb_'+i)* q_float('txtWidth_'+i)* q_float('txtHeight_'+i)* q_float('txtMount_'+i),2); 
 					//$('#txtVolume_'+i).val(cuft);
@@ -55,12 +56,14 @@
 					t_weight = q_add(t_weight,q_float('txtWeight_'+i));
 					t_total = q_add(t_total,q_float('txtTotal_'+i));
 					t_total2 = q_add(t_total2,q_float('txtTotal2_'+i));
+					t_total3 = q_add(t_total3,q_float('txtReserve_'+i));
 				}
 				$('#txtMount').val(t_mount);
 				$('#txtVolume').val(t_volume);
 				$('#txtWeight').val(t_weight);
 				$('#txtTotal').val(t_total);
 				$('#txtTotal2').val(t_total2);
+				$('#txtTotal3').val(t_total3);
 			}
 			
 			$(document).ready(function() {
@@ -80,6 +83,15 @@
 
 			function mainPost() {
 				q_mask(bbmMask);
+				
+				let t_type = q_getPara('trans.typea').split(',');
+				for(let i=0;i<t_type.length;i++){
+					$('#listTypea').append('<option value="'+t_type[i]+'"></option>');
+				}
+				let t_unit = q_getPara('trans.unit').split(',');
+				for(let i=0;i<t_unit.length;i++){
+					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
+				}
 				/*
 				$('#btnOrde').click(function(e){
                 	var t_where ='';
@@ -132,6 +144,9 @@
                         sum();
                     });
                     $('#txtTotal2_' + i).change(function(e) {
+                        sum();
+                    });
+                    $('#txtReserve_' + i).change(function(e) {
                         sum();
                     });
                     
@@ -404,7 +419,7 @@
 			}
 			.dview {
 				float: left;
-				width: 600px;
+				width: 700px;
 				border-width: 0px;
 			}
 			.tview {
@@ -546,6 +561,7 @@
 						<td align="center" style="width:80px; color:black;"><a>登錄日期</a></td>
 						<td align="center" style="width:120px; color:black;"><a>司機</a></td>
 						<td align="center" style="width:80px; color:black;"><a>應收金額</a></td>
+						<td align="center" style="width:80px; color:black;"><a>盤車</a></td>
 						<td align="center" style="width:80px; color:black;"><a>應付金額</a></td>
 						<td align="center" style="width:150px; color:black;"><a>電腦編號</a></td>
 					</tr>
@@ -555,6 +571,7 @@
 						<td id='datea' style="text-align: center;">~datea</td>
 						<td id='driver' style="text-align: center;">~driver</td>
 						<td id='total' style="text-align: right;">~total</td>
+						<td id='total3' style="text-align: right;">~total3</td>
 						<td id='total2' style="text-align: right;">~total2</td>
 						<td id='noa' style="text-align: center;">~noa</td>
 					</tr>
@@ -573,23 +590,15 @@
 						<td class="tdZ"> </td>
 					</tr>
 					<tr>
-						<td><span> </span><a id="lblNoa" class="lbl"> </a></td>
-						<td colspan="2"><input type="text" id="txtNoa" class="txt c1"/></td>
 						<td><span> </span><a id="lblTrandate" class="lbl">交運日期</a></td>
 						<td><input type="text" id="txtTrandate" class="txt c1"/></td>
 						<td><span> </span><a id="lblDatea" class="lbl">交運日期</a></td>
 						<td><input type="text" id="txtDatea" class="txt c1"/></td>
-					</tr>
-					<tr>
 						<td><span> </span><a id="lblDriver" class="lbl">司機</a></td>
 						<td colspan="2">
 							<input type="text" id="txtDriverno" class="txt" style="float:left;width:40%;"/>
 							<input type="text" id="txtDriver" class="txt" style="float:left;width:60%;"/>
 						</td>
-						<td><span> </span><a id="lblTotal" class="lbl">應收金額</a></td>
-						<td><input type="text" id="txtTotal" class="txt c1"/></td>
-						<td><span> </span><a id="lblTotal2" class="lbl">應付金額</a></td>
-						<td><input type="text" id="txtTotal2" class="txt c1"/></td>
 					</tr>
 					<tr>
 						<td><span> </span><a id="lblMount" class="lbl">數量</a></td>
@@ -598,6 +607,14 @@
 						<td><input type="text" id="txtVolume" class="txt c1"/></td>
 						<td><span> </span><a id="lblWeight" class="lbl">重量</a></td>
 						<td><input type="text" id="txtWeight" class="txt c1"/></td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblTotal" class="lbl">應收金額</a></td>
+						<td><input type="text" id="txtTotal" class="txt c1"/></td>
+						<td><span> </span><a id="lblTotal3" class="lbl">盤車</a></td>
+						<td><input type="text" id="txtTotal3" class="txt c1"/></td>
+						<td><span> </span><a id="lblTotal2" class="lbl">應付金額</a></td>
+						<td><input type="text" id="txtTotal2" class="txt c1"/></td>
 					</tr>
 					<tr>
 						<td><span> </span><a id="lblMemo" class="lbl"> </a></td>
@@ -610,6 +627,8 @@
 						<td><input id="txtWorker" type="text"  class="txt c1"/></td>
 						<td><span> </span><a id="lblWorker2" class="lbl"> </a></td>
 						<td><input id="txtWorker2" type="text"  class="txt c1"/></td>
+						<td><span> </span><a id="lblNoa" class="lbl"> </a></td>
+						<td colspan="2"><input type="text" id="txtNoa" class="txt c1"/></td>
 					</tr>
 				</table>
 			</div>
@@ -620,10 +639,8 @@
 				<tr style='color:white; background:#003366;' >
 					<td align="center" style="width:25px"><input class="btn"  id="btnPlus" type="button" value='+' style="font-weight: bold;"  /></td>
 					<td align="center" style="width:20px;"> </td>
-					<!--<td align="center" style="width:80px; color:black;"><a>登錄日期</a></td>-->
-					<!--<td align="center" style="width:80px; color:black;"><a>出車日期</a></td>-->
+					<td align="center" style="width:80px;"><a>類型</a></td>
 					<td align="center" style="width:80px;"><a>車牌</a></td>
-					<!--<td align="center" style="width:80px; color:black;"><a>司機</a></td>-->
 					<td align="center" style="width:120px;"><a>客戶</a></td>
 					<td align="center" style="width:120px;"><a>起點</a></td>
 					<td align="center" style="width:120px;"><a>迄點</a></td>
@@ -632,12 +649,9 @@
 					<td align="center" style="width:60px;"><a>材積</a></td>
 					<td align="center" style="width:60px;"><a>重量</a></td>
 					<td align="center" style="width:60px;"><a>應收運費</a></td>
+					<td align="center" style="width:60px;"><a>盤車</a></td>
 					<td align="center" style="width:60px;"><a>應付運費</a></td>
 					<td align="center" style="width:120px;"><a>備註</a></td>
-					<!--<td align="center" style="width:30px"><a id="lblChk1">市<BR>區</a></td>-->
-					<!--<td align="center" style="width:30px"><a id="lblChk2">北<BR>上</a></td>-->
-					<!--<td align="center" style="width:30px"><a id="lblChk3">提貨<BR>完工</a></td>-->
-					<!--<td align="center" style="width:30px"><a id="lblChk4">卸貨<BR>完工-->
 					</a></td>
 				</tr>
 				<tr class="data" style='background:#cad3ff;'>
@@ -646,6 +660,7 @@
 						<input type="text" id="txtNoq.*" style="display:none;"/>
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
+					<td><input type="text" id="txtCstype.*" list="listTypea" style="width:95%;"/></td>
 					<td>
 						<input type="text" id="txtCarno.*" style="width:95%;"/>
 						<input type="button" id="btnCarno.*" style="display:none;"/>
@@ -676,16 +691,15 @@
 					<td><input type="text" id="txtVolume.*" class="num " style="width:95%;"/></td>
 					<td><input type="text" id="txtWeight.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtTotal.*" class="num" style="width:95%;"/></td>
+					<td><input type="text" id="txtReserve.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtTotal2.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;"/></td>
 				</tr>
 
 			</table>
 		</div>
-		<datalist id="listUnit">
-			<option value="件"> </option>
-			<option value="箱"> </option>
-		</datalist>
+		<datalist id="listUnit"> </datalist>
+		<datalist id="listTypea"> </datalist>
 		<input id="q_sys" type="hidden" />
 	</body>
 </html>

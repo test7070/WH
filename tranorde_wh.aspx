@@ -70,7 +70,15 @@
 			function mainPost() {
 				q_mask(bbmMask);
 				
-				
+				let t_type = q_getPara('trans.typea').split(',');
+				for(let i=0;i<t_type.length;i++){
+					$('#listTypea').append('<option value="'+t_type[i]+'"></option>');
+				}
+				let t_unit = q_getPara('trans.unit').split(',');
+				for(let i=0;i<t_unit.length;i++){
+					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
+				}
+			
 			}
 
 			function bbsAssign() {
@@ -549,6 +557,7 @@
 				<tr style='color:white; background:#003366;' >
 					<td align="center" style="width:25px"><input class="btn"  id="btnPlus" type="button" value='+' style="font-weight: bold;"  /></td>
 					<td align="center" style="width:20px;"> </td>
+					<td align="center" style="width:80px"><a>類型</a></td>
 					<td align="center" style="width:150px"><a>品名</a></td>
 					<td align="center" style="width:60px"><a>長</a></td>
 					<td align="center" style="width:60px"><a>寬</a></td>
@@ -559,8 +568,6 @@
 					<td align="center" style="width:60px"><a>重量</a></td>
 					<td align="center" style="width:120px"><a>起點</a></td>
 					<td align="center" style="width:120px"><a>迄點</a></td>
-					<td align="center" style="width:40px"><a>市區</a></td>
-					<td align="center" style="width:40px"><a>北上</a></td>
 					<td align="center" style="width:150px"><a>備註</a></td>
 					<td align="center" style="width:150px"><a>注意事項</a></td>
 				</tr>
@@ -570,6 +577,7 @@
 						<input type="text" id="txtNoq.*" style="display:none;"/>
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
+					<td><input type="text" id="txtTypea.*" list="listTypea" class="num" style="width:95%;" /> </td>
 					<td>
 						<input type="text" id="txtProductno.*" style="width:35%;" />
 						<input type="text" id="txtProduct.*" style="width:55%;" />
@@ -593,17 +601,14 @@
 						<input type="text" id="txtAddr2.*" style="width:45%;" />
 						<input type="button" id="btnAddr2.*" style="display:none;">
 					</td>
-					<td><input type="checkbox" id="chkChk1.*" style="width:95%;" /></td>
-					<td><input type="checkbox" id="chkChk2.*" style="width:95%;" /></td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;" /></td>
 					<td><input type="text" id="txtMemo2.*" style="width:95%;" /></td>
 				</tr>
 			</table>
 		</div>
-		<datalist id="listUnit">
-			<option value="件"> </option>
-			<option value="箱"> </option>
-		</datalist>
+		<datalist id="listUnit"> </datalist>
+		<datalist id="listTypea"> </datalist>
+		
 		<input id="q_sys" type="hidden" />
 		<div id="dbbt" style="position: absolute;top:250px; left:450px; display:none;width:400px;">
 			<table id="tbbt">

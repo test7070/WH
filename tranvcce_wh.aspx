@@ -37,7 +37,8 @@
 			aPop = new Array(['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
 				,['txtAddrno_', 'btnAddr_', 'addr2', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr2_b.aspx']
 				,['txtAddrno2_', 'btnAddr2_', 'addr2', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr2_b.aspx']
-				,['txtCarno_', 'btnCarno_', 'car2', 'a.noa,driverno,driver', 'txtCarno_', 'car2_b.aspx']);
+				,['txtCarno_', 'btnCarno_', 'car2', 'a.noa,driverno,driver', 'txtCarno_,txtDriverno_,txtDriver_', 'car2_b.aspx']
+				,['txtDriverno_', 'btnDriver_', 'driver', 'noa,namea', 'txtDriverno_,txtDriver_', 'driver_b.aspx']);
 
 			function sum() {
 				if (!(q_cur == 1 || q_cur == 2))
@@ -83,6 +84,15 @@
 			function mainPost() {
 				q_mask(bbmMask);
 				
+				let t_type = q_getPara('trans.typea').split(',');
+				for(let i=0;i<t_type.length;i++){
+					$('#listTypea').append('<option value="'+t_type[i]+'"></option>');
+				}
+				let t_unit = q_getPara('trans.unit').split(',');
+				for(let i=0;i<t_unit.length;i++){
+					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
+				}
+				
 				$('#btnOrde').click(function(e){
                 	var t_where ='';
                 	q_box("tranordewh_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({project:'WH',noa:$('#txtNoa').val(),chk1:$('#chkChk1').prop('checked')?1:0,chk2:$('#chkChk2').prop('checked')?1:0}), "tranorde_tranvcce", "95%", "95%", '');
@@ -100,6 +110,12 @@
                         e.preventDefault();
                         var n = $(this).attr('id').replace(/^(.*)_(\d+)$/,'$2');
                         $('#btnCarno_'+n).click();
+                    });
+                    $('#txtDriverno_' + i).bind('contextmenu', function(e) {
+                        /*滑鼠右鍵*/
+                        e.preventDefault();
+                        var n = $(this).attr('id').replace(/^(.*)_(\d+)$/,'$2');
+                        $('#btnDriver_'+n).click();
                     });
                     $('#txtProductno_' + i).bind('contextmenu', function(e) {
                         /*滑鼠右鍵*/
@@ -192,8 +208,8 @@
                         	as = b_ret;
                         	while(q_bbsCount<as.length)
                         		$('#btnPlus').click();
-                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtOrdeno,txtNo2,txtCustno,txtCust,txtProductno,txtProduct,txtUweight,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtLengthb,txtWidth,txtHeight,chkChk1,chkChk2'
-                        	, as.length, as, 'noa,noq,custno,cust,productno,product,uweight,emount,unit,evolume,eweight,addrno,addr,addrno2,addr2,memo2,lengthb,width,height,chk1,chk2', '','');
+                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtTypea,txtOrdeno,txtNo2,txtCustno,txtCust,txtProductno,txtProduct,txtUweight,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtMemo2,txtLengthb,txtWidth,txtHeight'
+                        	, as.length, as, 'typea,noa,noq,custno,cust,productno,product,uweight,emount,unit,evolume,eweight,addrno,addr,addrno2,addr2,memo,memo2,lengthb,width,height', '','');
                         }else{
                         	Unlock(1);
                         }
@@ -588,7 +604,9 @@
 				<tr style='color:white; background:#003366;' >
 					<td align="center" style="width:25px"><input class="btn"  id="btnPlus" type="button" value='+' style="font-weight: bold;"  /></td>
 					<td align="center" style="width:20px;"> </td>
+					<td align="center" style="width:70px"><a>類型</a></td>
 					<td align="center" style="width:70px;"><a>車牌</a></td>
+					<td align="center" style="width:150px;"><a>司機</a></td>
 					<td align="center" style="width:150px"><a>客戶</a></td>
 					<td align="center" style="width:100px"><a>聯絡人</a></td>
 					<td align="center" style="width:150px"><a>品名</a></td>
@@ -596,17 +614,16 @@
 					<td align="center" style="width:60px"><a>寬cm</a></td>
 					<td align="center" style="width:60px"><a>高cm</a></td>
 					<td align="center" style="width:60px"><a>數量</a></td>
-					<td align="center" style="width:60px"><a>單位</a></td>
+					<td align="center" style="width:40px"><a>單位</a></td>
 					<td align="center" style="width:60px"><a>材積</a></td>
 					<td align="center" style="width:60px"><a>重量</a></td>
 					<td align="center" style="width:170px"><a>起點</a></td>
 					<td align="center" style="width:170px"><a>迄點</a></td>
+					<td align="center" style="width:100px"><a>備註</a></td>
 					<td align="center" style="width:100px"><a>注意事項</a></td>
 					<td align="center" style="width:200px"><a>訂單</a></td>
-					<td align="center" style="width:30px"><a id="lblChk1">市<BR>區</a></td>
-					<td align="center" style="width:30px"><a id="lblChk2">北<BR>上</a></td>
-					<td align="center" style="width:30px"><a id="lblChk3">提貨<BR>完工</a></td>
-					<td align="center" style="width:30px"><a id="lblChk4">卸貨<BR>完工</a></td>
+					<td align="center" style="width:30px"><a id="lblChk1">提貨<BR>完工</a></td>
+					<td align="center" style="width:30px"><a id="lblChk2">卸貨<BR>完工</a></td>
 				</tr>
 				<tr class="data" style='background:#cad3ff;'>
 					<td align="center">
@@ -614,9 +631,15 @@
 						<input type="text" id="txtNoq.*" style="display:none;"/>
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
+					<td><input type="text" id="txtTypea.*" list="listTypea" style="width:95%;"/></td>
 					<td>
 						<input type="text" id="txtCarno.*" style="width:95%;"/>
 						<input type="button" id="btnCarno.*" style="display:none;"/>
+					</td>
+					<td>
+						<input type="text" id="txtDriverno.*" style="width:45%;float:left;"/>
+						<input type="text" id="txtDriver.*" style="width:45%;float:left;"/>
+						<input type="button" id="btnDriver.*" style="display:none;"/>
 					</td>
 					<td>
 						<input type="text" id="txtCustno.*" style="float:left;width:40%;"/>
@@ -648,22 +671,19 @@
 						<input type="button" id="btnAddr2.*" style="display:none;"/>
 					</td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;"/></td>
+					<td><input type="text" id="txtMemo2.*" style="width:95%;"/></td>
 					<td>
 						<input type="text" id="txtOrdeno.*" style="float:left;width:70%;"/>
 						<input type="text" id="txtNo2.*" style="float:left;width:20%;"/>
 					</td>
 					<td align="center"><input type="checkbox" id="chkChk1.*"/></td>
 					<td align="center"><input type="checkbox" id="chkChk2.*"/></td>
-					<td align="center"><input type="checkbox" id="chkChk3.*"/></td>
-					<td align="center"><input type="checkbox" id="chkChk4.*"/></td>
 				</tr>
 
 			</table>
 		</div>
-		<datalist id="listUnit">
-			<option value="件"> </option>
-			<option value="箱"> </option>
-		</datalist>
+		<datalist id="listUnit"> </datalist>
+		<datalist id="listTypea"> </datalist>
 		<div class='dbbt' style="display:none;">
 			<table id="tbbt" class='tbbt'>
 				<tr style="color:white; background:#003366;">

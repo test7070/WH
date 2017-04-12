@@ -115,6 +115,7 @@
 				<tr style='color:white; background:#003366;' >
 					<td align="center" style="width:25px" ><input type="checkbox" id="checkAllCheckbox"/></td>
 					<td align="center" style="width:25px;"> </td>
+					<td align="center" style="width:60px;"><a>類型</a></td>
 					<td align="center" style="width:150px;"><a>訂單編號</a></td>
 					<td align="center" style="width:100px;"><a>客戶</a></td>
 					<td align="center" style="width:100px;"><a>品名</a></td>
@@ -127,8 +128,6 @@
 					<td align="center" style="width:60px;"><a>單位</a></td>
 					<td align="center" style="width:60px;"><a>材積</a></td>
 					<td align="center" style="width:60px;"><a>重量</a></td>
-					<td align="center" style="width:30px;"><a>市<br>區</a></td>
-					<td align="center" style="width:30px;"><a>北<br>上</a></td>
 				</tr>
 			</table>
 		</div>
@@ -137,6 +136,7 @@
 				<tr style="display:none;">
 					<td align="center" style="width:25px;"> </td>
 					<td align="center" style="width:25px;"> </td>
+					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:150px;"> </td>
 					<td align="center" style="width:100px;"> </td>
 					<td align="center" style="width:100px;"> </td>
@@ -149,12 +149,11 @@
 					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
-					<td align="center" style="width:30px;"> </td>
-					<td align="center" style="width:30px;"> </td>
 				</tr>
 				<tr style='background:#cad3ff;'>
 					<td style="width:25px;"><input id="chkSel.*" type="checkbox"/></td>
 					<td style="width:25px;"><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
+					<td style="width:60px;"><input id="txtTypea.*" type="text" style="width:95%;" readonly="readonly"/></td>
 					<td style="width:150px;">
 						<input id="txtNoa.*" type="text" style="float:left;width:78%;"  readonly="readonly" />
 						<input id="txtNoq.*" type="text" style="float:left;width:20%; text-align: right;"  readonly="readonly" />
@@ -182,8 +181,6 @@
 					<td style="width:60px;"><input id="txtUnit.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtEvolume.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtEweight.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
-					<td style="width:30px;"><input id="chkChk1.*" type="checkbox" style="text-align:right;width:95%;" readonly="readonly"/></td>
-					<td style="width:30px;"><input id="chkChk2.*" type="checkbox" style="text-align:right;width:95%;" readonly="readonly"/></td>
 				</tr>
 			</table>
 		</div>
