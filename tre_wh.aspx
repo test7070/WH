@@ -143,7 +143,7 @@
 					if(q_cur==1 || q_cur==2){
 						q_func('qtxt.query.tre_import_wh2', 'tre.txt,tre_import_wh2,' 
                				+ encodeURI(t_key) + ';'
-               				+ encodeURI(t_user) + ';'
+               				+ encodeURI(t_worker) + ';'
                				+ encodeURI(t_treno) + ';'
                				+ encodeURI(t_date) + ';'
                				+ encodeURI(t_driverno) + ';'
@@ -154,7 +154,7 @@
 					}else{
                			q_func('qtxt.query.tre_import_wh', 'tre.txt,tre_import_wh,' 
                				+ encodeURI(t_key) + ';'
-               				+ encodeURI(t_user) + ';'
+               				+ encodeURI(t_worker) + ';'
                				+ encodeURI('AUTO') + ';'
                				+ encodeURI(t_date) + ';'
                				+ encodeURI(t_driverno) + ';'
