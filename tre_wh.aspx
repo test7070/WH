@@ -186,13 +186,14 @@
             function q_funcPost(t_func, result) {
                 switch(t_func) {
                 	case 'qtxt.query.tre_import_wh2':
-                		var as = _q_appendData("tmp0", "", true, true);
-                        q_gridAddRow(bbsHtm, 'tbbs', 'txtTranaccy,txtTranno,txtTrannoq,txtTrandate,txtCarno,txtComp,txtStraddr,txtEndaddr,txtMount,txtVolume,txtWeight,txtMoney,txtMemo'
-                        , as.length, as, 'accy,noa,noq,trandate,carno,comp,straddr,endaddr,mount,volume,weight,money,memo', '','');
-                        
-                        for (let i = as.length-1; i < q_bbsCount; i++) {
+                		for (let i = 0; i < q_bbsCount; i++) {
                             _btnMinus("btnMinus_" + i);
                         }
+                		var as = _q_appendData("tmp0", "", true, true);
+                        q_gridAddRow(bbsHtm, 'tbbs', 'txtTranaccy,txtTranno,txtTrannoq,txtTrandate,txtCarno,txtComp,txtStraddr,txtEndaddr,txtMount,txtVolume,txtWeight,txtMoney,txtMemo'
+                        , as.length, as, 'tranaccy,tranno,trannoq,trandate,carno,comp,straddr,endaddr,mount,volume,weight,money,memo', '','');
+                        
+                        
                         sum();
                         
                 		break;
@@ -363,6 +364,16 @@
 					$('#lblNo_' + i).text(i + 1);
                     if($('#btnMinus_' + i).hasClass('isAssign'))
                     	continue;
+                	$('#txtTranno_'+i).bind('contextmenu',function(e) {
+                        /*滑鼠右鍵*/
+                        e.preventDefault();
+                        var n = $(this).attr('id').replace('txtTranno_','');
+                        var t_accy = $('#txtTranaccy_'+n).val();
+                        var t_noa = $(this).val();
+                        if(t_noa.length>0 ){
+                            q_box("trans_wh.aspx?" + r_userno + ";" + r_name + ";" + q_time + "; noa='" + t_noa + "';" + t_accy, 'trans', "95%", "95%", q_getMsg("popTrans"));
+                        }
+                    });
                 }
                 _bbsAssign();
                 $('#tbbs').find('tr.data').children().hover(function(e){

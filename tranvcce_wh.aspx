@@ -208,8 +208,8 @@
                         	as = b_ret;
                         	while(q_bbsCount<as.length)
                         		$('#btnPlus').click();
-                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtTypea,txtOrdeno,txtNo2,txtCustno,txtCust,txtProductno,txtProduct,txtUweight,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtMemo2,txtLengthb,txtWidth,txtHeight'
-                        	, as.length, as, 'typea,noa,noq,custno,cust,productno,product,uweight,emount,unit,evolume,eweight,addrno,addr,addrno2,addr2,memo,memo2,lengthb,width,height', '','');
+                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtTypea,txtOrdeno,txtNo2,txtCustno,txtCust,txtConn,txtProductno,txtProduct,txtUweight,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtMemo2,txtLengthb,txtWidth,txtHeight'
+                        	, as.length, as, 'typea,noa,noq,custno,cust,conn,productno,product,uweight,emount,unit,evolume,eweight,addrno,addr,addrno2,addr2,memo,memo2,lengthb,width,height', '','');
                         }else{
                         	Unlock(1);
                         }
