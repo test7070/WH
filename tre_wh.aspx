@@ -191,7 +191,7 @@
                         }
                 		var as = _q_appendData("tmp0", "", true, true);
                         q_gridAddRow(bbsHtm, 'tbbs', 'txtTranaccy,txtTranno,txtTrannoq,txtTrandate,txtCarno,txtComp,txtStraddr,txtEndaddr,txtMount,txtVolume,txtWeight,txtMoney,txtMemo'
-                        , as.length, as, 'tranaccy,tranno,trannoq,trandate,carno,comp,straddr,endaddr,mount,volume,weight,money,memo', '','');
+                        , as.length, as, 'tranaccy,tranno,trannoq,trandate,carno,cust,straddr,endaddr,mount,volume,weight,money,memo', '','');
                         
                         
                         sum();

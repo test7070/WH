@@ -498,7 +498,7 @@
 				margin: -1px;
 			}
 			.dbbs {
-				width: 1300px;
+				width: 1400px;
 			}
 			.dbbt {
 				width: 2000px;
@@ -646,6 +646,8 @@
 					<td align="center" style="width:60px;"><a>應收<br>運費</a></td>
 					<td align="center" style="width:60px;"><a>盤車</a></td>
 					<td align="center" style="width:60px;"><a>應付<br>運費</a></td>
+					<td align="center" style="width:60px;"><a>收貨</a></td>
+					<td align="center" style="width:60px;"><a>代收</a></td>
 					<td align="center" style="width:120px;"><a>備註</a></td>
 					<td align="center" style="width:100px;"><a>派車<br>單號</a></td>
 					</a></td>
@@ -689,6 +691,8 @@
 					<td><input type="text" id="txtTotal.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtReserve.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtTotal2.*" class="num" style="width:95%;"/></td>
+					<td><input type="text" id="txtOverw.*" class="num" style="width:95%;"/></td>
+					<td><input type="text" id="txtOverh.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;"/></td>
 					<td><input type="text" id="txtOrdeno.*" style="width:95%;"/></td>
 				</tr>

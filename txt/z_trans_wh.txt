@@ -552,13 +552,15 @@ z_trans_wh08:--z_trans_wh08 司機業績明細表
 		,endaddr nvarchar(20)
 		,total float
 		,total2 float
+		,overw float
+		,overh float
 		,tax float
 		,unit nvarchar(20)
 	)
 	insert into @tmp(gno,accy,noa,noq,custtype,custno,cust,nick,mount,volume,[weight]
-		,straddrno,straddr,endaddrno,endaddr,total,total2,unit,driverno,driver)
+		,straddrno,straddr,endaddrno,endaddr,total,total2,overw,overh,unit,driverno,driver)
 	select '1',a.accy,a.noa,a.noq,c.typea,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
-		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.unit
+		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.overw,a.overh,a.unit
 		,a.driverno,a.driver
 	from view_trans a
 	left join view_tran b on a.accy=b.accy and a.noa=b.noa
@@ -576,8 +578,8 @@ z_trans_wh08:--z_trans_wh08 司機業績明細表
 	update @tmp set tax=round(ISNULL(total,0)*0.05,0)
 	
 	--合計
-	insert into @tmp(driverno,gno,total)
-	select driverno,'2',SUM(ISNULL(total,0))
+	insert into @tmp(driverno,gno,total,overw,overh)
+	select driverno,'2',SUM(ISNULL(total,0)),SUM(ISNULL(overw,0)),SUM(ISNULL(overh,0))
 	from @tmp where gno='1'
 	group by driverno
 	--發票
@@ -620,8 +622,8 @@ z_trans_wh08:--z_trans_wh08 司機業績明細表
 		,straddr a04 
 		,endaddr a05
 		,dbo.getComma(total,-1) a06
-		,'' a07
-		,'' a08
+		,dbo.getComma(overw,-1) a07
+		,dbo.getComma(overh,-1) a08
 	from @tmp
 	order by driverno,gno,accy,noa;
 
@@ -666,15 +668,17 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 		,total float
 		,total2 float
 		,reserve float
+		,overw float
+		,overh float
 		,memo nvarchar(20)
 		,driverno nvarchar(20)
 		,driver nvarchar(20)
 		
 	)
 	insert into @tmp(gno,accy,noa,noq,custtype,custno,cust,nick,mount,volume,[weight]
-		,straddrno,straddr,endaddrno,endaddr,total,total2,reserve,memo,driverno,driver)
+		,straddrno,straddr,endaddrno,endaddr,total,total2,reserve,overw,overh,memo,driverno,driver)
 	select '1',a.accy,a.noa,a.noq,c.typea,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
-		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.reserve,a.memo
+		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.reserve,a.overw,a.overh,a.memo
 		,a.driverno,a.driver
 	from view_trans a
 	left join view_tran b on a.accy=b.accy and a.noa=b.noa
@@ -689,8 +693,8 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 	and (ISNULL(a.uccno,'') between @t_bproductno and @t_eproductno)
 	order by a.trandate,a.noa
 	
-	insert into @tmp(gno,total,total2,reserve)
-	select '2',SUM(ISNULL(total,0)),SUM(ISNULL(total2,0)),SUM(ISNULL(reserve,0))
+	insert into @tmp(gno,total,total2,reserve,overw,overh)
+	select '2',SUM(ISNULL(total,0)),SUM(ISNULL(total2,0)),SUM(ISNULL(reserve,0)),SUM(ISNULL(overw,0)),SUM(ISNULL(overh,0))
 	from @tmp
 	
 	declare @xxdate nvarchar(max) = ''
@@ -717,7 +721,7 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 		,memo a10
 		,driver a11
 		,dbo.getComma(total2,-1) a12
-		,'' a13
+		,overw a13
 		
 	from @tmp
 	order by gno,trandate,noa;
