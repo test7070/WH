@@ -658,6 +658,10 @@
 						<input type="text" id="txtNoq.*" style="display:none;"/>
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
+					<!--<td>
+						<input type="file" id="btnUpload" value="上傳"/>
+						<input type="button" id="btnDownload" value="下載"/>
+					</td>-->
 					<td><input type="text" id="txtCstype.*" list="listTypea" style="width:95%;"/></td>
 					<td>
 						<input type="text" id="txtCarno.*" style="width:95%;"/>
