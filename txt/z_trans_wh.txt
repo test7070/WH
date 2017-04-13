@@ -1,3 +1,130 @@
+z_trans_wh03:--z_trans_wh03 出車明細表 
+	SET QUOTED_IDENTIFIER OFF	
+	declare @t_path nvarchar(max) = '[1]'
+	declare @t_db nvarchar(max) = '[2]'
+	declare @t_bdate nvarchar(20) = case when '#non'=[3] then '' else [3] end
+	declare @t_edate nvarchar(20) = case when '#non'=[4] then char(255) else [4] end
+	declare @t_btrandate nvarchar(20) = case when '#non'=[5] then '' else [5] end
+	declare @t_etrandate nvarchar(20) = case when '#non'=[6] then char(255) else [6] end
+	declare @t_bcustno nvarchar(20) = case when '#non'=[7] then '' else [7] end
+	declare @t_ecustno nvarchar(20) = case when '#non'=[8] then char(255) else [8] end
+	declare @t_bdriverno nvarchar(20) = case when '#non'=[9] then '' else [9] end
+	declare @t_edriverno nvarchar(20) = case when '#non'=[10] then char(255) else [10] end
+	declare @t_carno nvarchar(20) = case when '#non'=[11] then '' else [11] end
+	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
+	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
+	declare @t_custtype nvarchar(max) = case when '#non'=[14] then '' else [14] end 
+	declare @t_noa nvarchar(max)  = case when '#non'=[15] then '' else [15] end
+	declare @t_typea nvarchar(max) = case when '#non'=[16] then '' else [16] end
+	declare @t_enda nvarchar(max) = case when '#non'=[17] then '' else [17] end
+	declare @t_chk nvarchar(max) = case when '#non'=[18] then '' else [18] end	
+	--------------------------------------------------------------------------------------
+	IF OBJECT_ID('tempdb..#z_trans_wh03')is not null
+	BEGIN
+		drop table #z_trans_wh03
+	END
+	create table #z_trans_wh03(
+		sel int identity(1,1)
+		,gno nvarchar(10)
+		,pno int
+		,recno int
+		,accy nvarchar(10)
+		,noa nvarchar(20)
+		,noq nvarchar(10)
+		,datea nvarchar(20)
+		,trandate nvarchar(20)
+		
+		,typea nvarchar(20)	
+		,carno nvarchar(20)
+		,driverno nvarchar(20)
+		,driver nvarchar(50)
+		,custno nvarchar(20)
+		,cust nvarchar(50)
+		,straddrno nvarchar(20)
+		,straddr nvarchar(50)
+		,endaddrno nvarchar(20)
+		,endaddr nvarchar(50)
+		,mount float
+		,unit nvarchar(20)
+		,volume float
+		,[weight] float
+		,total float
+		,reserve float
+		,total2 float
+		,memo nvarchar(max)
+		,ordeno nvarchar(20)
+		,tranvcceaccy nvarchar(10)
+		,tranvcceno nvarchar(20)
+		,tranvccenoq nvarchar(10)
+		,tranordeaccy nvarchar(10)
+		,tranordeno nvarchar(20)
+		,tranordenoq nvarchar(10)
+	)
+	insert into #z_trans_wh03(gno,pno,recno,accy,noa,noq,datea,trandate
+		,typea,carno,driverno,driver,custno,cust,straddrno,straddr,endaddrno,endaddr
+		,mount,unit,volume,[weight],total,reserve,total2,memo,ordeno)
+	select '1',1,ROW_NUMBER()over(order by b.datea,a.accy,a.noa,a.noq)
+		,a.accy,a.noa,a.noq,a.datea,a.trandate
+		,a.cstype,a.carno,b.driverno,b.driver,a.custno,a.nick,a.straddrno,a.straddr,a.endaddrno,a.endaddr
+		,a.mount,a.unit,a.volume,a.[weight],a.total,a.reserve,a.total2,a.memo,a.ordeno
+	from view_trans a
+	left join view_tran b on a.accy=b.accy and a.noa=b.noa
+	left join cust c on a.custno=c.noa
+	where ISNULL(b.datea,'') between @t_bdate and @t_edate
+	and ISNULL(b.trandate,'') between @t_btrandate and @t_etrandate
+	and ISNULL(a.custno,'') between @t_bcustno and @t_ecustno
+	and (len(@t_carno)=0 or @t_carno=a.carno)
+	and ISNULL(a.driverno,'') between @t_bdriverno and @t_edriverno
+	and (len(@t_custtype)=0 or c.typea=@t_custtype)
+	and (len(@t_typea)=0 or a.cstype=@t_typea)
+	
+	update #z_trans_wh03 set tranvcceno=LEFT(ordeno, CHARINDEX('-',ordeno)-1)
+		,tranvccenoq=SUBSTRING(ordeno,CHARINDEX('-',ordeno)+1,len(ordeno))
+	where CHARINDEX('-',ordeno)>0
+	
+	update #z_trans_wh03 set tranvcceaccy=b.accy
+		,tranordeno=b.ordeno
+		,tranordenoq=b.no2
+	from #z_trans_wh03 a
+	left join view_tranvcces b on a.tranvcceno=b.noa and a.tranvccenoq=b.noq
+	
+	update #z_trans_wh03 set tranordeaccy=b.accy
+	from #z_trans_wh03 a
+	left join view_tranordes b on a.tranordeno=b.noa and a.tranordenoq=b.noq
+	
+	insert into #z_trans_wh03(gno,pno,mount,volume,[weight],total,reserve,total2)
+	select '2',2,SUM(ISNULL(mount,0)),SUM(ISNULL(volume,0)),SUM(ISNULL([weight],0))
+		,SUM(ISNULL(total,0)),SUM(ISNULL(reserve,0)),SUM(ISNULL(total2,0))
+	from #z_trans_wh03
+	where gno='1'
+	-----------------------------
+	select gno 
+		,"<a href="+CHAR(34)+"JavaScript:q_box('trans_wh.aspx',' "+CHAR(59)+"noa=\'"+noa+"\'','95%','95%','"+accy+"')"+char(34)+">"+cast(recno as nvarchar)+"</a>" rr --序
+		,trandate a01
+		,datea a02
+		,typea a03
+		,carno a04
+		,driver a05
+		,cust a06
+		,mount a07
+		,unit a08
+		,volume a09
+		,[weight] a10
+		,straddr a11
+		,endaddr a12
+		,dbo.getComma(total,-1) a13
+		,dbo.getComma(reserve,-1) a14
+		,dbo.getComma(total2,-1) a15
+		,memo a16
+		
+		,"<a href="+CHAR(34)+"JavaScript:q_box('tranvcce_wh.aspx',' "+CHAR(59)+"noa=\'"+tranvcceno+"\'','95%','95%','"+tranvcceaccy+"')"+char(34)+">"+tranvcceno+'-'+tranvccenoq+"</a>" a17 --序
+		,"<a href="+CHAR(34)+"JavaScript:q_box('tranorde_wh.aspx',' "+CHAR(59)+"noa=\'"+tranordeno+"\'','95%','95%','"+tranordeaccy+"')"+char(34)+">"+tranordeno+'-'+tranordenoq+"</a>" a18 --序
+		
+	from #z_trans_wh03
+	order by pno,recno
+
+	drop table #z_trans_wh03;
+
 z_trans_wh02:--z_trans_wh02 派車明細表 
 	SET QUOTED_IDENTIFIER OFF	
 	declare @t_path nvarchar(max) = '[1]'
