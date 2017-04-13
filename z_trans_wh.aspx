@@ -82,6 +82,14 @@
 					},{
 						type : '6', //[16]       9
 						name : 'xtypea'
+					},{
+						type : '5', //[17]       10
+						name : 'xenda',
+						value : (' @全部,Y@結案,N@未結案').split(',')
+					},{
+						type : '8', //[18]       11
+						name : 'xchk',
+						value : ('chk1Y@提貨完工,chk1N@提貨未完,chk2Y@卸貨完工,chk2N@卸貨未完').split(',')
 					}]
 				});
 				q_popAssign();
@@ -111,6 +119,7 @@
 				
 				AddDataList('txtXcusttype',t_custtype);
 				AddDataList('txtXtypea',q_getPara('trans.typea'));
+				$('#chkXchk').find('input[type="checkbox"]').prop('checked',true);
             }
 
 			function q_funcPost(t_func, result) {
