@@ -409,6 +409,15 @@
 					default:
 						break;
 				}
+				for(var i=0;i<q_bbsCount;i++){
+					if(q_cur==1 || q_cur==2){
+						$('#btnFile_'+i).attr('disabled','disabled');
+						$('#btnUpload_'+i).attr('disabled','disabled');
+					}else if($('#txtNoq_'+i).val().length>0){
+						$('#btnFile_'+i).removeAttr('disabled');
+						$('#btnUpload_'+i).removeAttr('disabled');
+					}
+				}
 			}
 
 			function readonly(t_para, empty) {
