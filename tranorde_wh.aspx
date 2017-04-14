@@ -70,12 +70,12 @@
 			function mainPost() {
 				q_mask(bbmMask);
 				
-				let t_type = q_getPara('trans.typea').split(',');
-				for(let i=0;i<t_type.length;i++){
+				var t_type = q_getPara('trans.typea').split(',');
+				for(var i=0;i<t_type.length;i++){
 					$('#listTypea').append('<option value="'+t_type[i]+'"></option>');
 				}
-				let t_unit = q_getPara('trans.unit').split(',');
-				for(let i=0;i<t_unit.length;i++){
+				var t_unit = q_getPara('trans.unit').split(',');
+				for(var i=0;i<t_unit.length;i++){
 					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
 				}
 			

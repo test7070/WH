@@ -46,7 +46,7 @@
 			function sum() {
 				if (!(q_cur == 1 || q_cur == 2))
 					return;
-				let t_mount=0,t_volume=0, t_weight=0,t_total=0,t_total2=0,t_total3=0;
+				var t_mount=0,t_volume=0, t_weight=0,t_total=0,t_total2=0,t_total3=0;
 				for(var i=0;i<q_bbsCount;i++){
 					//cuft = round(0.0000353 * q_float('txtLengthb_'+i)* q_float('txtWidth_'+i)* q_float('txtHeight_'+i)* q_float('txtMount_'+i),2); 
 					//$('#txtVolume_'+i).val(cuft);
@@ -84,19 +84,19 @@
 			function mainPost() {
 				q_mask(bbmMask);
 				
-				let t_type = q_getPara('trans.typea').split(',');
-				for(let i=0;i<t_type.length;i++){
+				var t_type = q_getPara('trans.typea').split(',');
+				for(var i=0;i<t_type.length;i++){
 					$('#listTypea').append('<option value="'+t_type[i]+'"></option>');
 				}
-				let t_unit = q_getPara('trans.unit').split(',');
-				for(let i=0;i<t_unit.length;i++){
+				var t_unit = q_getPara('trans.unit').split(',');
+				for(var i=0;i<t_unit.length;i++){
 					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
 				}
 				
 				$('#btnTranvcce').click(function(e) {
                 	var t_where ='';
-                	let t_noa = $.trim($('#txtNoa').val());
-                	let t_driverno = $.trim($('#txtDriverno').val());
+                	var t_noa = $.trim($('#txtNoa').val());
+                	var t_driverno = $.trim($('#txtDriverno').val());
                 	if(t_driverno.length==0){
                 		alert('請輸入司機編號!');
                 		return;
@@ -104,20 +104,113 @@
                 	q_box("tranvccewh_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({project:q_getPara('sys.project').toUpperCase(),tranno:t_noa,driverno:t_driverno}), "tranvcce_tran", "95%", "95%", '');
                 });
 			}
-			
-			var map;
-			function initMap() {
-			  map = new google.maps.Map(document.getElementById('map'), {
-			    center: {lat: -34.397, lng: 150.644},
-			    zoom: 8
-			  });
+			//依序上傳
+			function UploadFile(n,files,curCount){
+				if(curCount>=files.length){
+					//done
+					return;
+				}else{
+					var noa = $('#txtNoa').val();
+					var noq = $('#txtNoq_'+n).val(); 
+					var fr = new FileReader();
+					var ext = '';
+					var extindex = files[curCount].name.lastIndexOf('.');
+					if(extindex>=0){
+						ext = files[curCount].name.substring(extindex,files[curCount].name.length);
+					}
+					fr.filename = files[curCount].name;
+					fr.noa = noa;
+					fr.noq = noq;
+					fr.n = n;
+					//abort 事件處理器，於讀取被中斷時觸發。
+					fr.onabort = function(e){
+						q_msg($('#btnUpload_'+fr.n), '<progress value="50" max="100"></progress>' );
+						$('#msg').text("讀取中斷");
+						UploadFile(n,files,curCount+1);
+					};
+
+					//error 事件處理器，於讀取發生錯誤時觸發。
+					fr.onerror = function(e){
+						$('#msg').text("讀取錯誤");
+						UploadFile(n,files,curCount+1);
+					};
+					
+					//load 事件處理器，於讀取完成時觸發。
+					fr.onload = function(e){
+						var oReq = new XMLHttpRequest();
+						oReq.upload.addEventListener("progress",function(e) {
+							if (e.lengthComputable) {
+								q_msg($('#btnUpload_'+fr.n), '<a>上傳中...</a><br><progress value="'+Math.round((e.loaded / e.total) * 100,0)+'" max="100"></progress>' );
+								//$('#progress').attr('value',Math.round((e.loaded / e.total) * 100,0));
+							}
+						}, false);
+						oReq.upload.addEventListener("load",function(e) {
+							q_msg($('#btnUpload_'+fr.n), '<a>上傳開始</a><br><progress value="0" max="100"></progress>' );
+							//$('#msg').text("上傳開始");
+						    //$('#progress').attr('value',0);
+						}, false);
+						oReq.upload.addEventListener("error",function(e) {
+							q_msg($('#btnUpload_'+fr.n), '<a>上傳發生錯誤</a>');
+                            //$('#msg').text("上傳錯誤");
+						}, false);
+						oReq.addEventListener("loadend", function(e) {
+							q_msg($('#btnUpload_'+fr.n), '<a>上傳結束</a>');
+							UploadFile(n,files,curCount+1);
+						   //$('#msg').text("上傳完成");	
+						}, false);
+						
+						oReq.onreadystatechange = function() {
+						    if (oReq.readyState == XMLHttpRequest.DONE) {
+						        if(oReq.responseText.length>0)
+						        	alert(oReq.responseText);
+						    }
+						};	
+						oReq.timeout = 360000;
+						oReq.ontimeout = function () { $('#msg').text("Timed out!!!");};
+						oReq.open("POST", 'upload_wh.aspx', true);
+						oReq.setRequestHeader("Content-type", "text/plain");
+                        oReq.setRequestHeader("filename", fr.filename);
+                        oReq.setRequestHeader("noa", fr.noa);
+                        oReq.setRequestHeader("noq", fr.noq);
+						oReq.send(fr.result);
+					};
+					
+					//loadstart 事件處理器，於讀取開始時觸發。
+					fr.onloadstart = function(e){
+						q_msg($('#btnUpload_'+fr.n), '<a>開始讀取</a><br><progress value="0" max="100"></progress>' );
+                        //$('#msg').text("讀取開始");
+						//$('#progress').attr('value',0);
+					};
+					
+					//loadend 事件處理器，於每一次讀取結束之後觸發（不論成功或失敗），會於 onload 或 onerror 事件處理器之後才執行。
+					fr.onloadend = function(e){
+							
+					};
+                    //progress 事件處理器，於讀取 Blob 內容時觸發。
+                    fr.onprogress = function(e){
+						if ( e.lengthComputable ) { 
+                        	q_msg($('#btnUpload_'+fr.n), '<a>讀取中...</a><br><progress value="'+Math.round((e.loaded / e.total) * 100,0)+'" max="100"></progress>' );
+                            //$('#msg').text("讀取中..."+fr.Filename);
+							//$('#progress').attr('value',Math.round( (e.loaded * 100) / e.total));
+						}
+					};
+					
+					fr.readAsDataURL(files[curCount]);
+				}
 			}
+			
+			
+			
             
 			function bbsAssign() {
 				for (var i = 0; i < q_bbsCount; i++) {
 					$('#lblNo_' + i).text(i + 1);
                     if($('#btnMinus_' + i).hasClass('isAssign'))
                     	continue;
+                    $('#btnUpload_' + i).click(function(e){
+                    	var n = $(this).attr('id').replace(/^(.*)_(\d+)$/,'$2');
+                    	UploadFile(n,$('#btnFile_' + n)[0].files,0);
+                    });
                 	$('#txtMount_' + i).change(function(e) {
                         sum();
                     });
@@ -498,7 +591,7 @@
 				margin: -1px;
 			}
 			.dbbs {
-				width: 1400px;
+				width: 1500px;
 			}
 			.dbbt {
 				width: 2000px;
@@ -650,6 +743,7 @@
 					<td align="center" style="width:60px;"><a>代收</a></td>
 					<td align="center" style="width:120px;"><a>備註</a></td>
 					<td align="center" style="width:100px;"><a>派車<br>單號</a></td>
+					<td align="center" style="width:150px;"><a> </a></td>
 					</a></td>
 				</tr>
 				<tr class="data" style='background:#cad3ff;'>
@@ -658,10 +752,7 @@
 						<input type="text" id="txtNoq.*" style="display:none;"/>
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
-					<!--<td>
-						<input type="file" id="btnUpload" value="上傳"/>
-						<input type="button" id="btnDownload" value="下載"/>
-					</td>-->
+					
 					<td><input type="text" id="txtCstype.*" list="listTypea" style="width:95%;"/></td>
 					<td>
 						<input type="text" id="txtCarno.*" style="width:95%;"/>
@@ -699,6 +790,13 @@
 					<td><input type="text" id="txtOverh.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;"/></td>
 					<td><input type="text" id="txtOrdeno.*" style="width:95%;"/></td>
+					<td>
+						<input type="file" id="btnFile.*" style="float:left;width:65%;" multiple/>
+						<input type="button" id="btnUpload.*" value="上傳" style="float:left;width:30%;"/>
+						<input type="button" id="btnDownload.*" value="下載" style="display:none;"/>
+						<input type="text" id="txtSender.*" style="display:none;"/>
+						<input type="text" id="txtSaddr.*" style="display:none;"/>
+					</td>
 				</tr>
 
 			</table>

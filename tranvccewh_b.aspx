@@ -41,7 +41,7 @@
 				$('#btnBott').hide();
 				
 				$('#checkAllCheckbox').click(function(e){
-					for(let i=0;i<q_bbsCount;i++){
+					for(var i=0;i<q_bbsCount;i++){
 						if($('#txtOrdeno_'+i).val().length>0){
 							$('#chkSel_'+i).prop('checked',$('#checkAllCheckbox').prop('checked'));
 						}
