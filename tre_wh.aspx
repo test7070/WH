@@ -186,7 +186,7 @@
             function q_funcPost(t_func, result) {
                 switch(t_func) {
                 	case 'qtxt.query.tre_import_wh2':
-                		for (let i = 0; i < q_bbsCount; i++) {
+                		for (var i = 0; i < q_bbsCount; i++) {
                             _btnMinus("btnMinus_" + i);
                         }
                 		var as = _q_appendData("tmp0", "", true, true);
