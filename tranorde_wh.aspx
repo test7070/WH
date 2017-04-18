@@ -34,10 +34,9 @@
 			brwCount2 = 5;
 			aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx'] 
 				,['txtAddrno', 'lblAddr_js', 'addr2', 'noa,addr,address', 'txtAddrno,txtAddr,txtBoat', 'addr2_b.aspx']
-				,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product,lengthb,width,height,stkmount,theight,tvolume', 'txtProductno_,txtProduct_,txtLengthb_,txtWidth_,txtHeight_,txtVolume_,txtTheight_,txtTvolume_,txtMount_', 'ucc_b.aspx']
+				,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
 				,['txtAddrno_', 'btnAddr_', 'addr2', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr2_b.aspx']
 				,['txtAddrno2_', 'btnAddr2_', 'addr2', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr2_b.aspx']);
-
 
 			$(document).ready(function() {
 				var t_where = '';

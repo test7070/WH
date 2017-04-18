@@ -206,6 +206,22 @@
                         	for(var i=0;i<q_bbsCount;i++)
                         		$('#btnMinus_'+i).click();
                         	as = b_ret;
+                        	
+                        	for(var i=0;i<as.length;i++){
+                        		var n = parseInt(as[i].n);
+                        		if(n>1){
+                        			as[i].n = 1;
+                        			var a = as.slice(0,i);
+                        			var b = as.slice(i+1,as.length);
+                        			var t = as.slice(i,i+1);
+                        			var as = a;
+                        			while(n>0){
+                        				as = as.concat(t);
+                        				n--;
+                        			}
+                        			as = as.concat(b);
+                        		}
+                        	}
                         	while(q_bbsCount<as.length)
                         		$('#btnPlus').click();
                     		q_gridAddRow(bbsHtm, 'tbbs', 'txtTypea,txtOrdeno,txtNo2,txtCustno,txtCust,txtConn,txtProductno,txtProduct,txtUweight,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtMemo2,txtLengthb,txtWidth,txtHeight'
