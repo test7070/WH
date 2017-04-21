@@ -92,6 +92,10 @@
 				for(var i=0;i<t_unit.length;i++){
 					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
 				}
+				var t_unit2 = q_getPara('trans.unit2').split(',');
+				for(var i=0;i<t_unit2.length;i++){
+					$('#listUnit2').append('<option value="'+t_unit2[i]+'"></option>');
+				}
 				
 				$('#btnOrde').click(function(e){
                 	var t_where ='';
@@ -629,13 +633,17 @@
 					<td align="center" style="width:150px"><a>客戶</a></td>
 					<td align="center" style="width:100px"><a>聯絡人</a></td>
 					<td align="center" style="width:150px"><a>品名</a></td>
-					<td align="center" style="width:60px"><a>長cm</a></td>
-					<td align="center" style="width:60px"><a>寬cm</a></td>
-					<td align="center" style="width:60px"><a>高cm</a></td>
+					<td align="center" style="width:60px;display:none;"><a>長cm</a></td>
+					<td align="center" style="width:60px;display:none;"><a>寬cm</a></td>
+					<td align="center" style="width:60px;display:none;"><a>高cm</a></td>
 					<td align="center" style="width:60px"><a>數量</a></td>
 					<td align="center" style="width:40px"><a>單位</a></td>
 					<td align="center" style="width:60px"><a>材積</a></td>
 					<td align="center" style="width:60px"><a>重量</a></td>
+					<td align="center" style="width:40px"><a>單位</a></td>
+					<td align="center" style="width:60px"><a>運費</a></td>
+					<td align="center" style="width:60px"><a>盤車</a></td>
+					<td align="center" style="width:60px"><a>代收</a></td>
 					<td align="center" style="width:170px"><a>起點</a></td>
 					<td align="center" style="width:170px"><a>迄點</a></td>
 					<td align="center" style="width:100px"><a>備註</a></td>
@@ -672,13 +680,17 @@
 						<input type="button" id="btnProduct.*" style="display:none;"/>
 						<input type="text" id="txtUweight.*" style="display:none;"/>
 					</td>
-					<td><input type="text" id="txtLengthb.*" class="num" style="width:95%;"/></td>
-					<td><input type="text" id="txtWidth.*" class="num bbsWeight" style="width:95%;"/></td>
-					<td><input type="text" id="txtHeight.*" class="num" style="width:95%;"/></td>
+					<td style="display:none;"><input type="text" id="txtLengthb.*" class="num" style="width:95%;"/></td>
+					<td style="display:none;"><input type="text" id="txtWidth.*" class="num bbsWeight" style="width:95%;"/></td>
+					<td style="display:none;"><input type="text" id="txtHeight.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtMount.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtUnit.*" list="listUnit" style="width:95%;"/></td>
 					<td><input type="text" id="txtVolume.*" class="num " style="width:95%;"/></td>
 					<td><input type="text" id="txtWeight.*" class="num" style="width:95%;"/></td>
+					<td><input type="text" id="txtUnit2.*" list="listUnit2" style="width:95%;"/></td>
+					<td><input type="text" id="txtTotal.*" class="num " style="width:95%;"/></td>
+					<td><input type="text" id="txtTotal2.*" class="num " style="width:95%;"/></td>
+					<td><input type="text" id="txtTotal3.*" class="num " style="width:95%;"/></td>
 					<td>
 						<input type="text" id="txtAddrno.*" style="float:left;width:40%;"/>
 						<input type="text" id="txtAddr.*" style="float:left;width:50%;"/>
@@ -702,6 +714,7 @@
 			</table>
 		</div>
 		<datalist id="listUnit"> </datalist>
+		<datalist id="listUnit2"> </datalist>
 		<datalist id="listTypea"> </datalist>
 		<div class='dbbt' style="display:none;">
 			<table id="tbbt" class='tbbt'>

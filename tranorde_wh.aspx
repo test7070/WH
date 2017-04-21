@@ -77,7 +77,10 @@
 				for(var i=0;i<t_unit.length;i++){
 					$('#listUnit').append('<option value="'+t_unit[i]+'"></option>');
 				}
-			
+				var t_unit2 = q_getPara('trans.unit2').split(',');
+				for(var i=0;i<t_unit2.length;i++){
+					$('#listUnit2').append('<option value="'+t_unit2[i]+'"></option>');
+				}
 			}
 
 			function bbsAssign() {
@@ -445,7 +448,7 @@
 				margin: -1px;
 			}
 			.dbbs {
-				width: 1500px;
+				width: 1600px;
 			}
 			.tbbs a {
 				font-size: medium;
@@ -567,6 +570,7 @@
 					<td align="center" style="width:60px"><a>單位</a></td>
 					<td align="center" style="width:60px"><a>材積</a></td>
 					<td align="center" style="width:60px"><a>重量</a></td>
+					<td align="center" style="width:60px"><a>單位</a></td>
 					<td align="center" style="width:120px"><a>起點</a></td>
 					<td align="center" style="width:120px"><a>迄點</a></td>
 					<td align="center" style="width:60px"><a>應收<BR>運費</a></td>
@@ -595,6 +599,7 @@
 					<td><input type="text" id="txtUnit.*" list="listUnit" style="width:95%;" /></td>
 					<td><input type="text" id="txtVolume.*" class="num" style="width:95%;" /></td>
 					<td><input type="text" id="txtWeight.*" class="num" style="width:95%;" /></td>
+					<td><input type="text" id="txtUnit2.*" list="listUnit2" style="width:95%;" /></td>
 					<td>
 						<input type="text" id="txtAddrno.*" style="width:45%;" />
 						<input type="text" id="txtAddr.*" style="width:45%;" />
@@ -614,6 +619,7 @@
 			</table>
 		</div>
 		<datalist id="listUnit"> </datalist>
+		<datalist id="listUnit2"> </datalist>
 		<datalist id="listTypea"> </datalist>
 		
 		<input id="q_sys" type="hidden" />
