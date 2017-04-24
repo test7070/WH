@@ -102,6 +102,22 @@
                 	q_box("tranordewh_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({project:q_getPara('sys.project').toUpperCase(),noa:$('#txtNoa').val(),chk1:$('#chkChk1').prop('checked')?1:0,chk2:$('#chkChk2').prop('checked')?1:0}), "tranorde_tranvcce", "95%", "95%", '');
                 });
                 
+                $('#btnImport').click(function() {
+                    $('#divImport').toggle();
+                    $('#textBdate').focus();
+                });
+                $('#btnCancel_import').click(function() {
+                    $('#divImport').toggle();
+                });
+                $('#btnImport_trans').click(function() {
+                   if(q_cur != 1 && q_cur != 2){
+                		var t_key = q_getPara('sys.key_trd');
+                   		var t_bdate = $('#textBdate').val();
+                   		var t_bdate = $('#textEdate').val();
+                   		t_key = (t_key.length==0?'BF':t_key);//一定要有值
+                   		q_func('qtxt.query.trd_import_es', 'trd.txt,import_es,' + encodeURI(t_key) + ';'+ encodeURI(t_mon) + ';'+ encodeURI(t_type) + ';'+ encodeURI(t_getdate));
+                	}
+                });
 			}
             
 			function bbsAssign() {
@@ -567,6 +583,34 @@
 	ondragover="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
 	ondrop="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
 	>
+		<div id="divImport" style="position:absolute; top:250px; left:600px; display:none; width:400px; height:200px; background-color: #cad3ff; border: 5px solid gray;">
+			<table style="width:100%;">
+				<tr style="height:1px;">
+					<td style="width:150px;"></td>
+					<td style="width:80px;"></td>
+					<td style="width:80px;"></td>
+					<td style="width:80px;"></td>
+					<td style="width:80px;"></td>
+				</tr>
+				<tr style="height:35px;">
+					<td><span> </span><a style="float:right; color: blue; font-size: medium;">派車日期</a></td>
+					<td colspan="4">
+					<input id="textBdate"  type="text" style="float:left; width:100px; font-size: medium;"/>
+					<span style="display:black;height:100%;width:30px;">~</span>
+					<input id="textEdate"  type="text" style="float:left; width:100px; font-size: medium;"/>
+					</td>
+				</tr>
+				
+				<tr style="height:35px;">
+					<td> </td>
+					<td><input id="btnImport_trans" type="button" value="匯入"/></td>
+					<td></td>
+					<td></td>
+					<td><input id="btnCancel_import" type="button" value="關閉"/></td>
+				</tr>
+			</table>
+		</div>
+		
 		<!--#include file="../inc/toolbar.inc"-->
 		<div id='dmain' >
 			<div class="dview" id="dview">
