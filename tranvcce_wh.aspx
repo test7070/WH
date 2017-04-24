@@ -617,6 +617,7 @@
 						<td><input id="txtWorker2" type="text"  class="txt c1"/></td>
 						<td> </td>
 						<td><input id="btnOrde" type="button" value="訂單匯入" style="width:100%;"/></td>
+						<td><input id="btnTrans" type="button" value="匯至出車" style="width:100%;"/></td>
 					</tr>
 				</table>
 			</div>
