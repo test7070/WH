@@ -436,7 +436,7 @@ z_trans_wh07:--z_trans_wh07 客戶承運明細表
 		,datea nvarchar(20)
 		,custtype nvarchar(20)
 		,custno nvarchar(20)
-		,cust nvarchar(20)
+		,cust nvarchar(50)
 		,nick nvarchar(20)
 		,serial nvarchar(20)
 		,[address1] nvarchar(max) --公司地址
@@ -591,26 +591,26 @@ z_trans_wh08:--z_trans_wh08 司機業績明細表
 	and (ISNULL(a.uccno,'') between @t_bproductno and @t_eproductno)
 	order by a.trandate,a.noa
 	
-	update @tmp set tax=round(ISNULL(total,0)*0.05,0)
+	update @tmp set tax=round(ISNULL(total2,0)*0.05,0)
 	
 	--合計
-	insert into @tmp(driverno,gno,total,overw,overh)
+	insert into @tmp(driverno,gno,total2,overw,overh)
 	select driverno,'2',SUM(ISNULL(total2,0)),SUM(ISNULL(overw,0)),SUM(ISNULL(overh,0))
 	from @tmp where gno='1'
 	group by driverno
 	--發票
-	insert into @tmp(driverno,gno,total)
+	insert into @tmp(driverno,gno,total2)
 	select driverno,'3',SUM(ISNULL(tax,0))
 	from @tmp where gno='1'
 	group by driverno
 	--利息
-	insert into @tmp(driverno,gno,total)
+	insert into @tmp(driverno,gno,total2)
 	select driverno,'4',0
 	from @tmp where gno='1'
 	group by driverno
 	--總計
-	insert into @tmp(driverno,gno,total)
-	select driverno,'5',SUM(ISNULL(total,0)-ISNULL(tax,0))
+	insert into @tmp(driverno,gno,total2)
+	select driverno,'5',SUM(ISNULL(total2,0)-ISNULL(tax,0))
 	from @tmp where gno='1'
 	group by driverno
 	
@@ -637,7 +637,7 @@ z_trans_wh08:--z_trans_wh08 司機業績明細表
 		,cast(mount as nvarchar) + unit a03
 		,straddr a04 
 		,endaddr a05
-		,dbo.getComma(total,-1) a06
+		,dbo.getComma(total2,-1) a06
 		,dbo.getComma(overw,-1) a07
 		,dbo.getComma(overh,-1) a08
 	from @tmp
@@ -673,7 +673,7 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 		,datea nvarchar(20)
 		,custtype nvarchar(20)
 		,custno nvarchar(20)
-		,cust nvarchar(20)
+		,cust nvarchar(50)
 		,nick nvarchar(20)
 		,mount float 
 		,volume float
@@ -759,7 +759,7 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 	
 	select gno	
 		,@xxdate a00
-		,noa a01
+		,tranordeno a01
 		,nick a02
 		,mount a03
 		,volume a04

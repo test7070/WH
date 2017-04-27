@@ -116,9 +116,9 @@
                    if(q_cur != 1 && q_cur != 2){
                 		var t_key = q_getPara('sys.key_trans');
                    		var t_bdate = $('#textBdate').val();
-                   		var t_bdate = $('#textEdate').val();
+                   		var t_edate = $('#textEdate').val();
                    		t_key = (t_key.length==0?'BA':t_key);//一定要有值
-                   		q_func('qtxt.query.tranvcce2tran_es', 'tran.txt,tranvcce2tran,' + encodeURI(t_key) + ';'+ encodeURI(t_bdate) + ';'+ encodeURI(t_bdate));
+                   		q_func('qtxt.query.tranvcce2tran_es', 'tran.txt,tranvcce2tran,' + encodeURI(t_key) + ';'+ encodeURI(t_bdate) + ';'+ encodeURI(t_edate));
                 	}
                 });
 			}
