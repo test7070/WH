@@ -33,10 +33,10 @@
 			//q_xchg = 1;
 			brwCount2 = 5;
 			aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx'] 
-				,['txtAddrno', 'lblAddr_js', 'addr2', 'noa,addr,address', 'txtAddrno,txtAddr,txtBoat', 'addr2_b.aspx']
+				,['txtAddrno', 'lblAddr_js', 'addr', 'noa,addr,address', 'txtAddrno,txtAddr,txtBoat', 'addr_b.aspx']
 				,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
-				,['txtAddrno_', 'btnAddr_', 'addr2', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr2_b.aspx']
-				,['txtAddrno2_', 'btnAddr2_', 'addr2', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr2_b.aspx']);
+				,['txtAddrno_', 'btnAddr_', 'addr', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr_b.aspx']
+				,['txtAddrno2_', 'btnAddr2_', 'addr', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr_b.aspx']);
 
 			$(document).ready(function() {
 				var t_where = '';

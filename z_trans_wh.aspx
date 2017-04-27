@@ -100,7 +100,7 @@
 	            	t_para = JSON.parse(q_getId()[3]);
 	            	if(t_para.length==0 || t_para.noa==undefined){
 		            }else{
-		            	if(t_para.form=="trans_wh")
+		            	if(t_para.form=="tranvcce_wh")
 		            		$('#txtXnoa').val(t_para.noa);
 		            }
 	            }catch(e){

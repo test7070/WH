@@ -35,8 +35,8 @@
 			//q_xchg = 1;
 			brwCount2 = 7;
 			aPop = new Array(['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
-				,['txtAddrno_', 'btnAddr_', 'addr2', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr2_b.aspx']
-				,['txtAddrno2_', 'btnAddr2_', 'addr2', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr2_b.aspx']
+				,['txtAddrno_', 'btnAddr_', 'addr', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr_b.aspx']
+				,['txtAddrno2_', 'btnAddr2_', 'addr', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr_b.aspx']
 				,['txtCarno_', 'btnCarno_', 'car2', 'a.noa,driverno,driver', 'txtCarno_,txtDriverno_,txtDriver_', 'car2_b.aspx']
 				,['txtDriverno_', 'btnDriver_', 'driver', 'noa,namea', 'txtDriverno_,txtDriver_', 'driver_b.aspx']);
 
@@ -696,7 +696,7 @@
 					<td align="center" style="width:60px"><a>重量</a></td>
 					<td align="center" style="width:40px"><a>單位</a></td>
 					<td align="center" style="width:60px"><a>運費</a></td>
-					<td align="center" style="width:60px"><a>收貨</a></td>
+					<td align="center" style="width:60px"><a>盤車</a></td>
 					<td align="center" style="width:60px"><a>代收</a></td>
 					<td align="center" style="width:170px"><a>起點</a></td>
 					<td align="center" style="width:170px"><a>迄點</a></td>

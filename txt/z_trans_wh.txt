@@ -53,6 +53,8 @@ z_trans_wh03:--z_trans_wh03 出車明細表
 		,total2 float
 		,memo nvarchar(max)
 		,ordeno nvarchar(20)
+		,tmpnoa nvarchar(20)
+		,tmpnoq nvarchar(10)
 		,tranvcceaccy nvarchar(10)
 		,tranvcceno nvarchar(20)
 		,tranvccenoq nvarchar(10)
@@ -60,10 +62,10 @@ z_trans_wh03:--z_trans_wh03 出車明細表
 		,tranordeno nvarchar(20)
 		,tranordenoq nvarchar(10)
 	)
-	insert into #z_trans_wh03(gno,pno,recno,accy,noa,noq,datea,trandate
+	insert into #z_trans_wh03(gno,pno,accy,noa,noq,datea,trandate
 		,typea,carno,driverno,driver,custno,cust,straddrno,straddr,endaddrno,endaddr
 		,mount,unit,volume,[weight],total,reserve,total2,memo,ordeno)
-	select '1',1,ROW_NUMBER()over(order by b.datea,a.accy,a.noa,a.noq)
+	select '1',1
 		,a.accy,a.noa,a.noq,a.datea,a.trandate
 		,a.cstype,a.carno,b.driverno,b.driver,a.custno,a.nick,a.straddrno,a.straddr,a.endaddrno,a.endaddr
 		,a.mount,a.unit,a.volume,a.[weight],a.total,a.reserve,a.total2,a.memo,a.ordeno
@@ -78,19 +80,32 @@ z_trans_wh03:--z_trans_wh03 出車明細表
 	and (len(@t_custtype)=0 or c.typea=@t_custtype)
 	and (len(@t_typea)=0 or a.cstype=@t_typea)
 	
-	update #z_trans_wh03 set tranvcceno=LEFT(ordeno, CHARINDEX('-',ordeno)-1)
-		,tranvccenoq=SUBSTRING(ordeno,CHARINDEX('-',ordeno)+1,len(ordeno))
+	update #z_trans_wh03 set tmpnoa=LEFT(ordeno, CHARINDEX('-',ordeno)-1)
+		,tmpnoq=SUBSTRING(ordeno,CHARINDEX('-',ordeno)+1,len(ordeno))
 	where CHARINDEX('-',ordeno)>0
 	
 	update #z_trans_wh03 set tranvcceaccy=b.accy
-		,tranordeno=b.ordeno
-		,tranordenoq=b.no2
+		,tranvcceno=a.noa
+		,tranvccenoq=a.noq
+		,tranordeaccy=c.accy
+		,tranordeno=c.noa
+		,tranordenoq=c.noq
 	from #z_trans_wh03 a
-	left join view_tranvcces b on a.tranvcceno=b.noa and a.tranvccenoq=b.noq
+	left join view_tranvcces b on a.tmpnoa=b.noa and a.tmpnoq=b.noq
+	left join view_tranordes c on b.ordeno=c.noa and b.no2=c.noq
+	where b.noa is not null
 	
 	update #z_trans_wh03 set tranordeaccy=b.accy
+		,tranordeno=b.noa
+		,tranordenoq=b.noq
 	from #z_trans_wh03 a
-	left join view_tranordes b on a.tranordeno=b.noa and a.tranordenoq=b.noq
+	left join view_tranordes b on a.tmpnoa=b.noa and a.tmpnoq=b.noq
+	where b.noa is not null
+	----------------------------------------------------------------------------------
+	update #z_trans_wh03 set recno=b.recno
+	from #z_trans_wh03 a
+	left join (select sel,ROW_NUMBER()over(order by tranordeaccy,tranordeno,tranordenoq,tranvcceaccy,tranvcceno,tranvccenoq,trandate,noa,noq) recno
+		from #z_trans_wh03) b on a.sel=b.sel	
 	
 	insert into #z_trans_wh03(gno,pno,mount,volume,[weight],total,reserve,total2)
 	select '2',2,SUM(ISNULL(mount,0)),SUM(ISNULL(volume,0)),SUM(ISNULL([weight],0))
@@ -376,8 +391,9 @@ z_trans_wh06:--z_trans_wh06 託運單
 	)
 	
 	insert into @tmp(gno,datea,cust,mount,unit,volume,[weight],straddr,endaddr,[money],memo)
-	select '1',a.trandate,a.nick,a.mount,a.unit,a.volume,a.[weight],a.straddr,a.endaddr,a.[total],a.memo
-	from view_trans a
+	select '1',b.datea,a.cust,a.mount,a.unit,a.volume,a.[weight],a.addr,a.addr2,a.[total],a.memo
+	from view_tranvcces a
+	left join view_tranvcce b on a.accy=b.accy and a.noa=b.noa
 	where a.noa = @t_noa
 	
 	select gno
@@ -579,7 +595,7 @@ z_trans_wh08:--z_trans_wh08 司機業績明細表
 	
 	--合計
 	insert into @tmp(driverno,gno,total,overw,overh)
-	select driverno,'2',SUM(ISNULL(total,0)),SUM(ISNULL(overw,0)),SUM(ISNULL(overh,0))
+	select driverno,'2',SUM(ISNULL(total2,0)),SUM(ISNULL(overw,0)),SUM(ISNULL(overh,0))
 	from @tmp where gno='1'
 	group by driverno
 	--發票
@@ -646,6 +662,7 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
 	declare @t_custtype nvarchar(max) = case when '#non'=[14] then '' else [14] end 
 	------------------------------------------------------------------------------------------
+	------------------------------------------------------------------------------------------
 	declare @tmp table(
 		sel int identity(1,1)
 		,gno nvarchar(10)
@@ -674,12 +691,23 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 		,driverno nvarchar(20)
 		,driver nvarchar(20)
 		
+		,ordeno nvarchar(20)
+		,tmpnoa nvarchar(20)
+		,tmpnoq nvarchar(10)
+		,tranvcceaccy nvarchar(10)
+		,tranvcceno nvarchar(20)
+		,tranvccenoq nvarchar(10)
+		,tranordeaccy nvarchar(10)
+		,tranordeno nvarchar(20)
+		,tranordenoq nvarchar(10)
 	)
 	insert into @tmp(gno,accy,noa,noq,custtype,custno,cust,nick,mount,volume,[weight]
-		,straddrno,straddr,endaddrno,endaddr,total,total2,reserve,overw,overh,memo,driverno,driver)
+		,straddrno,straddr,endaddrno,endaddr,total,total2,reserve,overw,overh,memo,driverno,driver
+		,ordeno)
 	select '1',a.accy,a.noa,a.noq,c.typea,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
 		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.reserve,a.overw,a.overh,a.memo
 		,a.driverno,a.driver
+		,a.ordeno
 	from view_trans a
 	left join view_tran b on a.accy=b.accy and a.noa=b.noa
 	left join cust c on a.custno=c.noa
@@ -692,6 +720,28 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 	and (len(@t_carno)=0 or CHARINDEX(@t_carno,a.carno)>0)
 	and (ISNULL(a.uccno,'') between @t_bproductno and @t_eproductno)
 	order by a.trandate,a.noa
+	
+	update @tmp set tmpnoa=LEFT(ordeno, CHARINDEX('-',ordeno)-1)
+		,tmpnoq=SUBSTRING(ordeno,CHARINDEX('-',ordeno)+1,len(ordeno))
+	where CHARINDEX('-',ordeno)>0
+	
+	update @tmp set tranvcceaccy=b.accy
+		,tranvcceno=a.noa
+		,tranvccenoq=a.noq
+		,tranordeaccy=c.accy
+		,tranordeno=c.noa
+		,tranordenoq=c.noq
+	from @tmp a
+	left join view_tranvcces b on a.tmpnoa=b.noa and a.tmpnoq=b.noq
+	left join view_tranordes c on b.ordeno=c.noa and b.no2=c.noq
+	where b.noa is not null
+	
+	update @tmp set tranordeaccy=b.accy
+		,tranordeno=b.noa
+		,tranordenoq=b.noq
+	from @tmp a
+	left join view_tranordes b on a.tmpnoa=b.noa and a.tmpnoq=b.noq
+	where b.noa is not null
 	
 	insert into @tmp(gno,total,total2,reserve,overw,overh)
 	select '2',SUM(ISNULL(total,0)),SUM(ISNULL(total2,0)),SUM(ISNULL(reserve,0)),SUM(ISNULL(overw,0)),SUM(ISNULL(overh,0))
@@ -724,4 +774,4 @@ z_trans_wh05:--z_trans_wh05 託運日報表
 		,overw a13
 		
 	from @tmp
-	order by gno,trandate,noa;
+	order by gno,tranordeaccy,tranordeno,tranordenoq,tranvcceaccy,tranvcceno,tranvccenoq,trandate,noa;
