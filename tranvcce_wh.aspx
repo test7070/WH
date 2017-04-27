@@ -83,6 +83,9 @@
 
 			function mainPost() {
 				q_mask(bbmMask);
+				$('#textBdate').datepicker();
+				$('#textEdate').datepicker();
+				
 				
 				var t_type = q_getPara('trans.typea').split(',');
 				for(var i=0;i<t_type.length;i++){
@@ -111,11 +114,11 @@
                 });
                 $('#btnImport_trans').click(function() {
                    if(q_cur != 1 && q_cur != 2){
-                		var t_key = q_getPara('sys.key_trd');
+                		var t_key = q_getPara('sys.key_trans');
                    		var t_bdate = $('#textBdate').val();
                    		var t_bdate = $('#textEdate').val();
-                   		t_key = (t_key.length==0?'BF':t_key);//一定要有值
-                   		q_func('qtxt.query.trd_import_es', 'trd.txt,import_es,' + encodeURI(t_key) + ';'+ encodeURI(t_mon) + ';'+ encodeURI(t_type) + ';'+ encodeURI(t_getdate));
+                   		t_key = (t_key.length==0?'BA':t_key);//一定要有值
+                   		q_func('qtxt.query.tranvcce2tran_es', 'tran.txt,tranvcce2tran,' + encodeURI(t_key) + ';'+ encodeURI(t_bdate) + ';'+ encodeURI(t_bdate));
                 	}
                 });
 			}
@@ -366,9 +369,11 @@
 				if(t_para){
 					$('#txtDatea').datepicker('destroy');
 					$('#btnOrde').attr('disabled','disabled');
+					$('#btnImport_trans').removeAttr('disabled');
 				}else{
 					$('#txtDatea').datepicker();
 					$('#btnOrde').removeAttr('disabled');
+					$('#btnImport_trans').attr('disabled','disabled');
 				}
 			}
 
@@ -427,6 +432,10 @@
 			
 			function q_funcPost(t_func, result) {
 				switch(t_func) {
+					case 'qtxt.query.tranvcce2tran_es':
+            			var as = _q_appendData("tmp0", "", true, true);
+                        alert(as[0].msg);
+            			break;
 					default:
 						break;
 				}
@@ -596,7 +605,7 @@
 					<td><span> </span><a style="float:right; color: blue; font-size: medium;">派車日期</a></td>
 					<td colspan="4">
 					<input id="textBdate"  type="text" style="float:left; width:100px; font-size: medium;"/>
-					<span style="display:black;height:100%;width:30px;">~</span>
+					<span style="float:left;display:black;height:100%;width:30px;">~</span>
 					<input id="textEdate"  type="text" style="float:left; width:100px; font-size: medium;"/>
 					</td>
 				</tr>
@@ -661,7 +670,7 @@
 						<td><input id="txtWorker2" type="text"  class="txt c1"/></td>
 						<td> </td>
 						<td><input id="btnOrde" type="button" value="訂單匯入" style="width:100%;"/></td>
-						<td><input id="btnTrans" type="button" value="匯至出車" style="width:100%;"/></td>
+						<td><input id="btnImport" type="button" value="匯至出車" style="width:100%;"/></td>
 					</tr>
 				</table>
 			</div>
@@ -687,7 +696,7 @@
 					<td align="center" style="width:60px"><a>重量</a></td>
 					<td align="center" style="width:40px"><a>單位</a></td>
 					<td align="center" style="width:60px"><a>運費</a></td>
-					<td align="center" style="width:60px"><a>盤車</a></td>
+					<td align="center" style="width:60px"><a>收貨</a></td>
 					<td align="center" style="width:60px"><a>代收</a></td>
 					<td align="center" style="width:170px"><a>起點</a></td>
 					<td align="center" style="width:170px"><a>迄點</a></td>

@@ -575,7 +575,7 @@
 					<td align="center" style="width:120px"><a>迄點</a></td>
 					<td align="center" style="width:60px"><a>應收<BR>運費</a></td>
 					<td align="center" style="width:60px"><a>盤車</a></td>
-					<td align="center" style="width:60px"><a>應付<BR>運費</a></td>
+					<td align="center" style="width:60px;display:none;"><a>應付<BR>運費</a></td>
 					<td align="center" style="width:150px"><a>備註</a></td>
 					<td align="center" style="width:150px"><a>注意事項</a></td>
 				</tr>
@@ -612,7 +612,7 @@
 					</td>
 					<td><input type="text" id="txtTotal.*" class="num" style="width:95%;" /></td>
 					<td><input type="text" id="txtTotal2.*" class="num" style="width:95%;" /></td>
-					<td><input type="text" id="txtTotal3.*" class="num" style="width:95%;" /></td>
+					<td style="display:none;"><input type="text" id="txtTotal3.*" class="num" style="width:95%;" /></td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;" /></td>
 					<td><input type="text" id="txtMemo2.*" style="width:95%;" /></td>
 				</tr>
