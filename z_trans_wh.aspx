@@ -90,6 +90,12 @@
 						type : '8', //[18]       11
 						name : 'xchk',
 						value : ('chk1Y@提貨完工,chk1N@提貨未完,chk2Y@卸貨完工,chk2N@卸貨未完').split(',')
+					}, {
+						type : '2', //[19][20]   12
+						name : 'xstore',
+						dbf : 'store',
+						index : 'noa,store',
+						src : 'store_b.aspx'
 					}]
 				});
 				q_popAssign();

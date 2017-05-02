@@ -66,7 +66,7 @@
             function mainPost() {
                 bbmMask = [['txtDatea', r_picd],['txtTrandate', r_picd]];
                 q_mask(bbmMask);
-                
+                document.title = '空運';
                 q_xchgForm();
             }
 
@@ -191,26 +191,17 @@
                 Lock(1,{opacity:0});
                 //日期檢查
                 if($('#txtDatea').val().length == 0 || !q_cd($('#txtDatea').val())){
-                    alert('發送日期錯誤。');
+                    alert('日期錯誤。');
                     Unlock(1);
                     return;
                 }
-                if($('#txtTrandate').val().length == 0 || !q_cd($('#txtTrandate').val())){
+                $('#txtTrandate').val($('#txtDatea').val());
+                /*if(.length == 0 || !q_cd($('#txtTrandate').val())){
                     alert('配送日期錯誤。');
                     Unlock(1);
                     return;
-                }
-                var t_days = 0;
-                var t_date1 = $('#txtDatea').val();
-                var t_date2 = $('#txtTrandate').val();
-                t_date1 = new Date(dec(t_date1.substr(0, 3)) + 1911, dec(t_date1.substring(4, 6)) - 1, dec(t_date1.substring(7, 9)));
-                t_date2 = new Date(dec(t_date2.substr(0, 3)) + 1911, dec(t_date2.substring(4, 6)) - 1, dec(t_date2.substring(7, 9)));
-                t_days = Math.abs(t_date2 - t_date1) / (1000 * 60 * 60 * 24) + 1;
-                if(t_days>60){
-                    alert('發送日期、配送日期相隔天數不可多於60天。');
-                    Unlock(1);
-                    return;
-                }
+                }*/
+                
                 sum();
                 if(q_cur ==1){
                     $('#txtWorker').val(r_name);
@@ -235,7 +226,8 @@
 
             function refresh(recno) {
                 _refresh(recno);
-                
+                //-----------chr(10)----------------------------------
+                $('#txtAtel').val(q_decode($('#txtAtel').val()));
                 //修改過的欄位  標記-----------------------------------------
                 if($('#txtNoa').val().length>0){
             		t_where = "where=^^action='Update' and tablea='transef' and memo like '%:%=#>%\\r\\n%' and noa='"+$('#txtNoa').val()+"' order by datea desc,timea desc^^";
@@ -248,11 +240,12 @@
             function readonly(t_para, empty) {
                 _readonly(t_para, empty);
                 if(t_para){
-                	$('#txtDatea').datepicker();
-                	$('#txtTrandate').datepicker();
-                }else{
                 	$('#txtDatea').datepicker('destroy');
                 	$('#txtTrandate').datepicker('destroy');
+                	
+                }else{
+                	$('#txtDatea').datepicker();
+                	$('#txtTrandate').datepicker();
                 }
             }
 
@@ -521,11 +514,11 @@
                     </tr>
                     <tr>
                         <td><span> </span><a class="lbl">聯絡電話</a></td>
-                        <td colspan="5"><input type="text" id="txtAtel" class="txt c1"/></td>
+                        <td colspan="5"><textarea id='txtAtel' class='txt c1' rows="3"> </textarea></td>
                     </tr> 
                     <tr>
                         <td><span> </span><a class="lbl">備註</a></td>
-                        <td colspan="5"><input type="text" id="txtMemo" class="txt c1"/></td>
+                        <td colspan="5"><textarea id='txtMemo' class='txt c1' rows="3"> </textarea></td>
                     </tr>
                     <tr>
                     </tr>

@@ -1,3 +1,267 @@
+z_trans_wh04:--z_trans_wh04 空運明細表 
+	SET QUOTED_IDENTIFIER OFF	
+	declare @t_path nvarchar(max) = '[1]'
+	declare @t_db nvarchar(max) = '[2]'
+	declare @t_bdate nvarchar(20) = case when '#non'=[3] then '' else [3] end
+	declare @t_edate nvarchar(20) = case when '#non'=[4] then char(255) else [4] end
+	declare @t_btrandate nvarchar(20) = case when '#non'=[5] then '' else [5] end
+	declare @t_etrandate nvarchar(20) = case when '#non'=[6] then char(255) else [6] end
+	declare @t_bcustno nvarchar(20) = case when '#non'=[7] then '' else [7] end
+	declare @t_ecustno nvarchar(20) = case when '#non'=[8] then char(255) else [8] end
+	declare @t_bdriverno nvarchar(20) = case when '#non'=[9] then '' else [9] end
+	declare @t_edriverno nvarchar(20) = case when '#non'=[10] then char(255) else [10] end
+	declare @t_carno nvarchar(20) = case when '#non'=[11] then '' else [11] end
+	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
+	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
+	declare @t_custtype nvarchar(max) = case when '#non'=[14] then '' else [14] end 
+	declare @t_noa nvarchar(max)  = case when '#non'=[15] then '' else [15] end
+	declare @t_typea nvarchar(max) = case when '#non'=[16] then '' else [16] end
+	declare @t_enda nvarchar(max) = case when '#non'=[17] then '' else [17] end
+	declare @t_chk nvarchar(max) = case when '#non'=[18] then '' else [18] end		
+	declare @t_bstoreno nvarchar(20) = case when '#non'=[19] then '' else [19] end
+	declare @t_estoreno nvarchar(20) = case when '#non'=[20] then char(255) else [20] end
+	----------------------------------------------------------------
+	declare @tmp table(
+		sel int identity(1,1)
+		,gno nvarchar(20)
+		,pno int
+		,sel2 int
+		,noa nvarchar(20)
+		,storeno nvarchar(20)
+		,store nvarchar(50)
+		,datea nvarchar(20)
+		,tggno nvarchar(20)
+		,tgg nvarchar(50)
+		,custno nvarchar(20)
+		,cust nvarchar(50)
+		,mount float
+		,unit nvarchar(20)
+		,tel nvarchar(max)
+		,memo nvarchar(max)
+		,c float --材
+ 		,k float
+	)
+	insert into @tmp (gno,pno,storeno,store,datea,tggno,tgg,custno,cust,mount,unit,tel,memo)
+	select '1',1,isnull(aaddr,''),isnull([addressee],''),datea,tggno,tgg,custno,comp,mount,unit,atel,memo
+	from view_transef 
+	where datea between @t_btrandate and @t_etrandate
+	and isnull(aaddr,'') between @t_bstoreno and @t_estoreno
+	order by isnull([aaddr],''),datea,ISNULL(tgg,''),ISNULL(comp,'')
+	------------------------------------------------
+	declare @sel int
+	declare @sel2 int
+	declare @tel nvarchar(max)
+	declare @memo nvarchar(max)
+	declare @string nvarchar(max)
+	declare @string2 nvarchar(max)
+	declare @c float
+	declare @k float
+	declare @n int
+	
+	declare cursor_table cursor for
+	select sel, memo from @tmp
+	open cursor_table
+	fetch next from cursor_table
+	into @sel,@memo
+	while(@@FETCH_STATUS <> -1)
+	begin
+		select @c=0,@k=0
+		if(CHARINDEX('材',@memo)>0)
+		begin
+			set @string = REVERSE(LEFT(@memo,CHARINDEX('材',@memo)-1)) 
+			set @string2 = ''
+			
+			while LEFT(@string,1) like '[0-9]'
+			begin
+				set @string2 = @string2 + LEFT(@string,1)
+				set @string = RIGHT(@string,len(@string)-1)
+			end	
+			set @string2 = REVERSE(@string2)
+			set @c = CAST(@string2 as float)
+		end
+		
+		if(CHARINDEX('K',@memo)>0)
+		begin
+			set @string = REVERSE(LEFT(@memo,CHARINDEX('K',@memo)-1)) 
+			set @string2 = ''
+			
+			while LEFT(@string,1) like '[0-9]'
+			begin
+				set @string2 = @string2 + LEFT(@string,1)
+				set @string = RIGHT(@string,len(@string)-1)
+			end	
+			set @string2 = REVERSE(@string2)
+			set @k = CAST(@string2 as float)
+		end
+		
+		update @tmp set c=@c,k=@k where sel=@sel
+		
+		fetch next from cursor_table
+		into @sel,@memo
+	end
+	close cursor_table
+	deallocate cursor_table
+	
+	insert into @tmp(gno,pno,storeno,c,k)
+	select '5',5,a.storeno,SUM(ISNULL(a.c,0)),SUM(ISNULL(a.k,0))
+	from @tmp a
+	left join store b on a.storeno=b.noa
+	where a.gno='1'
+	group by a.storeno
+	-----------------------------------------------------------------
+	--換行
+	update @tmp set sel2 = sel
+	
+	declare @tmpa table(
+		sel int identity(1,1)
+		,memo nvarchar(max)
+	)
+	
+
+	declare cursor_table cursor for
+	select sel2,tel,memo from @tmp where pno = 1
+	open cursor_table
+	fetch next from cursor_table
+	into @sel2,@tel,@memo
+	while(@@FETCH_STATUS <> -1)
+	begin
+		-- TEL
+		set @string = @tel
+		
+		delete @tmpa
+		while charindex('chr(10)',@string)>0
+		begin
+			insert into @tmpa(memo)values(LEFT(@string,charindex('chr(10)',@string)-1))
+			set @string = SUBSTRING(@string,charindex('chr(10)',@string)+7,len(@string))
+		end
+		if len(@string)>0
+		begin
+			insert into @tmpa(memo)values(@string)
+		end
+		set @n = 0
+		select @n = COUNT(1) from @tmpa
+		
+		if @n>1
+		begin
+			update @tmp set tel=null where sel2=@sel2
+			declare cursor_table2 cursor for
+			select memo from @tmpa order by sel
+			open cursor_table2
+			fetch next from cursor_table2
+			into @string
+			while(@@FETCH_STATUS <> -1)
+			begin
+				set @sel = 0
+				select @sel=sel from @tmp where sel2=@sel2 and gno!='5' and tel is null order by sel desc
+				if @sel > 0
+				begin
+					update @tmp set tel=@string where sel=@sel
+				end
+				begin
+					insert into @tmp(gno,pno,sel2,storeno,store,tel)
+					select top 1 '1',1,sel2,storeno,store,@string
+					from @tmp 
+					where sel2=@sel2
+					order by sel
+				end
+				fetch next from cursor_table2
+				into @string
+			end
+			close cursor_table2
+			deallocate cursor_table2
+		end
+		-- MEMO
+		set @string = @memo
+		
+		delete @tmpa
+		while charindex('chr(10)',@string)>0
+		begin
+			insert into @tmpa(memo)values(LEFT(@string,charindex('chr(10)',@string)-1))
+			set @string = SUBSTRING(@string,charindex('chr(10)',@string)+7,len(@string))
+		end
+		if len(@string)>0
+		begin
+			insert into @tmpa(memo)values(@string)
+		end
+		set @n = 0
+		select @n = COUNT(1) from @tmpa
+
+		if @n>1
+		begin
+			update @tmp set memo=null where sel2=@sel2
+	
+			declare cursor_table2 cursor for
+			select memo from @tmpa order by sel
+			open cursor_table2
+			fetch next from cursor_table2
+			into @string
+			while(@@FETCH_STATUS <> -1)
+			begin
+				set @sel = 0
+				select @sel=sel from @tmp where sel2=@sel2 and gno!='5' and memo is null order by sel desc	
+				if @sel > 0
+				begin
+					update @tmp set memo=@string where sel=@sel
+				end
+				else 
+				begin
+					insert into @tmp(gno,pno,sel2,storeno,store,memo)
+					select top 1 '1',1,sel2,storeno,store,@string
+					from @tmp 
+					where sel2=@sel2
+					order by sel
+				end
+				fetch next from cursor_table2
+				into @string
+			end
+			close cursor_table2
+			deallocate cursor_table2
+		end
+		fetch next from cursor_table
+		into @sel2,@tel,@memo
+	end
+	close cursor_table
+	deallocate cursor_table
+	-- 有換行的　ＧＮＯ要變
+	declare @max int
+	declare @min int
+
+	declare cursor_table cursor for
+	select sel2 from @tmp where pno = 1 group by sel2 having count(1)>1
+	open cursor_table
+	fetch next from cursor_table
+	into @sel2
+	while(@@FETCH_STATUS <> -1)
+	begin
+		select @min=0,@max=0
+		select @min = Min(sel) from @tmp where sel2=@sel2
+		select @max = Max(sel) from @tmp where sel2=@sel2
+
+		update @tmp set gno = '2' where sel=@min
+		update @tmp set gno = '4' where sel=@max
+		update @tmp set gno = '3' where sel2=@sel2 and gno='1'
+	
+		fetch next from cursor_table
+		into @sel2
+	end
+	close cursor_table
+	deallocate cursor_table
+
+	select * 
+		,store a01
+		,'日期：'+datea a02
+		,tgg b01
+		,cust b02
+		,dbo.getComma(mount,-1) + case when len(isnull(unit,''))>0 then ' '+unit else '' end b03
+		,tel b04
+		,memo b05
+		, '總計：'
+			+ case when c>0 then CAST(c as nvarchar)+'材' else '' end 
+			+ case when c>0 then '  ' else '' end
+			+ case when k>0 then CAST(k as nvarchar)+'K' else '' end  c01
+	from @tmp 
+	order by storeno,sel2,sel;
+
 z_trans_wh03:--z_trans_wh03 出車明細表 
 	SET QUOTED_IDENTIFIER OFF	
 	declare @t_path nvarchar(max) = '[1]'
