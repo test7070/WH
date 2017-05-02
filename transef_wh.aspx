@@ -30,7 +30,7 @@
             brwCount2 = 15;
             
             aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx']
-            	,['txtTggno', 'lblTgg', 'tgg', 'noa,tgg', 'txtTggno,txtTgg', 'cust_b.aspx']
+            	,['txtTggno', 'lblTgg', 'tgg', 'noa,tgg', 'txtTggno,txtTgg', 'tgg_b.aspx']
             	,['txtDriverno', 'lblDriver', 'driver', 'noa,namea', 'txtDriverno,txtDriver', 'driver_b.aspx']
             	,['txtAaddr', 'lblStore', 'store', 'noa,store', 'txtAaddr,txtAddress', 'store_b.aspx']);
            
