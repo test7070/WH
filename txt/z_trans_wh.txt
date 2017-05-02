@@ -116,8 +116,6 @@ z_trans_wh04:--z_trans_wh04 空運明細表
 		sel int identity(1,1)
 		,memo nvarchar(max)
 	)
-	
-
 	declare cursor_table cursor for
 	select sel2,tel,memo from @tmp where pno = 1
 	open cursor_table
@@ -141,7 +139,11 @@ z_trans_wh04:--z_trans_wh04 空運明細表
 		set @n = 0
 		select @n = COUNT(1) from @tmpa
 		
-		if @n>1
+		if @n<=1
+		begin
+			update @tmp set tel = replace(tel,'chr(10)','') where sel2=@sel2
+		end
+		else
 		begin
 			update @tmp set tel=null where sel2=@sel2
 			declare cursor_table2 cursor for
@@ -186,7 +188,11 @@ z_trans_wh04:--z_trans_wh04 空運明細表
 		set @n = 0
 		select @n = COUNT(1) from @tmpa
 
-		if @n>1
+		if @n<=1
+		begin
+			update @tmp set memo = replace(memo,'chr(10)','') where sel2=@sel2
+		end
+		else
 		begin
 			update @tmp set memo=null where sel2=@sel2
 	
@@ -246,6 +252,29 @@ z_trans_wh04:--z_trans_wh04 空運明細表
 	end
 	close cursor_table
 	deallocate cursor_table
+	-- 補空白行
+	declare @pagecount int = 30
+	declare @storeno nvarchar(20)
+	
+	declare cursor_table cursor for
+	select storeno,count(1) from @tmp group by storeno
+	open cursor_table
+	fetch next from cursor_table
+	into @storeno,@n
+	while(@@FETCH_STATUS <> -1)
+	begin
+		
+		while @n%@pagecount!=0
+		begin
+			insert into @tmp(gno,pno,storeno)values('6',3,@storeno)	
+			set @n = @n + 1
+		end
+		fetch next from cursor_table
+		into @storeno,@n
+	end
+	close cursor_table
+	deallocate cursor_table
+	
 
 	select * 
 		,store a01
@@ -260,7 +289,7 @@ z_trans_wh04:--z_trans_wh04 空運明細表
 			+ case when c>0 then '  ' else '' end
 			+ case when k>0 then CAST(k as nvarchar)+'K' else '' end  c01
 	from @tmp 
-	order by storeno,sel2,sel;
+	order by storeno,pno,sel2,sel;
 
 z_trans_wh03:--z_trans_wh03 出車明細表 
 	SET QUOTED_IDENTIFIER OFF	

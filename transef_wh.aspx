@@ -32,7 +32,7 @@
             aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx']
             	,['txtTggno', 'lblTgg', 'tgg', 'noa,comp', 'txtTggno,txtTgg', 'tgg_b.aspx']
             	,['txtDriverno', 'lblDriver', 'driver', 'noa,namea', 'txtDriverno,txtDriver', 'driver_b.aspx']
-            	,['txtAaddr', 'lblStore', 'store', 'noa,store', 'txtAaddr,txtAddress', 'store_b.aspx']);
+            	,['txtAaddr', 'lblStore', 'store', 'noa,store', 'txtAaddr,txtAddressee', 'store_b.aspx']);
            
             function sum() {
                 if(q_cur!=1 && q_cur!=2)
@@ -162,7 +162,7 @@
             function _btnSeek() {
                 if (q_cur > 0 && q_cur < 4)
                     return;
-                q_box('trans_ef_s.aspx', q_name + '_s', "550px", "95%", q_getMsg("popSeek"));
+                q_box('transef_wh_s.aspx', q_name + '_s', "550px", "95%", q_getMsg("popSeek"));
             }
 
             function btnIns() {
@@ -495,7 +495,7 @@
                     	<td><span> </span><a id="lblStore" class="lbl">倉儲</a></td>
                         <td colspan="2">
                         	<input id="txtAaddr"  type="text" style="float:left;width:40%;"/>
-                            <input id="txtAddress"  type="text" style="float:left;width:60%;"/>
+                            <input id="txtAddressee"  type="text" style="float:left;width:60%;"/>
                     	</td>
                         <td><span> </span><a id="lblDriver" class="lbl btn">司機</a></td>
                         <td colspan="2">
