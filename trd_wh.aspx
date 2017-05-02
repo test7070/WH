@@ -150,11 +150,11 @@
 					$('.ES_hide').hide();
 				}	
 				//----------------------------------------------------------
-
+				$('#btnIns').before($('#btnIns').clone().attr('id', 'btnImport').show());
 				$('#btnImport').click(function() {
                     $('#divImport').toggle();
                     $('#textDate').focus();
-                });
+                }).attr('value','月結整批匯入');
                 $('#btnCancel_import').click(function() {
                     $('#divImport').toggle();
                 });
@@ -885,7 +885,6 @@
 						<td><span> </span><a id="lblAccno2" class="lbl btn"> </a></td>
 						<td><input id="txtAccno2" type="text"  class="txt c1"/> </td>
 						<td><input id="txtYear2" type="text"  class="txt c1"/> </td>
-						<td><input type="button" id="btnImport" value="月結整批匯入"/></td>
 					</tr>
 					
 				</table>
