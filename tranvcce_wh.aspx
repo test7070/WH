@@ -20,7 +20,7 @@
 			var q_readonlys = ['txtOrdeno','txtNo2'];
 			var q_readonlyt = [];
 			var bbmNum = new Array();
-			var bbmMask = new Array(['txtDatea', '999/99/99'],['txtTimea', '99:99']);
+			var bbmMask = new Array(['txtDatea', '999/99/99'],['txtTimea', '99:99'],['textBdate','999/99/99'],['textEdate','999/99/99']);
 			var bbsNum = new Array();
 			var bbsMask = new Array();
 			var bbtNum  = new Array(); 
