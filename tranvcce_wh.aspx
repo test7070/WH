@@ -206,7 +206,7 @@
             }
 
 			function bbsSave(as) {
-				if (!as['addrno']) {
+				if (!as['addrno'] && !as['addr']) {
 					as[bbsKey[1]] = '';
 					return;
 				}
