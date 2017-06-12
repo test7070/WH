@@ -682,6 +682,7 @@
 					<td align="center" style="width:25px"><input class="btn"  id="btnPlus" type="button" value='+' style="font-weight: bold;"  /></td>
 					<td align="center" style="width:20px;"> </td>
 					<td align="center" style="width:70px"><a>類型</a></td>
+					
 					<td align="center" style="width:70px;"><a>車牌</a></td>
 					<td align="center" style="width:150px;"><a>司機</a></td>
 					<td align="center" style="width:150px"><a>客戶</a></td>
@@ -696,7 +697,7 @@
 					<td align="center" style="width:60px"><a>重量</a></td>
 					<td align="center" style="width:40px"><a>單位</a></td>
 					<td align="center" style="width:60px"><a>運費</a></td>
-					<td align="center" style="width:60px"><a>盤車</a></td>
+					<td align="center" style="width:60px"><a>收貨</a></td>
 					<td align="center" style="width:60px"><a>代收</a></td>
 					<td align="center" style="width:170px"><a>起點</a></td>
 					<td align="center" style="width:170px"><a>迄點</a></td>
