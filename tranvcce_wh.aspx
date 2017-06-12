@@ -22,7 +22,7 @@
 			var bbmNum = new Array();
 			var bbmMask = new Array(['txtDatea', '999/99/99'],['txtTimea', '99:99'],['textBdate','999/99/99'],['textEdate','999/99/99']);
 			var bbsNum = new Array();
-			var bbsMask = new Array();
+			var bbsMask = new Array(['txtTime1', '99:99']);
 			var bbtNum  = new Array(); 
 			var bbtMask = new Array();
 			q_sqlCount = 6;
@@ -682,7 +682,7 @@
 					<td align="center" style="width:25px"><input class="btn"  id="btnPlus" type="button" value='+' style="font-weight: bold;"  /></td>
 					<td align="center" style="width:20px;"> </td>
 					<td align="center" style="width:70px"><a>類型</a></td>
-					
+					<td align="center" style="width:70px;"><a>提貨時間</a></td>
 					<td align="center" style="width:70px;"><a>車牌</a></td>
 					<td align="center" style="width:150px;"><a>司機</a></td>
 					<td align="center" style="width:150px"><a>客戶</a></td>
@@ -714,6 +714,7 @@
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
 					<td><input type="text" id="txtTypea.*" list="listTypea" style="width:95%;"/></td>
+					<td><input type="text" id="txtTime1.*"  style="width:95%;"/></td>
 					<td>
 						<input type="text" id="txtCarno.*" style="width:95%;"/>
 						<input type="button" id="btnCarno.*" style="display:none;"/>
