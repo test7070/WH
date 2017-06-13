@@ -105,6 +105,7 @@
                 	t_where += t_edate.length>0?" and a.datea<='"+t_edate+"'":"";
                 	t_where += t_btrandate.length>0?" and a.trandate>='"+t_btrandate+"'":"";
                 	t_where += t_etrandate.length>0?" and a.trandate<='"+t_etrandate+"'":"";
+                	t_where += " and isnull(a.total,0)!=0";
                 	t_where = "where=^^"+t_where+"^^";
                 	q_gt('trd_tran', t_where, 0, 0, 0, "", r_accy);
                 	
