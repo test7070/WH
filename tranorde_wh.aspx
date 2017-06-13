@@ -33,6 +33,7 @@
 			//q_xchg = 1;
 			brwCount2 = 5;
 			aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx'] 
+				,['txtProductno', 'lblTgg_wh', 'tgg', 'noa,comp,nick', 'txtProductno,txtProduct', 'tgg_b.aspx'] 
 				,['txtAddrno', 'lblAddr_js', 'addr', 'noa,addr,address', 'txtAddrno,txtAddr,txtBoat', 'addr_b.aspx']
 				,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
 				,['txtAddrno_', 'btnAddr_', 'addr', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr_b.aspx']
@@ -538,6 +539,13 @@
 							<input type="text" id="txtCustno" class="txt" style="width:30%;float: left; " />
 							<input type="text" id="txtComp" class="txt" style="width:70%;float: left; " />
 							<input type="text" id="txtNick" class="txt" style="display:none; " />
+						</td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblTgg_wh" class="lbl btn">貨主</a></td>
+						<td colspan="6">
+							<input type="text" id="txtProductno" class="txt" style="width:30%;float: left; " />
+							<input type="text" id="txtProduct" class="txt" style="width:70%;float: left; " />
 						</td>
 					</tr>
 					<tr>
