@@ -102,7 +102,7 @@
 				
 				$('#btnOrde').click(function(e){
                 	var t_where ='';
-                	q_box("tranordewh_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({project:q_getPara('sys.project').toUpperCase(),noa:$('#txtNoa').val(),chk1:$('#chkChk1').prop('checked')?1:0,chk2:$('#chkChk2').prop('checked')?1:0}), "tranorde_tranvcce", "95%", "95%", '');
+                	q_box("tranordewh_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({project:q_getPara('sys.project').toUpperCase(),noa:$('#txtNoa').val(),chk1:$('#chkChk1').prop('checked')?1:0,chk2:$('#chkChk2').prop('checked')?1:0,date:$('#txtDatea').val()}), "tranorde_tranvcce", "95%", "95%", '');
                 });
                 
                 $('#btnImport').click(function() {
