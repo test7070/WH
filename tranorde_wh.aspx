@@ -33,8 +33,9 @@
 			//q_xchg = 1;
 			brwCount2 = 5;
 			aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx'] 
-				,['txtProductno', 'lblTgg_wh', 'tgg', 'noa,comp,nick', 'txtProductno,txtProduct', 'tgg_b.aspx'] 
-				,['txtAddrno', 'lblAddr_js', 'addr', 'noa,addr,address', 'txtAddrno,txtAddr,txtBoat', 'addr_b.aspx']
+				,['txtProductno', 'lblTgg_wh', 'cust', 'noa,comp,nick', 'txtProductno,txtProduct', 'cust_b.aspx'] 
+				,['txtAddrno', 'lblAddr1', 'addr', 'noa,addr', 'txtAddrno,txtAddr', 'addr_b.aspx']
+				,['txtCbno', 'lblAddr2', 'addr', 'noa,addr', 'txtCbno,txtCaddr', 'addr_b.aspx']
 				,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
 				,['txtAddrno_', 'btnAddr_', 'addr', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr_b.aspx']
 				,['txtAddrno2_', 'btnAddr2_', 'addr', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr_b.aspx']);
@@ -81,6 +82,10 @@
 				var t_unit2 = q_getPara('trans.unit2').split(',');
 				for(var i=0;i<t_unit2.length;i++){
 					$('#listUnit2').append('<option value="'+t_unit2[i]+'"></option>');
+				}
+				var t_time = ['點前','點~點','8點','9點','10點','11點','12點','13點','14點','15點','16點'];
+				for(var i=0;i<t_time.length;i++){
+					$('#listTime').append('<option value="'+t_time[i]+'"></option>');
 				}
 			}
 
@@ -133,7 +138,7 @@
             }
 
 			function bbsSave(as) {
-				if (!as['addrno']) {
+				if (!as['typea']) {
 					as[bbsKey[1]] = '';
 					return;
 				}
@@ -287,12 +292,43 @@
 			
 			function q_funcPost(t_func, result) {
 				switch(t_func) {
+					case 'qtxt.query.tranorde_addr1'://提貨地址
+						var as = _q_appendData("tmp0", "", true);
+	                    if (as[0] != undefined) {
+	                    	for(var i=0;i<as.length;i++){
+								$('#listAddr1').append('<option value="'+as[i].addr+'"></option>');
+							}
+	                    } else {
+	                    }
+	                    var t_porject = q_getPara('sys.project').toUpperCase();
+						var t_custno = $.trim($('#txtProductno').val()); //貨主
+						//取得卸貨地址
+						q_func('qtxt.query.tranorde_addr2', 'tranordet.txt,tranorde_addr,' + t_porject + ';' + t_custno + ';caseopenaddr');
+						break;
+					case 'qtxt.query.tranorde_addr2'://卸貨地址
+						var as = _q_appendData("tmp0", "", true);
+						if (as[0] != undefined) {
+	                    	for(var i=0;i<as.length;i++){
+								$('#listAddr2').append('<option value="'+as[i].addr+'"></option>');
+							}
+	                    } else {
+	                    }
+						break;
 					default:
 						break;
 				}
 			}
 			function q_popPost(id) {
 				switch(id){
+					case 'txtProductno':
+						$('#listAddr1').html('');
+						$('#listAddr2').html('');
+						var t_porject = q_getPara('sys.project').toUpperCase();
+						var t_custno = $.trim($('#txtProductno').val()); //貨主
+						//取得提貨地址
+						q_func('qtxt.query.tranorde_addr1', 'tranordet.txt,tranorde_addr,' + t_porject + ';' + t_custno + ';casepackaddr');
+						break;
+						
 					case 'txtProductno_':
 						var n = b_seq;
 						refreshWV(n);
@@ -549,6 +585,28 @@
 						</td>
 					</tr>
 					<tr>
+						<td><span> </span><a id="lblAddr1" class="lbl btn">起點</a></td>
+						<td colspan="2">
+							<input type="text" id="txtAddrno" class="txt" style="width:40%;float: left; " />
+							<input type="text" id="txtAddr" class="txt" style="width:60%;float: left; " />
+						</td>
+						<td><span> </span><a class="lbl">提貨地址</a></td>
+						<td colspan="3">
+							<input type="text" id="txtCasepackaddr" class="txt c1" list="listAddr1"/>
+						</td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblAddr2" class="lbl btn">迄點</a></td>
+						<td colspan="2">
+							<input type="text" id="txtCbno" class="txt" style="width:40%;float: left; " />
+							<input type="text" id="txtCaddr" class="txt" style="width:60%;float: left; " />
+						</td>
+						<td><span> </span><a class="lbl">卸貨地址</a></td>
+						<td colspan="3">
+							<input type="text" id="txtCaseopenaddr" class="txt c1" list="listAddr2"/>
+						</td>
+					</tr>
+					<tr>
 						<td><span> </span><a id="lblMemo" class="lbl"> </a></td>
 						<td colspan="6">
 							<textarea id="txtMemo" class="txt c1" style="height:75px;"> </textarea>
@@ -570,7 +628,9 @@
 					<td align="center" style="width:25px"><input class="btn"  id="btnPlus" type="button" value='+' style="font-weight: bold;"  /></td>
 					<td align="center" style="width:20px;"> </td>
 					<td align="center" style="width:80px"><a>類型</a></td>
-					<td align="center" style="width:150px"><a>品名</a></td>
+					<td align="center" style="width:80px"><a>提貨時間</a></td>
+					<td align="center" style="width:80px"><a>卸貨時間</a></td>
+					<td align="center" style="display:none;width:150px"><a>品名</a></td>
 					<td align="center" style="width:60px"><a>長</a></td>
 					<td align="center" style="width:60px"><a>寬</a></td>
 					<td align="center" style="width:60px"><a>高</a></td>
@@ -578,12 +638,14 @@
 					<td align="center" style="width:60px"><a>單位</a></td>
 					<td align="center" style="width:60px"><a>材積</a></td>
 					<td align="center" style="width:60px"><a>重量</a></td>
-					<td align="center" style="width:60px"><a>單位</a></td>
-					<td align="center" style="width:120px"><a>起點</a></td>
-					<td align="center" style="width:120px"><a>迄點</a></td>
+					<td align="center" style="display:none;width:60px"><a>單位</a></td>
+					<td align="center" style="display:none;width:120px"><a>起點</a></td>
+					<td align="center" style="display:none;width:120px"><a>迄點</a></td>
 					<td align="center" style="width:60px"><a>應收<BR>運費</a></td>
 					<td align="center" style="width:60px"><a>盤車</a></td>
 					<td align="center" style="width:60px;display:none;"><a>應付<BR>運費</a></td>
+					<td align="center" style="width:60px"><a>收貨</a></td>
+					<td align="center" style="width:60px"><a>代收</a></td>
 					<td align="center" style="width:150px"><a>備註</a></td>
 					<td align="center" style="width:150px"><a>注意事項</a></td>
 				</tr>
@@ -593,8 +655,10 @@
 						<input type="text" id="txtNoq.*" style="display:none;"/>
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
-					<td><input type="text" id="txtTypea.*" list="listTypea" class="num" style="width:95%;" /> </td>
-					<td>
+					<td><input type="text" id="txtTypea.*" list="listTypea" style="width:95%;" /> </td>
+					<td><input type="text" id="txtTime1.*" list="listTime" style="width:95%;" /> </td>
+					<td><input type="text" id="txtTime2.*" list="listTime" style="width:95%;" /> </td>
+					<td style="display:none;">
 						<input type="text" id="txtProductno.*" style="width:35%;" />
 						<input type="text" id="txtProduct.*" style="width:55%;" />
 						<input type="button" id="btnProduct.*" style="display:none;">
@@ -607,13 +671,13 @@
 					<td><input type="text" id="txtUnit.*" list="listUnit" style="width:95%;" /></td>
 					<td><input type="text" id="txtVolume.*" class="num" style="width:95%;" /></td>
 					<td><input type="text" id="txtWeight.*" class="num" style="width:95%;" /></td>
-					<td><input type="text" id="txtUnit2.*" list="listUnit2" style="width:95%;" /></td>
-					<td>
+					<td style="display:none;"><input type="text" id="txtUnit2.*" list="listUnit2" style="width:95%;" /></td>
+					<td style="display:none;">
 						<input type="text" id="txtAddrno.*" style="width:45%;" />
 						<input type="text" id="txtAddr.*" style="width:45%;" />
 						<input type="button" id="btnAddr.*" style="display:none;">
 					</td>
-					<td>
+					<td style="display:none;">
 						<input type="text" id="txtAddrno2.*" style="width:45%;" />
 						<input type="text" id="txtAddr2.*" style="width:45%;" />
 						<input type="button" id="btnAddr2.*" style="display:none;">
@@ -621,14 +685,19 @@
 					<td><input type="text" id="txtTotal.*" class="num" style="width:95%;" /></td>
 					<td><input type="text" id="txtTotal2.*" class="num" style="width:95%;" /></td>
 					<td style="display:none;"><input type="text" id="txtTotal3.*" class="num" style="width:95%;" /></td>
+					<td><input type="text" id="txtContainerno1.*" class="num" style="width:95%;" /></td>
+					<td><input type="text" id="txtContainerno2.*" class="num" style="width:95%;" /></td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;" /></td>
 					<td><input type="text" id="txtMemo2.*" style="width:95%;" /></td>
 				</tr>
 			</table>
 		</div>
+		<datalist id="listAddr1"> </datalist>
+		<datalist id="listAddr2"> </datalist>
 		<datalist id="listUnit"> </datalist>
 		<datalist id="listUnit2"> </datalist>
 		<datalist id="listTypea"> </datalist>
+		<datalist id="listTime"> </datalist>
 		
 		<input id="q_sys" type="hidden" />
 		<div id="dbbt" style="position: absolute;top:250px; left:450px; display:none;width:400px;">

@@ -22,7 +22,7 @@
 			var bbmNum = new Array();
 			var bbmMask = new Array(['txtDatea', '999/99/99'],['txtTimea', '99:99'],['textBdate','999/99/99'],['textEdate','999/99/99']);
 			var bbsNum = new Array();
-			var bbsMask = new Array(['txtTime1', '99:99']);
+			var bbsMask = new Array();
 			var bbtNum  = new Array(); 
 			var bbtMask = new Array();
 			q_sqlCount = 6;
@@ -98,6 +98,10 @@
 				var t_unit2 = q_getPara('trans.unit2').split(',');
 				for(var i=0;i<t_unit2.length;i++){
 					$('#listUnit2').append('<option value="'+t_unit2[i]+'"></option>');
+				}
+				var t_time = ['點前','點~點','8點','9點','10點','11點','12點','13點','14點','15點','16點'];
+				for(var i=0;i<t_time.length;i++){
+					$('#listTime').append('<option value="'+t_time[i]+'"></option>');
 				}
 				
 				$('#btnOrde').click(function(e){
@@ -683,19 +687,20 @@
 					<td align="center" style="width:20px;"> </td>
 					<td align="center" style="width:70px"><a>類型</a></td>
 					<td align="center" style="width:70px;"><a>提貨時間</a></td>
-					<td align="center" style="width:70px;"><a>車牌</a></td>
+					<td align="center" style="width:70px;"><a>卸貨時間</a></td>
+					<td align="center" style="display:none;width:70px;"><a>車牌</a></td>
 					<td align="center" style="width:150px;"><a>司機</a></td>
 					<td align="center" style="width:150px"><a>客戶</a></td>
-					<td align="center" style="width:100px"><a>聯絡人</a></td>
-					<td align="center" style="width:150px"><a>品名</a></td>
-					<td align="center" style="width:60px;display:none;"><a>長cm</a></td>
-					<td align="center" style="width:60px;display:none;"><a>寬cm</a></td>
-					<td align="center" style="width:60px;display:none;"><a>高cm</a></td>
+					<td align="center" style="display:none;width:100px"><a>聯絡人</a></td>
+					<td align="center" style="display:none;width:150px"><a>品名</a></td>
 					<td align="center" style="width:60px"><a>數量</a></td>
 					<td align="center" style="width:40px"><a>單位</a></td>
+					<td align="center" style="width:60px;"><a>長cm</a></td>
+					<td align="center" style="width:60px;"><a>寬cm</a></td>
+					<td align="center" style="width:60px;"><a>高cm</a></td>
 					<td align="center" style="width:60px"><a>材積</a></td>
 					<td align="center" style="width:60px"><a>重量</a></td>
-					<td align="center" style="width:40px"><a>單位</a></td>
+					<td align="center" style="display:none;width:40px"><a>單位</a></td>
 					<td align="center" style="width:60px"><a>運費</a></td>
 					<td align="center" style="width:60px"><a>收貨</a></td>
 					<td align="center" style="width:60px"><a>代收</a></td>
@@ -714,8 +719,9 @@
 					</td>
 					<td><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
 					<td><input type="text" id="txtTypea.*" list="listTypea" style="width:95%;"/></td>
-					<td><input type="text" id="txtTime1.*"  style="width:95%;"/></td>
-					<td>
+					<td><input type="text" id="txtTime1.*" list="listTime" style="width:95%;"/></td>
+					<td><input type="text" id="txtTime2.*" list="listTime" style="width:95%;"/></td>
+					<td style="display:none;">
 						<input type="text" id="txtCarno.*" style="width:95%;"/>
 						<input type="button" id="btnCarno.*" style="display:none;"/>
 					</td>
@@ -729,21 +735,21 @@
 						<input type="text" id="txtCust.*" style="float:left;width:45%;"/>
 						<input type="button" id="btnCust.*" style="display:none;"/>
 					</td>
-					<td><input type="text" id="txtConn.*"  style="width:95%;"/></td>
-					<td>
+					<td style="display:none;"><input type="text" id="txtConn.*"  style="width:95%;"/></td>
+					<td style="display:none;">
 						<input type="text" id="txtProductno.*" style="float:left;width:45%;"/>
 						<input type="text" id="txtProduct.*" style="float:left;width:45%;"/>
 						<input type="button" id="btnProduct.*" style="display:none;"/>
 						<input type="text" id="txtUweight.*" style="display:none;"/>
 					</td>
-					<td style="display:none;"><input type="text" id="txtLengthb.*" class="num" style="width:95%;"/></td>
-					<td style="display:none;"><input type="text" id="txtWidth.*" class="num bbsWeight" style="width:95%;"/></td>
-					<td style="display:none;"><input type="text" id="txtHeight.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtMount.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtUnit.*" list="listUnit" style="width:95%;"/></td>
+					<td ><input type="text" id="txtLengthb.*" class="num" style="width:95%;"/></td>
+					<td ><input type="text" id="txtWidth.*" class="num" style="width:95%;"/></td>
+					<td ><input type="text" id="txtHeight.*" class="num" style="width:95%;"/></td>
 					<td><input type="text" id="txtVolume.*" class="num " style="width:95%;"/></td>
 					<td><input type="text" id="txtWeight.*" class="num" style="width:95%;"/></td>
-					<td><input type="text" id="txtUnit2.*" list="listUnit2" style="width:95%;"/></td>
+					<td style="display:none;"><input type="text" id="txtUnit2.*" list="listUnit2" style="width:95%;"/></td>
 					<td><input type="text" id="txtTotal.*" class="num " style="width:95%;"/></td>
 					<td><input type="text" id="txtTotal2.*" class="num " style="width:95%;"/></td>
 					<td><input type="text" id="txtTotal3.*" class="num " style="width:95%;"/></td>
@@ -772,6 +778,8 @@
 		<datalist id="listUnit"> </datalist>
 		<datalist id="listUnit2"> </datalist>
 		<datalist id="listTypea"> </datalist>
+		<datalist id="listTime"> </datalist>
+		
 		<div class='dbbt' style="display:none;">
 			<table id="tbbt" class='tbbt'>
 				<tr style="color:white; background:#003366;">
