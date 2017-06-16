@@ -251,8 +251,9 @@
                         	}
                         	while(q_bbsCount<as.length)
                         		$('#btnPlus').click();
-                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtTypea,txtOrdeno,txtNo2,txtCustno,txtCust,txtConn,txtProductno,txtProduct,txtUweight,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtMemo2,txtLengthb,txtWidth,txtHeight'
-                        	, as.length, as, 'typea,noa,noq,custno,cust,conn,productno,product,uweight,emount,unit,evolume,eweight,addrno,addr,addrno2,addr2,memo,memo2,lengthb,width,height', '','');
+
+                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtTypea,txtOrdeno,txtNo2,txtTime1,txtTime2,txtCustno,txtCust,txtProductno,txtProduct,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtMemo2,txtLengthb,txtWidth,txtHeight,txtTotal2,txtTotal3,txtAddress,txtAllowcar'
+                        	, as.length, as, 'typea,noa,noq,time1,time2,custno,cust,productno,product,mount,unit,volume,weight,addrno,addr,addrno2,addr2,memo,memo2,lengthb,width,height,money3,money4,addrs,addrs2', '','');
                         }else{
                         	Unlock(1);
                         }
@@ -757,11 +758,13 @@
 						<input type="text" id="txtAddrno.*" style="float:left;width:40%;"/>
 						<input type="text" id="txtAddr.*" style="float:left;width:50%;"/>
 						<input type="button" id="btnAddr.*" style="display:none;"/>
+						<input type="text" id="txtAddress.*" style="width:95%;"/>
 					</td>
 					<td>
 						<input type="text" id="txtAddrno2.*" style="float:left;width:40%;"/>
 						<input type="text" id="txtAddr2.*" style="float:left;width:50%;"/>
 						<input type="button" id="btnAddr2.*" style="display:none;"/>
+						<input type="text" id="txtAllowcar.*" style="width:95%;"/>
 					</td>
 					<td><input type="text" id="txtMemo.*" style="width:95%;"/></td>
 					<td><input type="text" id="txtMemo2.*" style="width:95%;"/></td>

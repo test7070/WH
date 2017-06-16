@@ -122,6 +122,8 @@
 					<td align="center" style="width:100px;"><a>品名</a></td>
 					<td align="center" style="width:100px;"><a>起點</a></td>
 					<td align="center" style="width:100px;"><a>迄點</a></td>
+					<td align="center" style="width:60px;"><a>提貨時間</a></td>
+					<td align="center" style="width:60px;"><a>卸貨時間</a></td>
 					<td align="center" style="width:60px;"><a>長cm</a></td>
 					<td align="center" style="width:60px;"><a>寬cm</a></td>
 					<td align="center" style="width:60px;"><a>高cm</a></td>
@@ -160,6 +162,12 @@
 					<td style="width:150px;">
 						<input id="txtNoa.*" type="text" style="float:left;width:78%;"  readonly="readonly" />
 						<input id="txtNoq.*" type="text" style="float:left;width:20%; text-align: right;"  readonly="readonly" />
+						<input id="txtMoney1.*" type="text" style="display:none;"/>
+						<input id="txtMoney2.*" type="text" style="display:none;"/>
+						<input id="txtMoney3.*" type="text" style="display:none;"/>
+						<input id="txtMoney4.*" type="text" style="display:none;"/>
+						<input id="txtMemo.*" type="text" style="display:none;"/>
+						<input id="txtMemo2.*" type="text" style="display:none;"/>
 					</td>
 					<td style="width:100px;">
 						<input id="txtCustno.*" type="text" style="display:none;"/>
@@ -172,18 +180,22 @@
 					<td style="width:100px;">
 						<input id="txtAddrno.*" type="text" style="display:none;"/>
 						<input id="txtAddr.*" type="text" style="float:left;width:95%;" readonly="readonly" />
+						<input id="txtAddrs.*" type="text" style="display:none;"/>
 					</td>
 					<td style="width:100px;">
 						<input id="txtAddrno2.*" type="text" style="display:none;"/>
 						<input id="txtAddr2.*" type="text" style="float:left;width:95%;" readonly="readonly" />
+						<input id="txtAddrs2.*" type="text" style="display:none;"/>
 					</td>
+					<td style="width:60px;"><input id="txtTime1.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
+					<td style="width:60px;"><input id="txtTime2.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtLengthb.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtWidth.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtHeight.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
-					<td style="width:60px;"><input id="txtEmount.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
+					<td style="width:60px;"><input id="txtMount.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtUnit.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
-					<td style="width:60px;"><input id="txtEvolume.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
-					<td style="width:60px;"><input id="txtEweight.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
+					<td style="width:60px;"><input id="txtVolume.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
+					<td style="width:60px;"><input id="txtWeight.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 				</tr>
 			</table>
 		</div>
