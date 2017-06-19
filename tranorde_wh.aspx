@@ -34,6 +34,7 @@
 			brwCount2 = 5;
 			aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx'] 
 				,['txtProductno', 'lblTgg_wh', 'cust', 'noa,comp,nick', 'txtProductno,txtProduct', 'cust_b.aspx'] 
+				,['txtDo1', 'lblTgg2_wh', 'cust', 'noa,comp,nick', 'txtDo1,txtBoat', 'cust_b.aspx'] 
 				,['txtAddrno', 'lblAddr1', 'addr', 'noa,addr', 'txtAddrno,txtAddr', 'addr_b.aspx']
 				,['txtCbno', 'lblAddr2', 'addr', 'noa,addr', 'txtCbno,txtCaddr', 'addr_b.aspx']
 				,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
@@ -612,7 +613,13 @@
 							<textarea id="txtMemo" class="txt c1" style="height:75px;"> </textarea>
 						</td>
 					</tr>
-
+					<tr>
+						<td><span> </span><a id="lblTgg2_wh" class="lbl btn">空運公司</a></td>
+						<td colspan="6">
+							<input type="text" id="txtDo1" class="txt" style="width:30%;float: left; " />
+							<input type="text" id="txtBoat" class="txt" style="width:70%;float: left; " />
+						</td>
+					</tr>
 					<tr>
 						<td><span> </span><a id="lblWorker" class="lbl"> </a></td>
 						<td colspan="2"><input id="txtWorker" type="text"  class="txt c1"/></td>
