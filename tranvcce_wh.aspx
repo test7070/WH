@@ -34,7 +34,7 @@
 			q_desc = 1;
 			//q_xchg = 1;
 			brwCount2 = 7;
-			aPop = new Array(['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
+			aPop = new Array(['txtProductno_', 'btnProduct_', 'cust', 'noa,comp,nick', 'txtProductno_,txtProduct_', 'cust_b.aspx']//貨主
 				,['txtAddrno_', 'btnAddr_', 'addr', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr_b.aspx']
 				,['txtAddrno2_', 'btnAddr2_', 'addr', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr_b.aspx']
 				,['txtCarno_', 'btnCarno_', 'car2', 'a.noa,driverno,driver', 'txtCarno_,txtDriverno_,txtDriver_', 'car2_b.aspx']
@@ -258,9 +258,12 @@
                         	Unlock(1);
                         }
                         break;
-                    case q_name + '_s':
+                    case 'tranvcce_wh_s':
                         q_boxClose2(s2);
                         break;
+                    case q_name + '_s':
+						q_boxClose2(s2);
+						break;
                 }
                 b_pop='';
             }
@@ -297,7 +300,7 @@
 			function _btnSeek() {
 				if (q_cur > 0 && q_cur < 4)
 					return;
-				q_box('tranvcce_js_s.aspx', q_name + '_s', "500px", "600px", q_getMsg("popSeek"));
+				q_box('tranvcce_wh_s.aspx', q_name + '_s', "500px", "600px", q_getMsg("popSeek"));
 			}
 
 			function btnIns() {
@@ -553,7 +556,7 @@
 				margin: -1px;
 			}
 			.dbbs {
-				width: 2400px;
+				width: 1950px;
 			}
 			.dbbt {
 				width: 2000px;
@@ -690,10 +693,10 @@
 					<td align="center" style="width:70px;"><a>提貨時間</a></td>
 					<td align="center" style="width:70px;"><a>卸貨時間</a></td>
 					<td align="center" style="display:none;width:70px;"><a>車牌</a></td>
-					<td align="center" style="width:150px;"><a>司機</a></td>
-					<td align="center" style="width:150px"><a>客戶</a></td>
+					<td align="center" style="width:100px;"><a>司機</a></td>
+					<td align="center" style="width:100px"><a>客戶</a></td>
 					<td align="center" style="display:none;width:100px"><a>聯絡人</a></td>
-					<td align="center" style="display:none;width:150px"><a>品名</a></td>
+					<td align="center" style="width:100px"><a>貨主</a></td>
 					<td align="center" style="width:60px"><a>數量</a></td>
 					<td align="center" style="width:40px"><a>單位</a></td>
 					<td align="center" style="width:60px;"><a>長cm</a></td>
@@ -707,9 +710,8 @@
 					<td align="center" style="width:60px"><a>代收</a></td>
 					<td align="center" style="width:170px"><a>起點</a></td>
 					<td align="center" style="width:170px"><a>迄點</a></td>
-					<td align="center" style="width:100px"><a>備註</a></td>
-					<td align="center" style="width:100px"><a>注意事項</a></td>
-					<td align="center" style="width:200px"><a>訂單</a></td>
+					<td align="center" style="width:200px"><a>備註<br>注意事項</a></td>
+					<td align="center" style="width:170px"><a>訂單</a></td>
 					<td align="center" style="width:30px"><a id="lblChk1">提貨<BR>完工</a></td>
 					<td align="center" style="width:30px"><a id="lblChk2">卸貨<BR>完工</a></td>
 				</tr>
@@ -727,19 +729,19 @@
 						<input type="button" id="btnCarno.*" style="display:none;"/>
 					</td>
 					<td>
-						<input type="text" id="txtDriverno.*" style="width:45%;float:left;"/>
-						<input type="text" id="txtDriver.*" style="width:45%;float:left;"/>
+						<input type="text" id="txtDriverno.*" style="width:95%;"/>
+						<input type="text" id="txtDriver.*" style="width:95%;"/>
 						<input type="button" id="btnDriver.*" style="display:none;"/>
 					</td>
 					<td>
-						<input type="text" id="txtCustno.*" style="float:left;width:40%;"/>
-						<input type="text" id="txtCust.*" style="float:left;width:45%;"/>
+						<input type="text" id="txtCustno.*" style="width:95%;"/>
+						<input type="text" id="txtCust.*" style="width:95%;"/>
 						<input type="button" id="btnCust.*" style="display:none;"/>
 					</td>
 					<td style="display:none;"><input type="text" id="txtConn.*"  style="width:95%;"/></td>
-					<td style="display:none;">
-						<input type="text" id="txtProductno.*" style="float:left;width:45%;"/>
-						<input type="text" id="txtProduct.*" style="float:left;width:45%;"/>
+					<td>
+						<input type="text" id="txtProductno.*" style="float:left;width:95%;"/>
+						<input type="text" id="txtProduct.*" style="float:left;width:95%;"/>
 						<input type="button" id="btnProduct.*" style="display:none;"/>
 						<input type="text" id="txtUweight.*" style="display:none;"/>
 					</td>
@@ -766,8 +768,10 @@
 						<input type="button" id="btnAddr2.*" style="display:none;"/>
 						<input type="text" id="txtAllowcar.*" style="width:95%;"/>
 					</td>
-					<td><input type="text" id="txtMemo.*" style="width:95%;"/></td>
-					<td><input type="text" id="txtMemo2.*" style="width:95%;"/></td>
+					<td>
+						<input type="text" id="txtMemo.*" style="width:95%;"/>
+						<input type="text" id="txtMemo2.*" style="width:95%;"/>
+					</td>
 					<td>
 						<input type="text" id="txtOrdeno.*" style="float:left;width:70%;"/>
 						<input type="text" id="txtNo2.*" style="float:left;width:20%;"/>

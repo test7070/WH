@@ -114,14 +114,14 @@
 			<table id="tFixedTitle" class='tFixedTitle'  border="2"  cellpadding='2' cellspacing='1' style='width:100%;'  >
 				<tr style='color:white; background:#003366;' >
 					<td align="center" style="width:25px" ><input type="checkbox" id="checkAllCheckbox"/></td>
-					<td align="center" style="width:30px;"> </td>
+					<td align="center" style="width:30px;"><a style="font-weight: bold;text-align: center;display: block;">　</a></td>
 					<td align="center" style="width:50px;"><a>趟次</a></td>
 					<td align="center" style="width:60px;"><a>類型</a></td>
-					<td align="center" style="width:150px;"><a>訂單編號</a></td>
+					<td align="center" style="width:130px;"><a>訂單編號</a></td>
 					<td align="center" style="width:100px;"><a>客戶</a></td>
-					<td align="center" style="width:100px;"><a>品名</a></td>
-					<td align="center" style="width:100px;"><a>起點</a></td>
-					<td align="center" style="width:100px;"><a>迄點</a></td>
+					<td align="center" style="width:100px;"><a>貨主</a></td>
+					<td align="center" style="width:80px;"><a>起點</a></td>
+					<td align="center" style="width:80px;"><a>迄點</a></td>
 					<td align="center" style="width:60px;"><a>提貨時間</a></td>
 					<td align="center" style="width:60px;"><a>卸貨時間</a></td>
 					<td align="center" style="width:60px;"><a>長cm</a></td>
@@ -138,14 +138,14 @@
 			<table id="tbbs" class='tbbs' border="2" cellpadding='2' cellspacing='1' style='width:100%;' >
 				<tr style="display:none;">
 					<td align="center" style="width:25px;"> </td>
-					<td align="center" style="width:30px;"> </td>
+					<td align="center" style="width:30px;"><a style="font-weight: bold;text-align: center;display: block;">　</a></td>
 					<td align="center" style="width:50px;"> </td>
 					<td align="center" style="width:60px;"> </td>
-					<td align="center" style="width:150px;"> </td>
+					<td align="center" style="width:130px;"> </td>
 					<td align="center" style="width:100px;"> </td>
 					<td align="center" style="width:100px;"> </td>
-					<td align="center" style="width:100px;"> </td>
-					<td align="center" style="width:100px;"> </td>
+					<td align="center" style="width:80px;"> </td>
+					<td align="center" style="width:80px;"> </td>
 					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
@@ -157,10 +157,10 @@
 				<tr style='background:#cad3ff;'>
 					<td style="width:25px;"><input id="chkSel.*" type="checkbox"/></td>
 					<td style="width:30px;"><a id="lblNo.*" style="font-weight: bold;text-align: center;display: block;"> </a></td>
-					<td style="width:60px;"><input id="txtN.*" type="text" style="width:95%;text-align: center;"/></td>
+					<td style="width:50px;"><input id="txtN.*" type="text" style="width:95%;text-align: center;"/></td>
 					<td style="width:60px;"><input id="txtTypea.*" type="text" style="width:95%;" readonly="readonly"/></td>
-					<td style="width:150px;">
-						<input id="txtNoa.*" type="text" style="float:left;width:78%;"  readonly="readonly" />
+					<td style="width:130px;">
+						<input id="txtNoa.*" type="text" style="float:left;width:78%;text-align: right;"  readonly="readonly" />
 						<input id="txtNoq.*" type="text" style="float:left;width:20%; text-align: right;"  readonly="readonly" />
 						<input id="txtMoney1.*" type="text" style="display:none;"/>
 						<input id="txtMoney2.*" type="text" style="display:none;"/>
@@ -177,12 +177,12 @@
 						<input id="txtProductno.*" type="text" style="display:none;"/>
 						<input id="txtProduct.*" type="text" style="float:left;width:95%;" readonly="readonly" />
 					</td>
-					<td style="width:100px;">
+					<td style="width:80px;">
 						<input id="txtAddrno.*" type="text" style="display:none;"/>
 						<input id="txtAddr.*" type="text" style="float:left;width:95%;" readonly="readonly" />
 						<input id="txtAddrs.*" type="text" style="display:none;"/>
 					</td>
-					<td style="width:100px;">
+					<td style="width:80px;">
 						<input id="txtAddrno2.*" type="text" style="display:none;"/>
 						<input id="txtAddr2.*" type="text" style="float:left;width:95%;" readonly="readonly" />
 						<input id="txtAddrs2.*" type="text" style="display:none;"/>
