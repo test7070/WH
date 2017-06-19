@@ -122,7 +122,7 @@
                    		var t_bdate = $('#textBdate').val();
                    		var t_edate = $('#textEdate').val();
                    		t_key = (t_key.length==0?'BA':t_key);//一定要有值
-                   		q_func('qtxt.query.tranvcce2tran_es', 'tran.txt,tranvcce2tran,' + encodeURI(t_key) + ';'+ encodeURI(t_bdate) + ';'+ encodeURI(t_edate));
+                   		q_func('qtxt.query.tranvcce2tran_wh', 'tran.txt,tranvcce2tran,' + encodeURI(t_key) + ';'+ encodeURI(t_bdate) + ';'+ encodeURI(t_edate));
                 	}
                 });
 			}
@@ -257,9 +257,6 @@
                         }else{
                         	Unlock(1);
                         }
-                        break;
-                    case 'tranvcce_wh_s':
-                        q_boxClose2(s2);
                         break;
                     case q_name + '_s':
 						q_boxClose2(s2);
@@ -440,7 +437,7 @@
 			
 			function q_funcPost(t_func, result) {
 				switch(t_func) {
-					case 'qtxt.query.tranvcce2tran_es':
+					case 'qtxt.query.tranvcce2tran_wh':
             			var as = _q_appendData("tmp0", "", true, true);
                         alert(as[0].msg);
             			break;

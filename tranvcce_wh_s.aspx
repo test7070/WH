@@ -65,15 +65,15 @@
 				}else if(t_ordeno.length>0){
 					t_where += " and exists(select noa from view_tranvcces"+r_accy+" where view_tranvcces"+r_accy+".noa=view_tranvcce"+r_accy+".noa and view_tranvcces"+r_accy+".ordeno='"+t_ordeno+"')";
 				}
-				if(t_typea.lenght>0)
+				if(t_typea.length>0)
 					t_where += " and exists(select noa from view_tranvcces"+r_accy+" where view_tranvcces"+r_accy+".noa=view_tranvcce"+r_accy+".noa and view_tranvcces"+r_accy+".typea='"+t_typea+"')";
-				if(t_custno.lenght>0)
+				if(t_custno.length>0)
 					t_where += " and exists(select noa from view_tranvcces"+r_accy+" where view_tranvcces"+r_accy+".noa=view_tranvcce"+r_accy+".noa and view_tranvcces"+r_accy+".custno='"+t_custno+"')";
-				if(t_cust.lenght>0)
+				if(t_cust.length>0)
 					t_where += " and exists(select noa from view_tranvcces"+r_accy+" where view_tranvcces"+r_accy+".noa=view_tranvcce"+r_accy+".noa and view_tranvcces"+r_accy+".cust=N'"+t_cust+"')";
-				if(t_productno.lenght>0)
+				if(t_productno.length>0)
 					t_where += " and exists(select noa from view_tranvcces"+r_accy+" where view_tranvcces"+r_accy+".noa=view_tranvcce"+r_accy+".noa and view_tranvcces"+r_accy+".productno='"+t_productno+"')";
-				if(t_product.lenght>0)
+				if(t_product.length>0)
 					t_where += " and exists(select noa from view_tranvcces"+r_accy+" where view_tranvcces"+r_accy+".noa=view_tranvcce"+r_accy+".noa and view_tranvcces"+r_accy+".product=N'"+t_product+"')";		
 				t_where = ' where=^^' + t_where + '^^ ';
 				return t_where;
