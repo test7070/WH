@@ -804,6 +804,11 @@ z_trans_wh07:--z_trans_wh07 客戶承運明細表
 		set @xxdate = '登錄日期：'+@t_bdate +'～'+@t_edate
 	end	
 	
+	if not exists(select * from @tmp)
+	begin
+		insert into @tmp(gno)values('1')
+	end
+	
 	select gno	
 		,'客戶全銜：'+cust b01
 		,'提貨地址：'+address2 b02
