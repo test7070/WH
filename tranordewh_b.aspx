@@ -160,8 +160,8 @@
 					<td style="width:50px;"><input id="txtN.*" type="text" style="width:95%;text-align: center;"/></td>
 					<td style="width:60px;"><input id="txtTypea.*" type="text" style="width:95%;" readonly="readonly"/></td>
 					<td style="width:130px;">
-						<input id="txtNoa.*" type="text" style="float:left;width:78%;text-align: right;"  readonly="readonly" />
-						<input id="txtNoq.*" type="text" style="float:left;width:20%; text-align: right;"  readonly="readonly" />
+						<input id="txtNoa.*" type="text" style="float:left;width:78%;"  readonly="readonly" />
+						<input id="txtNoq.*" type="text" style="float:left;width:20%;"  readonly="readonly" />
 						<input id="txtMoney1.*" type="text" style="display:none;"/>
 						<input id="txtMoney2.*" type="text" style="display:none;"/>
 						<input id="txtMoney3.*" type="text" style="display:none;"/>
