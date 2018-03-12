@@ -171,9 +171,14 @@
 			}
 
 			function btnIns() {
+				//新增時複製前一筆的日期,代入
+				var _curdate = $.trim($('#txtDatea').val());
 				_btnIns();
 				$('#txtNoa').val('AUTO');
-				$('#txtDatea').val(q_date());
+				if(_curdate.length>0)
+					$('#txtDatea').val(_curdate);
+				else
+					$('#txtDatea').val(q_date());
 				$('#chkEnda').prop('checked',false);
 				$('#txtDatea').focus();
 			}
@@ -576,9 +581,9 @@
 					<tr>
 						<td><span> </span><a id="lblCust" class="lbl btn"> </a></td>
 						<td colspan="6">
-							<input type="text" id="txtCustno" class="txt" style="width:30%;float: left; " />
-							<input type="text" id="txtComp" class="txt" style="width:70%;float: left; " />
-							<input type="text" id="txtNick" class="txt" style="display:none; " />
+							<input type="text" id="txtCustno" class="txt" style="width:20%;float: left; " />
+							<input type="text" id="txtComp" class="txt" style="width:65%;float: left; " />
+							<input type="text" id="txtNick" class="txt" style="width:15%;float: left; " />
 						</td>
 					</tr>
 					<tr>
@@ -628,6 +633,13 @@
 						<td colspan="6">
 							<input type="text" id="txtDo1" class="txt" style="width:30%;float: left; " />
 							<input type="text" id="txtBoat" class="txt" style="width:70%;float: left; " />
+						</td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblTgg3_wh" class="lbl btn">空運貨主</a></td>
+						<td colspan="6">
+							<input type="text" id="txtDo2" class="txt" style="width:30%;float: left; " />
+							<input type="text" id="txtDock" class="txt" style="width:70%;float: left; " />
 						</td>
 					</tr>
 					<tr>
