@@ -766,7 +766,7 @@ z_trans_wh07:--z_trans_wh07 客戶承運明細表
 	and (ISNULL(a.driverno,'') between @t_bdriverno and @t_edriverno)
 	and (len(@t_carno)=0 or CHARINDEX(@t_carno,a.carno)>0)
 	and (ISNULL(a.uccno,'') between @t_bproductno and @t_eproductno)
-	--and a.[status] = 'tranorde'  --2018/03/02 忘記這個的作用了
+	and a.[status] = 'tranorde'  -- 代表這個是訂單應收的部分
 	order by a.trandate,a.noa
 	
 	update @tmp set tax=round(ISNULL(total,0)*0.05,0)
