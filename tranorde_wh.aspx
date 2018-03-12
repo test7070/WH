@@ -31,7 +31,7 @@
 			q_alias = '';
 			q_desc = 1;
 			//q_xchg = 1;
-			brwCount2 = 5;
+			brwCount2 = 12;
 			aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx'] 
 				,['txtProductno', 'lblTgg_wh', 'cust', 'noa,comp,nick', 'txtProductno,txtProduct', 'cust_b.aspx'] 
 				,['txtDo1', 'lblTgg2_wh', 'cust', 'noa,comp,nick', 'txtDo1,txtBoat', 'cust_b.aspx'] 
@@ -39,7 +39,8 @@
 				,['txtCbno', 'lblAddr2', 'addr', 'noa,addr', 'txtCbno,txtCaddr', 'addr_b.aspx']
 				,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
 				,['txtAddrno_', 'btnAddr_', 'addr', 'noa,addr', 'txtAddrno_,txtAddr_', 'addr_b.aspx']
-				,['txtAddrno2_', 'btnAddr2_', 'addr', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr_b.aspx']);
+				,['txtAddrno2_', 'btnAddr2_', 'addr', 'noa,addr', 'txtAddrno2_,txtAddr2_', 'addr_b.aspx']
+				,['txtPort', 'lblPort_wh', 'store', 'noa,store', 'txtPort,txtPort2', 'store_b.aspx']);
 
 			$(document).ready(function() {
 				var t_where = '';
@@ -115,8 +116,9 @@
                     });
                     $('#txtPrice_'+i).change(function(e){sum();});
                     $('#txtMount_'+i).change(function(e){
-                    	var n = $(this).attr('id').replace(/^(.*)_(\d+)$/,'$2');
-                        refreshWV(n);
+                    	sum();
+                    	//var n = $(this).attr('id').replace(/^(.*)_(\d+)$/,'$2');
+                        //refreshWV(n);
                 	});
                     $('#txtLengthb_'+i).change(function(e){sum();});
                     $('#txtWidth_'+i).change(function(e){sum();});
@@ -331,8 +333,9 @@
 						break;
 						
 					case 'txtProductno_':
-						var n = b_seq;
-						refreshWV(n);
+						//var n = b_seq;
+						//refreshWV(n);
+						sum();
 						break;
 					default:
 						break;
@@ -614,10 +617,24 @@
 						</td>
 					</tr>
 					<tr>
+						<!-- 轉空運用 -->
+						<td><span> </span><a id="lblMemo2_wh" class="lbl">聯絡電話</a></td>
+						<td colspan="6">
+							<textarea id="txtMemo2" class="txt c1" style="height:75px;"> </textarea>
+						</td>
+					</tr>
+					<tr>
 						<td><span> </span><a id="lblTgg2_wh" class="lbl btn">空運公司</a></td>
 						<td colspan="6">
 							<input type="text" id="txtDo1" class="txt" style="width:30%;float: left; " />
 							<input type="text" id="txtBoat" class="txt" style="width:70%;float: left; " />
+						</td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblPort_wh" class="lbl btn">倉儲</a></td>
+						<td colspan="6">
+							<input type="text" id="txtPort" class="txt" style="width:30%;float: left; " />
+							<input type="text" id="txtPort2" class="txt" style="width:70%;float: left; " />
 						</td>
 					</tr>
 					<tr>
