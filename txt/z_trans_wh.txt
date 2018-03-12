@@ -716,7 +716,7 @@ z_trans_wh07:--z_trans_wh07 客戶承運明細表
 	declare @t_bproductno nvarchar(20) = case when '#non'=[12] then '' else [12] end
 	declare @t_eproductno nvarchar(20) = case when '#non'=[13] then char(255) else [13] end
 	declare @t_custtype nvarchar(max) = case when '#non'=[14] then '' else [14] end 
-	------------------------------------------------------------------
+	--------------------------------------------------------------------------------------------
 	declare @tmp table(
 		sel int identity(1,1)
 		,gno nvarchar(10)
@@ -747,13 +747,14 @@ z_trans_wh07:--z_trans_wh07 客戶承運明細表
 		,unit nvarchar(20)
 		,reserve float
 		,memo nvarchar(max)
+		,billmemo nvarchar(max)
 	)
 	insert into @tmp(gno,accy,noa,noq,custtype,custno,cust,nick,mount,volume,[weight]
 		,straddrno,straddr,endaddrno,endaddr,total,total2,unit,driverno,driver
-		,reserve,memo)
+		,reserve,memo,billmemo)
 	select '1',a.accy,a.noa,a.noq,c.typea,a.custno,a.comp,a.nick,a.mount,a.volume,a.[weight]
 		,a.straddrno,a.straddr,a.endaddrno,a.endaddr,a.total,a.total2,a.unit
-		,a.driverno,a.driver,a.reserve,a.memo
+		,a.driverno,a.driver,a.reserve,a.memo,ISNULL(c.billmemo,'')
 	from view_trans a
 	left join view_tran b on a.accy=b.accy and a.noa=b.noa
 	left join cust c on a.custno=c.noa
@@ -811,7 +812,7 @@ z_trans_wh07:--z_trans_wh07 客戶承運明細表
 	
 	select gno	
 		,'客戶全銜：'+cust b01
-		,'提貨地址：'+address2 b02
+		,'請款備註：'+billmemo b02
 		,@xxdate b03
 		,'統一編號：'+serial b04
 		,'公司地址：'+address1 b05
