@@ -32,9 +32,12 @@
 			q_desc = 1;
 			//q_xchg = 1;
 			brwCount2 = 12;
-			aPop = new Array(['txtCustno', 'lblCust', 'cust', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'cust_b.aspx'] 
-				,['txtProductno', 'lblTgg_wh', 'cust', 'noa,comp,nick', 'txtProductno,txtProduct', 'cust_b.aspx'] 
-				,['txtDo1', 'lblTgg2_wh', 'cust', 'noa,comp,nick', 'txtDo1,txtBoat', 'cust_b.aspx'] 
+			aPop = new Array(
+				['txtCustno', 'lblCust', 'custwh1', 'noa,comp,nick', 'txtCustno,txtComp,txtNick', 'custwh1_b.aspx'] 
+				,['txtProductno', 'lblTgg_wh', 'custwh2', 'noa,comp,nick', 'txtProductno,txtProduct', 'custwh2_b.aspx'] 
+				,['txtDo1', 'lblTgg2_wh', 'custwh3', 'noa,comp,nick', 'txtDo1,txtBoat', 'custwh3_b.aspx'] 
+				,['txtDo2', 'lblTgg3_wh', 'custwh4', 'noa,comp,nick', 'txtDo2,txtDock', 'custwh4_b.aspx'] 
+				
 				,['txtAddrno', 'lblAddr1', 'addr', 'noa,addr', 'txtAddrno,txtAddr', 'addr_b.aspx']
 				,['txtCbno', 'lblAddr2', 'addr', 'noa,addr', 'txtCbno,txtCaddr', 'addr_b.aspx']
 				,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
