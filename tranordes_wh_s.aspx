@@ -17,6 +17,7 @@
 			
 			aPop = new Array(
 				['txtCustno', 'lblCustno', 'cust', 'noa,comp,nick', 'txtCustno', 'cust_b.aspx']
+				['txtCustno2', 'lblCustno2', 'cust', 'noa,comp,nick', 'txtCustno2', 'cust_b.aspx']
 				,['txtAddrno', 'lblAddr', 'addr', 'noa,addr', 'txtAddrno,txtAddr', 'addr_b.aspx']
 				,['txtAddrno2', 'lblAddr2', 'addr', 'noa,addr', 'txtAddrno2,txtAddr2', 'addr_b.aspx']
 			);
@@ -50,15 +51,20 @@
 				
 				t_custno = $.trim($('#txtCustno').val());
 				t_cust = $.trim($('#txtCust').val());
+				t_custno2 = $.trim($('#txtCustno2').val());
+				t_cust2 = $.trim($('#txtCust2').val());
 				t_addr = $.trim($('#txtAddr').val());
 				t_addr2 = $.trim($('#txtAddr2').val());
 				
 				var t_where = " 1=1 "
 					+q_sqlPara2("trandate", t_bdate, t_edate)
 					+q_sqlPara2("noa", t_noa)
-					+q_sqlPara2("productno", t_custno);
+					+q_sqlPara2("custno", t_custno)
+					+q_sqlPara2("custno2", t_custno2);
 				if(t_cust.length>0)	
-					t_where += " and charindex('"+t_cust+"',product)>0";
+					t_where += " and charindex('"+t_cust+"',cust)>0";
+				if(t_cust2.length>0)	
+					t_where += " and charindex('"+t_cust2+"',cust2)>0";
 				if(t_addr.length>0)	
 					t_where += " and ( charindex('"+t_addr+"',addrno)>0 or charindex('"+t_addr+"',addr)>0)";
 				if(t_addr2.length>0)	
@@ -98,6 +104,14 @@
 				<tr class='seek_tr'>
 					<td class='seek'  style="width:20%;"><a id='lblCust'>客戶名稱</a></td>
 					<td><input class="txt" id="txtCust" type="text" style="width:215px; font-size:medium;" /></td>
+				</tr>
+				<tr class='seek_tr'>
+					<td class='seek'  style="width:20%;"><a id='lblCustno2'>貨主編號</a></td>
+					<td><input class="txt" id="txtCustno2" type="text" style="width:215px; font-size:medium;" /></td>
+				</tr>
+				<tr class='seek_tr'>
+					<td class='seek'  style="width:20%;"><a id='lblCust2'>貨主名稱</a></td>
+					<td><input class="txt" id="txtCust2" type="text" style="width:215px; font-size:medium;" /></td>
 				</tr>
 				<tr class='seek_tr'>
 					<td class='seek'  style="width:20%;"><a id='lblAddr'>起點</a></td>

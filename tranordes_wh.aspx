@@ -28,7 +28,8 @@
             brwCount2 = 15;
             //不能彈出瀏覽視窗
             aPop = new Array(
-				['txtProductno', 'lblCust', 'cust', 'noa,nick', 'txtProductno,txtProduct', 'cust_b.aspx']
+				['txtCustno', 'lblCust', 'cust', 'noa,nick', 'txtCustno,txtCust', 'cust_b.aspx']
+				,['txtCustno2', 'lblCust2', 'cust', 'noa,nick', 'txtCustno2,txtCust2', 'cust_b.aspx']
 				,['txtAddrno', 'lblAddr', 'addr', 'noa,addr', 'txtAddrno,txtAddr', 'addr_b.aspx']
 				,['txtAddrno2', 'lblAddr2', 'addr', 'noa,addr', 'txtAddrno2,txtAddr2', 'addr_b.aspx']
 			);
@@ -246,11 +247,11 @@
 		<style type="text/css">
 			#dmain {
                 overflow: hidden;
-                width: 1100px; 
+                width: 1200px; 
             }
             .dview {
                 float: left;
-                width: 450px; 
+                width: 550px; 
                 border-width: 0px; 
             }
             .tview {
@@ -368,6 +369,7 @@
 						<td align="center" style="width:80px; color:black;"><a>日期</a></td>
 						<td align="center" style="width:100px; color:black;"><a>類型</a></td>
 						<td align="center" style="width:80px; color:black;"><a>客戶</a></td>
+						<td align="center" style="width:80px; color:black;"><a>貨主</a></td>
 						<td align="center" style="width:80px; color:black;"><a>起點</a></td>
 						<td align="center" style="width:80px; color:black;"><a>訖站</a></td>
 					</tr>
@@ -375,7 +377,8 @@
 						<td ><input id="chkBrow.*" type="checkbox"/></td>
 						<td id="trandate" style="text-align: center;">~trandate</td>
 						<td id="typea" style="text-align: center;">~typea</td>
-						<td id="product" style="text-align: center;">~product</td>
+						<td id="cust" style="text-align: center;">~cust</td>
+						<td id="cust2" style="text-align: center;">~cust2</td>
 						<td id="addr" style="text-align: center;">~addr</td>
 						<td id="addr2" style="text-align: center;">~addr2</td>
 					</tr>
@@ -399,8 +402,15 @@
 					<tr>
 						<td><span> </span><a id="lblCust" class="lbl">客戶</a></td>
 						<td colspan="3">
-							<input id="txtProductno"  type="text" style="float:left;width:40%;"/>
-							<input id="txtProduct"  type="text" style="float:left;width:60%;"/>
+							<input id="txtCustno"  type="text" style="float:left;width:40%;"/>
+							<input id="txtCust"  type="text" style="float:left;width:60%;"/>
+						</td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblCust2" class="lbl">貨主</a></td>
+						<td colspan="3">
+							<input id="txtCustno2"  type="text" style="float:left;width:40%;"/>
+							<input id="txtCust2"  type="text" style="float:left;width:60%;"/>
 						</td>
 					</tr>
 					<tr>
