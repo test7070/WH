@@ -58,6 +58,7 @@
 				
 				q_mask(bbmMask);
 				
+				q_cmbParse("cmbTypea", q_getPara('trans.typea'));
 				q_cmbParse("cmbUnit", q_getPara('trans.unit'));
 				q_cmbParse("cmbUnit2", q_getPara('trans.unit'));
 				
@@ -70,14 +71,18 @@
 				$("#cmbUnit").focus(function() {
 					var len = $(this).children().length > 0 ? $(this).children().length : 1;
 					$(this).attr('size', len + "");
-					$(this).data('curValue',$(this).val());
 				}).blur(function() {
 					$(this).attr('size', '1');
 				});
 				$("#cmbUnit2").focus(function() {
 					var len = $(this).children().length > 0 ? $(this).children().length : 1;
 					$(this).attr('size', len + "");
-					$(this).data('curValue',$(this).val());
+				}).blur(function() {
+					$(this).attr('size', '1');
+				});
+				$("#cmbTypea").focus(function() {
+					var len = $(this).children().length > 0 ? $(this).children().length : 1;
+					$(this).attr('size', len + "");
 				}).blur(function() {
 					$(this).attr('size', '1');
 				});
@@ -166,9 +171,10 @@
 			function readonly(t_para, empty) {
 				_readonly(t_para, empty);
 				if(t_para){
-					$('#txtTrandate').datepicker('destroy');
+					//假如只用鍵盤在輸入就都不會消失,會擋到,所以不使用
+					//$('#txtTrandate').datepicker('destroy');
 				}else{
-					$('#txtTrandate').datepicker();
+					//$('#txtTrandate').datepicker();
 				}
 			}
 
@@ -240,11 +246,11 @@
 		<style type="text/css">
 			#dmain {
                 overflow: hidden;
-                width: 1300px; 
+                width: 1100px; 
             }
             .dview {
                 float: left;
-                width: 400px; 
+                width: 450px; 
                 border-width: 0px; 
             }
             .tview {
@@ -264,7 +270,7 @@
             }
             .dbbm {
                 float: left;
-                width: 850px;
+                width: 600px;
                 /*margin: -1px;        
                 border: 1px black solid;*/
                 border-radius: 5px;
@@ -283,7 +289,7 @@
                 height: 35px;
             }
             .tbbm tr td {
-                width: 12%;
+                width: 24%;
             }
             .tbbm .tdZ {
                 width: 1%;
@@ -360,6 +366,7 @@
 					<tr>
 						<td align="center" style="width:20px; color:black;"><a id="vewChk"> </a></td>
 						<td align="center" style="width:80px; color:black;"><a>日期</a></td>
+						<td align="center" style="width:80px; color:black;"><a>類型</a></td>
 						<td align="center" style="width:80px; color:black;"><a>客戶</a></td>
 						<td align="center" style="width:80px; color:black;"><a>起點</a></td>
 						<td align="center" style="width:80px; color:black;"><a>訖站</a></td>
@@ -367,6 +374,7 @@
 					<tr>
 						<td ><input id="chkBrow.*" type="checkbox"/></td>
 						<td id="trandate" style="text-align: center;">~trandate</td>
+						<td id="typea" style="text-align: center;">~typea</td>
 						<td id="product" style="text-align: center;">~product</td>
 						<td id="addr" style="text-align: center;">~addr</td>
 						<td id="addr2" style="text-align: center;">~addr2</td>
@@ -380,32 +388,28 @@
 						<td> </td>
 						<td> </td>
 						<td> </td>
-						<td> </td>
-						<td> </td>
-						<td> </td>
-						<td> </td>
 						<td class="tdZ"> </td>
 					</tr>
 					<tr>
-						<td><span> </span><a id="lblNoa" class="lbl">電腦編號</a></td>
-						<td>
-							<input id="txtNoa"  type="text" class="txt c1"/>
-							<input id="txtNoq"  type="text" style="display:none;"/>
-						</td>
 						<td><span> </span><a id="lblTrandate" class="lbl">日期</a></td>
 						<td><input id="txtTrandate"  type="text" class="txt c1"/></td>
+						<td><span> </span><a id="lblTypea" class="lbl">類型</a></td>
+						<td><select id="cmbTypea" class="txt c1"> </select></td>
+					</tr>
+					<tr>
 						<td><span> </span><a id="lblCust" class="lbl">客戶</a></td>
 						<td colspan="3">
 							<input id="txtProductno"  type="text" style="float:left;width:40%;"/>
 							<input id="txtProduct"  type="text" style="float:left;width:60%;"/>
 						</td>
 					</tr>
-					
 					<tr>
 						<td><span> </span><a id="lblMount" class="lbl">數量</a></td>
 						<td><input id="txtMount"  type="text" class="txt c1 num"/></td>
 						<td><span> </span><a id="lblUnit" class="lbl">單位</a></td>
 						<td><select id="cmbUnit" class="txt c1"> </select></td>
+					</tr>
+					<tr>
 						<td><span> </span><a id="lblWeight" class="lbl">材積(重量)</a></td>
 						<td><input id="txtWeight"  type="text" class="txt c1 num"/></td>
 						<td><span> </span><a id="lblUnit2" class="lbl">單位</a></td>
@@ -422,10 +426,23 @@
 							<input id="txtAddrno2"  type="text" style="float:left;width:50%;"/>
 							<input id="txtAddr2"  type="text" style="float:left;width:50%;"/>
 						</td>
+					</tr>
+					<tr>
 						<td><span> </span><a id="lblTotal" class="lbl">運費</a></td>
 						<td><input id="txtTotal"  type="text" class="txt c1 num"/></td>
 						<td><span> </span><a id="lblTotal2" class="lbl">盤車</a></td>
 						<td><input id="txtTotal2"  type="text" class="txt c1 num"/></td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblMemo" class="lbl">備註</a></td>
+						<td colspan="3"><textarea id="txtMemo" class="txt c1" style="height:75px;"> </textarea></td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblNoa" class="lbl">電腦編號</a></td>
+						<td>
+							<input id="txtNoa"  type="text" class="txt c1"/>
+							<input id="txtNoq"  type="text" style="display:none;"/>
+						</td>
 					</tr>
 					<tr>
 						<td><span> </span><a id="lblWorker" class="lbl">製單員</a></td>
