@@ -54,15 +54,15 @@
 				t_addr2 = $.trim($('#txtAddr2').val());
 				
 				var t_where = " 1=1 "
-					+q_sqlPara2("datea", t_bdate, t_edate)
+					+q_sqlPara2("trandate", t_bdate, t_edate)
 					+q_sqlPara2("noa", t_noa)
-					+q_sqlPara2("custno", t_custno);
+					+q_sqlPara2("productno", t_custno);
 				if(t_cust.length>0)	
-					t_where += " and charindex('"+t_cust+"',comp)>0";
+					t_where += " and charindex('"+t_cust+"',product)>0";
 				if(t_addr.length>0)	
-					t_where += " and charindex('"+t_addr+"',addr)>0";
+					t_where += " and ( charindex('"+t_addr+"',addrno)>0 or charindex('"+t_addr+"',addr)>0)";
 				if(t_addr2.length>0)	
-					t_where += " and charindex('"+t_addr2+"',addr2)>0";		
+					t_where += " and ( charindex('"+t_addr2+"',addrno2)>0 or charindex('"+t_addr2+"',addr2)>0)";
 				t_where = ' where=^^' + t_where + '^^ ';
 				return t_where;
 			}

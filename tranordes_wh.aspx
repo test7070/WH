@@ -36,7 +36,7 @@
 			function sum() {
 			}	
 			$(document).ready(function() {
-				bbmKey = ['noa'];
+				bbmKey = ['noa','noq'];
 				q_brwCount();
 				q_content = "order=^^trandate desc,noa desc^^";
 				q_gt(q_name, q_content, q_sqlCount, 1, 0, '', r_accy);
@@ -366,7 +366,7 @@
 					<tr>
 						<td align="center" style="width:20px; color:black;"><a id="vewChk"> </a></td>
 						<td align="center" style="width:80px; color:black;"><a>日期</a></td>
-						<td align="center" style="width:80px; color:black;"><a>類型</a></td>
+						<td align="center" style="width:100px; color:black;"><a>類型</a></td>
 						<td align="center" style="width:80px; color:black;"><a>客戶</a></td>
 						<td align="center" style="width:80px; color:black;"><a>起點</a></td>
 						<td align="center" style="width:80px; color:black;"><a>訖站</a></td>
