@@ -35,7 +35,18 @@
 			);
 			
 			function sum() {
-			}	
+				if (!(q_cur == 1 || q_cur == 2))
+					return;
+				var cuft=0;
+				//長寬高都為0時,重量才可手動輸入
+				if(q_float('txtLengthb')==0 && q_float('txtWidth')==0 && q_float('txtHeight')==0){
+					
+				}else{
+					cuft = round(0.0000353 * q_float('txtLengthb')* q_float('txtWidth')* q_float('txtHeight')* q_float('txtMount'),2); 
+					$('#txtWeight').val(cuft);	
+				}
+				//$('#txtMoney').val(round(q_mul(q_float('txtMount'),q_float('txtPrice')),0));
+			}
 			$(document).ready(function() {
 				bbmKey = ['noa','noq'];
 				q_brwCount();
@@ -63,10 +74,22 @@
 				q_cmbParse("cmbUnit", q_getPara('trans.unit'));
 				q_cmbParse("cmbUnit2", q_getPara('trans.unit'));
 				
+				$('#txtLengthb').change(function(e){
+					sum();
+				});
+				$('#txtWidth').change(function(e){
+					sum();
+				});
+				$('#txtHeight').change(function(e){
+					sum();
+				});
 				$('#txtMount').change(function(e){
 					sum();
 				});
 				$('#txtWeight').change(function(e){
+					sum();
+				});
+				$('#txtPrice').change(function(e){
 					sum();
 				});
 				$("#cmbUnit").focus(function() {
@@ -290,7 +313,7 @@
                 height: 35px;
             }
             .tbbm tr td {
-                width: 24%;
+                width: 16%;
             }
             .tbbm .tdZ {
                 width: 1%;
@@ -391,6 +414,8 @@
 						<td> </td>
 						<td> </td>
 						<td> </td>
+						<td> </td>
+						<td> </td>
 						<td class="tdZ"> </td>
 					</tr>
 					<tr>
@@ -398,6 +423,12 @@
 						<td><input id="txtTrandate"  type="text" class="txt c1"/></td>
 						<td><span> </span><a id="lblTypea" class="lbl">類型</a></td>
 						<td><select id="cmbTypea" class="txt c1"> </select></td>
+						<!-- 缺enda的欄位,因此找一個bit型態的欄位來替用 -->
+						<td> </td>
+						<td>
+							<input id="chkIsdual"  type="checkbox"/>
+							<a id="lblIsdual">結案</a>
+						</td>
 					</tr>
 					<tr>
 						<td><span> </span><a id="lblCust" class="lbl">客戶</a></td>
@@ -414,12 +445,21 @@
 						</td>
 					</tr>
 					<tr>
+						<td><span> </span><a id="lblLengthb" class="lbl">長</a></td>
+						<td><input id="txtLengthb"  type="text" class="txt c1 num"/></td>
+						<td><span> </span><a id="lblWidth" class="lbl">寬</a></td>
+						<td><input id="txtWidth"  type="text" class="txt c1 num"/></td>
+						<td><span> </span><a id="lblHeight" class="lbl">高</a></td>
+						<td><input id="txtHeight"  type="text" class="txt c1 num"/></td>
+					</tr>
+					<tr>
 						<td><span> </span><a id="lblMount" class="lbl">數量</a></td>
 						<td><input id="txtMount"  type="text" class="txt c1 num"/></td>
 						<td><span> </span><a id="lblUnit" class="lbl">單位</a></td>
 						<td><select id="cmbUnit" class="txt c1"> </select></td>
 					</tr>
 					<tr>
+						<!--長寬高都為0時,重量才可手動輸入-->
 						<td><span> </span><a id="lblWeight" class="lbl">材積(重量)</a></td>
 						<td><input id="txtWeight"  type="text" class="txt c1 num"/></td>
 						<td><span> </span><a id="lblUnit2" class="lbl">單位</a></td>
@@ -431,11 +471,23 @@
 							<input id="txtAddrno"  type="text" style="float:left;width:50%;"/>
 							<input id="txtAddr"  type="text" style="float:left;width:50%;"/>
 						</td>
+						<td><span> </span><a id="lblContainerno1" class="lbl">提貨地址</a></td>
+						<td colspan="3"><input id="txtContainerno1"  type="text" class="txt c1"/></td>
+					</tr>
+					<tr>
 						<td><span> </span><a id="lblAddr2" class="lbl">訖站</a></td>
 						<td>
 							<input id="txtAddrno2"  type="text" style="float:left;width:50%;"/>
 							<input id="txtAddr2"  type="text" style="float:left;width:50%;"/>
 						</td>
+						<td><span> </span><a id="lblContainerno2" class="lbl">卸貨地址</a></td>
+						<td colspan="3"><input id="txtContainerno2"  type="text" class="txt c1"/></td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblTime1" class="lbl">提貨時間</a></td>
+						<td><input id="txtTime1"  type="text" class="txt c1"/></td>
+						<td><span> </span><a id="lblTime2" class="lbl">卸貨時間</a></td>
+						<td><input id="txtTime2"  type="text" class="txt c1"/></td>
 					</tr>
 					<tr>
 						<td><span> </span><a id="lblTotal" class="lbl">運費</a></td>
@@ -445,7 +497,11 @@
 					</tr>
 					<tr>
 						<td><span> </span><a id="lblMemo" class="lbl">備註</a></td>
-						<td colspan="3"><textarea id="txtMemo" class="txt c1" style="height:75px;"> </textarea></td>
+						<td colspan="5"><textarea id="txtMemo" class="txt c1" style="height:75px;"> </textarea></td>
+					</tr>
+					<tr>
+						<td><span> </span><a id="lblMemo2" class="lbl">備註二</a></td>
+						<td colspan="5"><textarea id="txtMemo2" class="txt c1" style="height:75px;"> </textarea></td>
 					</tr>
 					<tr>
 						<td><span> </span><a id="lblNoa" class="lbl">電腦編號</a></td>
@@ -453,8 +509,6 @@
 							<input id="txtNoa"  type="text" class="txt c1"/>
 							<input id="txtNoq"  type="text" style="display:none;"/>
 						</td>
-					</tr>
-					<tr>
 						<td><span> </span><a id="lblWorker" class="lbl">製單員</a></td>
 						<td><input id="txtWorker" type="text" class="txt c1"/></td>
 						<td><span> </span><a id="lblWorker2" class="lbl">修改人</a></td>

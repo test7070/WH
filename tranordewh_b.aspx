@@ -129,8 +129,7 @@
 					<td align="center" style="width:60px;"><a>高cm</a></td>
 					<td align="center" style="width:60px;"><a>數量</a></td>
 					<td align="center" style="width:60px;"><a>單位</a></td>
-					<td align="center" style="width:60px;"><a>材積</a></td>
-					<td align="center" style="width:60px;"><a>重量</a></td>
+					<td align="center" style="width:60px;"><a>材積<br>重量</a></td>
 				</tr>
 			</table>
 		</div>
@@ -146,7 +145,6 @@
 					<td align="center" style="width:100px;"> </td>
 					<td align="center" style="width:80px;"> </td>
 					<td align="center" style="width:80px;"> </td>
-					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
 					<td align="center" style="width:60px;"> </td>
@@ -194,7 +192,6 @@
 					<td style="width:60px;"><input id="txtHeight.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtMount.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtUnit.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
-					<td style="width:60px;"><input id="txtVolume.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 					<td style="width:60px;"><input id="txtWeight.*" type="text" style="text-align:right;width:95%;" readonly="readonly"/></td>
 				</tr>
 			</table>
