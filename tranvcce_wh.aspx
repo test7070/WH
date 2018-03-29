@@ -252,8 +252,8 @@
                         	while(q_bbsCount<as.length)
                         		$('#btnPlus').click();
 
-                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtTypea,txtOrdeno,txtNo2,txtTime1,txtTime2,txtCustno,txtCust,txtProductno,txtProduct,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtMemo2,txtLengthb,txtWidth,txtHeight,txtTotal2,txtTotal3,txtAddress,txtAllowcar'
-                        	, as.length, as, 'typea,noa,noq,time1,time2,custno,cust,productno,product,mount,unit,volume,weight,addrno,addr,addrno2,addr2,memo,memo2,lengthb,width,height,money3,money4,addrs,addrs2', '','');
+                    		q_gridAddRow(bbsHtm, 'tbbs', 'txtTypea,txtOrdeno,txtNo2,txtTime1,txtTime2,txtCustno,txtCust,txtProductno,txtProduct,txtMount,txtUnit,txtVolume,txtWeight,txtAddrno,txtAddr,txtAddrno2,txtAddr2,txtMemo,txtMemo2,txtLengthb,txtWidth,txtHeight,txtTotal,txtTotal2,txtAddress,txtAllowcar'
+                        	, as.length, as, 'typea,noa,noq,time1,time2,custno,cust,productno,product,mount,unit,volume,weight,addrno,addr,addrno2,addr2,memo,memo2,lengthb,width,height,money1,money2,addrs,addrs2', '','');
                         }else{
                         	Unlock(1);
                         }
